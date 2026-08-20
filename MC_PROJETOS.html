@@ -1,0 +1,1697 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MC · BIM Mission Control</title>
+<style>
+  :root{
+    --ground:#eef1f4;--canvas:#e7ebef;--surface:#fff;--surface-2:#f6f8fa;
+    --ink:#16212c;--mute:#5d6d7c;--faint:#8a97a3;--hair:#d6dde4;--hair-2:#e9edf1;
+    --accent:#0c6fa8;--accent-ink:#fff;
+    --ok:#1f9d6b;--ok-bg:#e6f5ee;--tbd:#c47f16;--tbd-bg:#faf1dd;--gate:#cf4257;--gate-bg:#fbe7ea;
+    --grid:rgba(12,111,168,.05);
+    --shadow:0 1px 2px rgba(20,33,44,.06),0 6px 20px rgba(20,33,44,.06);
+    --mono:ui-monospace,"Cascadia Code","SFMono-Regular",Menlo,Consolas,monospace;
+    --sans:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --ground:#0d141b;--canvas:#0a1017;--surface:#151f28;--surface-2:#111a22;
+    --ink:#e6edf3;--mute:#93a3b1;--faint:#63727f;--hair:#233240;--hair-2:#1b2733;
+    --accent:#39a8e0;--accent-ink:#04121c;
+    --ok:#3cbd88;--ok-bg:#0f2b21;--tbd:#e0a53c;--tbd-bg:#2e2413;--gate:#e5687c;--gate-bg:#2e1620;
+    --grid:rgba(57,168,224,.06);--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);
+  }}
+  :root[data-theme="light"]{--ground:#eef1f4;--canvas:#e7ebef;--surface:#fff;--surface-2:#f6f8fa;--ink:#16212c;--mute:#5d6d7c;--faint:#8a97a3;--hair:#d6dde4;--hair-2:#e9edf1;--accent:#0c6fa8;--accent-ink:#fff;--ok:#1f9d6b;--ok-bg:#e6f5ee;--tbd:#c47f16;--tbd-bg:#faf1dd;--gate:#cf4257;--gate-bg:#fbe7ea;--grid:rgba(12,111,168,.05);--shadow:0 1px 2px rgba(20,33,44,.06),0 6px 20px rgba(20,33,44,.06);}
+  :root[data-theme="dark"]{--ground:#0d141b;--canvas:#0a1017;--surface:#151f28;--surface-2:#111a22;--ink:#e6edf3;--mute:#93a3b1;--faint:#63727f;--hair:#233240;--hair-2:#1b2733;--accent:#39a8e0;--accent-ink:#04121c;--ok:#3cbd88;--ok-bg:#0f2b21;--tbd:#e0a53c;--tbd-bg:#2e2413;--gate:#e5687c;--gate-bg:#2e1620;--grid:rgba(57,168,224,.06);--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.28);}
+
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--canvas);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:28px 28px;-webkit-font-smoothing:antialiased;line-height:1.5}
+  .mono{font-family:var(--mono)}
+  h1,h2,h3{margin:0;text-wrap:balance}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 18px 90px}
+
+  header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--surface) 90%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--hair);padding:11px 18px}
+  .top-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand .logo{width:30px;height:30px;border-radius:8px;background:var(--accent);color:var(--accent-ink);
+    display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:14px}
+  .brand b{font-size:15px;font-weight:640;letter-spacing:-.01em}
+  .brand span{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.1em;text-transform:uppercase;display:block}
+  .top-sp{flex:1}
+  .pill{display:inline-flex;align-items:center;gap:7px;font-size:12px;padding:6px 11px;border-radius:999px;
+    border:1px solid var(--hair);background:var(--surface);cursor:pointer;color:var(--ink)}
+  .pill .dot{width:8px;height:8px;border-radius:50%}
+  .pill.who .dot{background:var(--ok)} .pill.who.unset .dot{background:var(--tbd)}
+  .pill.data .dot{background:var(--ok)} .pill.data.off .dot{background:var(--faint)}
+  .btn{font:inherit;font-size:12.5px;cursor:pointer;border:1px solid var(--hair);background:var(--surface);
+    color:var(--ink);padding:6px 12px;border-radius:8px;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+  .btn:hover{border-color:var(--accent)} .btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .btn.sm{padding:3px 8px;font-size:11.5px}
+  .langsel{display:inline-flex;border:1px solid var(--hair);border-radius:8px;overflow:hidden}
+  .langsel button{font:inherit;font-family:var(--mono);font-size:11px;letter-spacing:.05em;background:var(--surface);
+    color:var(--mute);border:none;padding:6px 9px;cursor:pointer;border-right:1px solid var(--hair)}
+  .langsel button:last-child{border-right:none}
+  .langsel button:hover{color:var(--ink)}
+  .langsel button.on{background:var(--accent);color:var(--accent-ink)}
+  .btn.danger:hover{border-color:var(--gate);color:var(--gate)}
+
+  nav.tabs{display:flex;gap:4px;margin:16px 0 20px;border-bottom:1px solid var(--hair)}
+  nav.tabs button{font:inherit;font-size:13.5px;font-weight:550;background:none;border:none;color:var(--mute);
+    padding:9px 14px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+  nav.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+  nav.tabs .badge{font-family:var(--mono);font-size:10px;background:var(--surface-2);border:1px solid var(--hair);
+    border-radius:999px;padding:0 6px;margin-left:5px;color:var(--faint)}
+
+  .view{display:none} .view.on{display:block}
+  section.card{background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);margin-bottom:18px}
+  .card > h2{font-size:15px;font-weight:640;display:flex;align-items:center;gap:9px;margin-bottom:3px}
+  .card > h2 .idx{font-family:var(--mono);font-size:11px;color:var(--accent)}
+  .card > .sub{font-size:12.5px;color:var(--mute);margin-bottom:14px}
+
+  .banner{border-radius:10px;padding:10px 13px;font-size:12.5px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .banner.warn{background:var(--tbd-bg);border:1px solid var(--tbd);color:var(--ink)}
+  .banner.info{background:var(--ok-bg);border:1px solid var(--ok);color:var(--ink)}
+  .banner .sp{flex:1}
+
+  /* portfolio */
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+  .proj{position:relative;border:1px solid var(--hair);border-radius:12px;padding:14px;background:var(--surface-2);cursor:pointer;transition:.15s;text-align:left;font:inherit;color:inherit}
+  .proj-del{position:absolute;top:6px;right:6px;border:none;background:none;color:var(--faint);cursor:pointer;font-size:17px;line-height:1;padding:1px 7px;border-radius:6px}
+  .proj-del:hover{color:var(--gate);background:var(--gate-bg)}
+  .proj:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .proj .pc{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.05em}
+  .proj h3{font-size:15px;font-weight:620;margin:5px 0 2px}
+  .proj .cl{font-size:12.5px;color:var(--mute)}
+  .proj .meta{display:flex;gap:6px;margin-top:11px;flex-wrap:wrap}
+  .tag{font-size:10px;padding:2px 7px;border-radius:6px;background:var(--surface);border:1px solid var(--hair);color:var(--mute)}
+  .tag.st-active{color:var(--ok);border-color:var(--ok)} .tag.st-hold{color:var(--tbd);border-color:var(--tbd)}
+  .tag.st-closed{color:var(--faint)}
+  .proj.add{display:grid;place-items:center;border-style:dashed;color:var(--accent);min-height:110px;font-weight:600}
+
+  /* fields + tables */
+  .fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .f label{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+  .f input,.f select{width:100%;font:inherit;font-size:13px;padding:7px 9px;border:1px solid var(--hair);
+    border-radius:8px;background:var(--surface-2);color:var(--ink)}
+  .f textarea{width:100%;font:inherit;font-size:13px;padding:7px 9px;border:1px solid var(--hair);border-radius:8px;background:var(--surface-2);color:var(--ink);resize:vertical}
+  .f textarea:focus{outline:2px solid color-mix(in srgb,var(--accent) 40%,transparent);border-color:var(--accent)}
+  .f input:focus,.f select:focus,.tbl input:focus,.tbl select:focus{outline:2px solid color-mix(in srgb,var(--accent) 40%,transparent);outline-offset:0;border-color:var(--accent)}
+  .scroll{overflow-x:auto;border:1px solid var(--hair);border-radius:12px}
+  table.tbl{border-collapse:collapse;width:100%;font-size:12.5px;background:var(--surface);min-width:640px}
+  .tbl th{text-align:left;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);
+    font-weight:600;padding:9px 10px;background:var(--surface-2);border-bottom:1px solid var(--hair);white-space:nowrap}
+  .tbl td{padding:4px 6px;border-bottom:1px solid var(--hair-2);vertical-align:middle}
+  .tbl input,.tbl select{width:100%;font:inherit;font-size:12.5px;padding:5px 7px;border:1px solid transparent;
+    border-radius:6px;background:transparent;color:var(--ink)}
+  .tbl input:hover,.tbl select:hover{background:var(--surface-2);border-color:var(--hair)}
+  .tbl input[type=date]{font-family:var(--mono);font-size:11.5px}
+  .tbl td.when{font-family:var(--mono);font-size:11px;color:var(--faint);white-space:nowrap;padding:8px 10px}
+  .tbl td.ctr{text-align:center;font-family:var(--mono)}
+  .tbl .del{color:var(--faint);border:none;background:none;cursor:pointer;font-size:15px;padding:2px 6px}
+  .tbl .del:hover{color:var(--gate)}
+  .rowadd{margin-top:9px}
+
+  /* change log */
+  .log-tools{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .log-tools select,.log-tools input{font:inherit;font-size:12.5px;padding:6px 9px;border:1px solid var(--hair);border-radius:8px;background:var(--surface);color:var(--ink)}
+  table.log{border-collapse:collapse;width:100%;font-size:12px;background:var(--surface);min-width:680px}
+  .log th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);font-weight:600;padding:9px 10px;background:var(--surface-2);border-bottom:1px solid var(--hair)}
+  .log td{padding:8px 10px;border-bottom:1px solid var(--hair-2);vertical-align:top}
+  .log .when{font-family:var(--mono);font-size:11px;color:var(--faint);white-space:nowrap}
+  .log .who{font-weight:600} .log .who small{display:block;font-weight:400;color:var(--faint);font-family:var(--mono);font-size:10.5px}
+  .log .chg{color:var(--mute)} .log .chg b{color:var(--ink)}
+  .log .arr{color:var(--accent);margin:0 6px}
+  .ro-note{font-size:11.5px;color:var(--faint);font-family:var(--mono);margin-top:8px}
+
+  .empty{text-align:center;color:var(--faint);padding:26px;font-size:13px}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;
+    background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:10px;font-size:13px;
+    box-shadow:var(--shadow);transition:.25s;z-index:60;pointer-events:none;max-width:90vw}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  dialog{border:1px solid var(--hair);border-radius:14px;padding:0;background:var(--surface);color:var(--ink);box-shadow:var(--shadow);max-width:420px;width:92vw}
+  dialog::backdrop{background:rgba(10,16,23,.5)}
+  .dlg{padding:20px}
+  .dlg h3{font-size:15px;margin-bottom:4px} .dlg p{font-size:12.5px;color:var(--mute);margin:0 0 14px}
+  .dlg .f{margin-bottom:11px}
+  .dlg-act{display:flex;gap:9px;justify-content:flex-end;margin-top:6px}
+  footer{text-align:center;font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:26px}
+  @media (max-width:640px){nav.tabs{overflow-x:auto}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  /* ---- Schedule tab ---- */
+  .sched-grid{display:grid;grid-template-columns:minmax(260px,1fr) minmax(320px,1.3fr);gap:14px}
+  @media(max-width:820px){.sched-grid{grid-template-columns:1fr}}
+  .sched-panel{background:var(--surface-2);border:1px solid var(--hair);border-radius:12px;padding:14px 16px}
+  .sched-h{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .sched-hint{font-weight:400;text-transform:none;letter-spacing:0;color:var(--faint);font-size:11px;margin-left:auto}
+  .sched-pie-row{display:flex;gap:16px;align-items:center}
+  .sched-donut{position:relative;flex:0 0 auto;width:164px;height:164px}
+  .sched-donut .ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .sched-donut .ctr b{font-size:20px;font-family:var(--mono);line-height:1}
+  .sched-donut .ctr span{font-size:9.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+  .sched-legend{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+  .sched-legend .li{display:flex;align-items:center;gap:7px;font-size:12px}
+  .sched-legend .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto}
+  .sched-legend .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sched-legend .pc{margin-left:auto;font-family:var(--mono);color:var(--mute);font-size:11px;flex:0 0 auto;display:inline-flex;align-items:center;gap:2px}
+  .sched-inp{width:40px;font-family:var(--mono);font-size:11px;text-align:right;background:var(--surface);border:1px solid var(--hair);border-radius:4px;color:var(--ink);padding:1px 4px}
+  .sched-inp:focus{outline:none;border-color:var(--accent)}
+  .sched-inp::-webkit-outer-spin-button,.sched-inp::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .sched-cols{display:flex;align-items:flex-end;gap:8px;height:160px;padding-top:10px}
+  .sched-cols .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+  .sched-cols .bwrap{width:100%;flex:1;display:flex;align-items:flex-end;justify-content:center}
+  .sched-cols .bar{width:66%;max-width:32px;border-radius:4px 4px 0 0;position:relative;min-height:3px;transition:height .18s}
+  .sched-cols .v{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10px;font-family:var(--mono);color:var(--mute);white-space:nowrap}
+  .sched-cols .lbl{font-size:10px;font-family:var(--mono);color:var(--mute)}
+  .sched-gantt{position:relative}
+  .sched-grow{display:flex;align-items:center;height:32px}
+  .sched-grow .code{flex:0 0 92px;font-family:var(--mono);font-size:12px;display:flex;align-items:center;gap:7px}
+  .sched-grow .code .sw{width:8px;height:8px;border-radius:2px;flex:0 0 auto}
+  .sched-track{position:relative;flex:1;height:100%}
+  .sched-msl{position:absolute;top:0;bottom:0;width:1px;background:var(--hair);pointer-events:none}
+  .sched-bar{position:absolute;top:6px;height:20px;border-radius:5px;cursor:grab;box-shadow:var(--shadow);opacity:.9;touch-action:none}
+  .sched-bar:hover{opacity:1}
+  .sched-bar.drag{cursor:grabbing;opacity:1;z-index:5}
+  .sched-bar .h{position:absolute;right:0;top:0;bottom:0;width:11px;cursor:ew-resize}
+  .sched-bar .dia{position:absolute;right:-5px;top:50%;transform:translateY(-50%) rotate(45deg);width:9px;height:9px;background:inherit;border:1.5px solid var(--surface-2)}
+  .sched-msl.doc{background:transparent;border-left:2px dashed var(--accent);width:0;opacity:.55}
+  .sched-var{position:absolute;top:9px;height:14px;border-radius:3px;pointer-events:none}
+  .sched-var.late{background:color-mix(in srgb,var(--gate) 55%,transparent);border:1px solid var(--gate)}
+  .sched-var.early{background:color-mix(in srgb,var(--ok) 45%,transparent);border:1px solid var(--ok)}
+  .sched-amark{position:absolute;top:4px;bottom:4px;width:2px;border-radius:1px;pointer-events:none;transform:translateX(-1px);background:var(--mute)}
+  .sched-amark.late{background:var(--gate)}
+  .sched-amark.early{background:var(--ok)}
+  .sched-axis{display:flex;height:36px;margin-left:92px;position:relative;border-top:1px solid var(--hair);margin-top:6px}
+  .sched-axis .mk{position:absolute;top:5px;transform:translateX(-50%);text-align:center}
+  .sched-axis .mk .c{font-family:var(--mono);font-size:11px;color:var(--accent)}
+  .sched-axis .mk .d{font-family:var(--mono);font-size:9.5px;color:var(--mute);margin-top:2px;white-space:nowrap}
+  .sched-flabel{position:fixed;pointer-events:none;background:var(--surface);border:1px solid var(--accent);color:var(--ink);font-family:var(--mono);font-size:11px;padding:4px 8px;border-radius:5px;z-index:50;opacity:0;transform:translate(-50%,-140%);white-space:nowrap;box-shadow:var(--shadow)}
+  .sched-start{position:relative;height:15px;margin-left:92px;margin-bottom:3px}
+  .sched-start .stag{position:absolute;top:0;font-family:var(--mono);font-size:10.5px;color:var(--mute);white-space:nowrap}
+  .sched-year{position:relative;height:18px;margin-left:92px;margin-top:2px;border-top:1px solid var(--hair-2)}
+  .sched-year .ymk{position:absolute;top:3px;transform:translateX(-50%);font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.03em}
+  .sched-yline{position:absolute;top:0;bottom:0;border-left:1px dashed var(--accent);opacity:.5;pointer-events:none}
+  .sched-yband{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--accent) 6%,transparent);pointer-events:none}
+  .sched-notice{text-align:left;padding:11px 14px;border-radius:9px;background:var(--gate-bg);border:1px solid var(--gate);color:var(--ink);font-size:13px;margin-bottom:6px}
+  .sched-notice b{color:var(--gate)}
+  .sched-notice.soft{background:var(--tbd-bg);border-color:var(--tbd)}
+  .sched-notice.soft b{color:var(--tbd)}
+  input.sched-missing{border-color:var(--gate)!important;background:var(--gate-bg)!important}
+  input.sched-badorder{border-color:var(--tbd)!important;background:var(--tbd-bg)!important}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="brand"><div class="logo">MC</div><div><b>BIM Mission Control</b><span>ISO 19650 · shared folder edition</span></div></div>
+    <div class="top-sp"></div>
+    <div class="langsel" id="langsel"><button data-lang="EN" class="on">EN</button><button data-lang="ES">ES</button><button data-lang="PT">PT</button></div>
+    <button class="pill who unset" id="who"><span class="dot"></span><span id="who-label">Sign in</span></button>
+    <button class="pill data off" id="data-status"><span class="dot"></span><span id="data-label">No file</span></button>
+    <button class="btn" id="btn-connect">Connect JSON</button>
+    <button class="btn" id="btn-load">Load</button>
+    <button class="btn pri" id="btn-save">Save</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="banner info" id="intro">
+    <div class="sp"><b>How it works:</b> sign in (name + email), <b>Connect JSON</b> to <span class="mono">MC_data.json</span> in this folder for auto-save (Chrome/Edge), or use <b>Load/Save</b> manually. Every change is stored in the <b>Change log</b> with your name and date — immutable.</div>
+    <button class="btn sm" onclick="document.getElementById('intro').remove()">Hide</button>
+  </div>
+  <div class="banner warn" id="conflict" style="display:none">
+    <div class="sp"></div>
+    <button class="btn sm" id="conflict-reload">Reload</button>
+    <button class="btn sm danger" id="conflict-force">Force save</button>
+  </div>
+
+  <nav class="tabs">
+    <button data-v="portfolio" aria-selected="true">Dashboard <span class="badge" id="b-proj">0</span></button>
+    <button data-v="project" aria-selected="false">Project</button>
+    <button data-v="log" aria-selected="false">Change Log <span class="badge" id="b-log">0</span></button>
+    <button data-v="access" aria-selected="false">Access <span class="badge" id="b-users">0</span></button>
+    <button data-v="legal" aria-selected="false">Legal</button>
+    <button data-v="schedule" aria-selected="false">Schedule</button>
+  </nav>
+
+  <!-- PROJECTS -->
+  <div class="view on" id="v-portfolio">
+    <section class="card">
+      <h2><span class="idx">00</span>Active projects</h2>
+      <div class="sub">Every project the team manages. The BIM Manager sees them all on entry.</div>
+      <div class="proj-grid" id="proj-grid"></div>
+    </section>
+  </div>
+
+  <!-- PROJECT -->
+  <div class="view" id="v-project">
+    <section class="card" id="proj-none" style="display:none"><div class="empty">Pick a project in the Dashboard, or create a new one.</div></section>
+    <div id="proj-detail" style="display:none">
+      <section class="card">
+        <h2><span class="idx">01</span>Project identity</h2>
+        <div class="sub">Contract / quote, client and base data. Editable — every change is logged.</div>
+        <div class="fields" id="proj-fields"></div>
+      </section>
+      <section class="card">
+        <h2><span class="idx">02</span>Team &amp; disciplines</h2>
+        <div class="sub">ISO 19650 roles and disciplines — with the responsible person and their email. Disciplines listed here drive which CDE folders are created.</div>
+        <div class="scroll"><table class="tbl" id="team-tbl"></table></div>
+        <button class="btn sm rowadd" id="add-team">+ Add row</button>
+      </section>
+      <section class="card">
+        <h2><span class="idx">03</span>Client file register</h2>
+        <div class="sub">What the client must deliver, when they promised it, when it arrived, revision, and when we updated it in the project.</div>
+        <div class="scroll"><table class="tbl" id="files-tbl"></table></div>
+        <button class="btn sm rowadd" id="add-file">+ Add file</button>
+      </section>
+      <section class="card">
+        <h2><span class="idx">04</span>Client / Appointing Party (ISO 19650)</h2>
+        <div class="sub">Client-side inputs that feed the EIR: appointing party and information requirements (OIR / PIR / AIR) + brand standards. Legal documents (deeds, licenses, taxes, permits) live in the <b>Legal</b> tab.</div>
+        <div class="fields" id="client-ap"></div>
+        <div id="client-reqs" style="margin-top:14px"></div>
+      </section>
+      <section class="card">
+        <h2><span class="idx">05</span>Milestones &amp; delivery dates</h2>
+        <div class="sub">Data drops for this project — add or remove as many as the project needs. These dates feed the EIR, BEP, MIDP/TIDP and the process maps.<br><b>Planned</b> = the target deadline for each drop; it must go in order (M1 earliest → M5 latest) — this is what the Schedule tab uses. <b>Actual</b> = when it was really delivered; leave it empty until it happens. Cells that break the order turn amber, empty Planned dates turn red.<br><span class="mono" style="font-size:11px;color:var(--faint)">Example — Planned: M1 2026-03-02 · M2 2026-04-15 · M3 2026-06-01 · M4 2026-07-15 · M5 2026-09-01 &nbsp;|&nbsp; Actual: fill each one only after that drop is delivered.</span></div>
+        <div class="scroll"><table class="tbl" id="miles-tbl"></table></div>
+        <button class="btn sm rowadd" id="add-milestone">+ Add milestone</button>
+        <div class="fields" id="doc-meta" style="margin-top:16px"></div>
+      </section>
+      <section class="card">
+        <h2><span class="idx">06</span>Create ISO 19650 folders &amp; documents</h2>
+        <div class="sub">Generates the full project folder tree on your disk — <b>no Claude</b>. Chrome/Edge. Only the disciplines listed in section 02 get CDE folders (e.g. if structural is not contracted, no structural folders are created).</div>
+        <div class="banner" id="std-banner" style="background:var(--surface-2);border:1px solid var(--hair)">
+          <div class="sp"><b>Template library:</b> <span id="std-state">not linked</span></div>
+          <button class="btn sm" id="link-std">Link _BASELINE DOCUMENTS</button>
+        </div>
+        <button class="btn pri" id="create-tree">Create folders + documents</button>
+        <span id="tree-status" class="ro-note"></span>
+        <div class="sub" style="margin-top:8px">Creates the folder tree, then <b>asks</b> whether to copy the project documents from your <b>_BaseLine Documents</b> library. Pick the <b>PARENT</b> folder (a folder with the project name is created inside it).</div>
+        <div style="margin-top:12px"><button class="btn" id="create-docs">Copy documents only</button> <span id="docs-status" class="ro-note"></span></div>
+        <div class="sub" style="margin-top:6px">Copy documents from <b>_BaseLine Documents</b> without recreating folders. Pick the project <b>ROOT</b> folder. You'll be asked once for your _BaseLine Documents folder (remembered afterwards).</div>
+      </section>
+    </div>
+  </div>
+
+  <!-- LOG -->
+  <div class="view" id="v-log">
+    <section class="card">
+      <h2><span class="idx">05</span>Change log — who changed what</h2>
+      <div class="sub">Append-only record. Not editable. Every row keeps its author and date.</div>
+      <div class="log-tools">
+        <select id="log-proj"><option value="">All projects</option></select>
+        <input id="log-search" placeholder="filter by person / field…">
+        <div class="top-sp" style="flex:1"></div>
+        <button class="btn sm" id="export-log">Export report .md</button>
+      </div>
+      <div class="scroll"><table class="log" id="log-tbl"></table></div>
+      <div class="ro-note">Immutable — the app only appends rows, it never edits previous ones.</div>
+    </section>
+  </div>
+
+  <!-- ACCESS -->
+  <div class="view" id="v-access">
+    <section class="card">
+      <h2><span class="idx">06</span>Users &amp; access</h2>
+      <div class="sub">Who has access to the MC (designers / staff + email). Someone is registered automatically on sign-in; their Change-log entries use the same name and email. You can also pre-register people.</div>
+      <div class="scroll"><table class="tbl" id="users-tbl"></table></div>
+      <button class="btn sm rowadd" id="add-user">+ Register user</button>
+      <h2 style="margin:24px 0 3px"><span class="idx">06b</span>Access history</h2>
+      <div class="sub">Every time someone enters and signs in it is logged here, with date. Not editable.</div>
+      <div class="scroll"><table class="log" id="access-tbl"></table></div>
+      <div class="ro-note">Immutable — rows are only appended.</div>
+    </section>
+  </div>
+
+  <!-- LEGAL -->
+  <div class="view" id="v-legal">
+    <section class="card" id="legal-none" style="display:none"><div class="empty">Pick a project in the Dashboard first.</div></section>
+    <div id="legal-body" style="display:none">
+      <section class="card">
+        <h2><span class="idx">07</span>Project identity — confirmed from legal documents</h2>
+        <div class="sub">Confirm the official name, location and client of the project. Source of truth: the deed / legal documents provided by the client.</div>
+        <div class="fields" id="legal-id"></div>
+      </section>
+      <section class="card">
+        <h2><span class="idx">07b</span>Contract &amp; legal entities</h2>
+        <div class="sub">Feeds the Services Agreement and BIM Protocol: legal entities, registration numbers, fee and applicable law.</div>
+        <div class="fields" id="contract-fields"></div>
+      </section>
+      <section class="card">
+        <h2><span class="idx">07c</span>Legal document register</h2>
+        <div class="sub">Deeds, licenses, taxes and permits the client provides — with reference, status and date.</div>
+        <div class="scroll"><table class="tbl" id="legal-tbl"></table></div>
+        <button class="btn sm rowadd" id="add-permit">+ Add legal document</button>
+      </section>
+    </div>
+  </div>
+
+  <div class="view" id="v-schedule">
+    <section class="card" id="sched-none" style="display:none"><div class="empty">Pick a project in the Dashboard first.</div></section>
+    <div id="sched-body" style="display:none">
+      <section class="card">
+        <h2><span class="idx">08</span>Schedule &amp; discipline timeline</h2>
+        <div class="sub">Estimated time each discipline needs up to its milestone deliveries. Deadlines are the project milestones (section 05); drag a bar to set a discipline's estimated dates within them. Charts update live — this data is ready to export to ClickUp later.</div>
+        <div id="sched-warn" class="empty" style="display:none"></div>
+        <div id="sched-charts">
+          <div class="sched-grid">
+            <div class="sched-panel">
+              <div class="sched-h">Time weight by discipline</div>
+              <div class="sched-pie-row"><div class="sched-donut" id="sched-donut"></div><div class="sched-legend" id="sched-legend"></div></div>
+            </div>
+            <div class="sched-panel">
+              <div class="sched-h">Time requested per discipline</div>
+              <div class="sched-cols" id="sched-cols"></div>
+            </div>
+          </div>
+          <div class="sched-panel" style="margin-top:14px">
+            <div class="sched-h">Timeline · disciplines within milestones <button class="btn sm" id="sched-reset" title="Re-seed every discipline from the current milestone dates" style="margin-left:auto">↻ Reset to milestones</button></div>
+            <div class="sched-hint" style="margin:-6px 0 12px">timeline starts at the Document date · drag a bar = move · drag right edge = set the estimated delivery (before or after its milestone) · <span style="color:var(--gate)">red</span> = delivered late · <span style="color:var(--ok)">green</span> = delivered early</div>
+            <div class="sched-start" id="sched-start"></div>
+            <div class="sched-gantt" id="sched-gantt"></div>
+            <div class="sched-axis" id="sched-axis"></div>
+            <div class="sched-year" id="sched-year"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer>MC · BIM Mission Control · shared-folder edition · the contractual record of truth lives in the CDE (Drive) and ClickUp</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<dialog id="dlg-who"><form method="dialog" class="dlg">
+  <h3>Who are you?</h3><p>Your name and email are stored on every change you make, and log your access. Saved in this browser.</p>
+  <div class="f"><label>Name</label><input id="who-name" required placeholder="Eric Castro"></div>
+  <div class="f"><label>Email</label><input id="who-email" type="email" placeholder="you@example.com"></div>
+  <div class="dlg-act"><button class="btn" value="cancel">Cancel</button><button class="btn pri" id="who-save" value="ok">Save</button></div>
+</form></dialog>
+
+<dialog id="dlg-new"><form method="dialog" class="dlg">
+  <h3>New project</h3><p>Created from the base template. Edit it afterwards.</p>
+  <div class="f"><label>Project name</label><input id="np-name" required placeholder="Sample Project — Main Avenue"></div>
+  <div class="f"><label>Code (2–4 letters)</label><input id="np-code" required placeholder="PRJ" maxlength="4"></div>
+  <div class="f"><label>Client</label><input id="np-client" placeholder="Appointing Party"></div>
+  <div class="dlg-act"><button class="btn" value="cancel">Cancel</button><button class="btn pri" value="ok">Create</button></div>
+</form></dialog>
+
+<dialog id="dlg-docs"><form method="dialog" class="dlg">
+  <h3>Folders created ✓</h3><p>The ISO 19650 folder tree is ready. Do you also want to copy the project documents now from your <b>_BaseLine Documents</b> library? Each template is copied into its folder and renamed with the project code.</p>
+  <div class="dlg-act"><button class="btn" value="no">No, later</button><button class="btn pri" value="yes">Yes, copy documents</button></div>
+</form></dialog>
+
+<dialog id="dlg-delproj"><form method="dialog" class="dlg">
+  <h3>Delete project?</h3><p>This removes <b id="dlg-delproj-name"></b> from the MC register. The disk folders are NOT deleted. It is recorded in the Change log.</p>
+  <div class="dlg-act"><button class="btn" value="cancel">Cancel</button><button class="btn" value="ok" style="border-color:var(--gate);color:var(--gate)">Delete from register</button></div>
+</form></dialog>
+
+<script>
+"use strict";
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const uid=()=>(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random());
+const nowISO=()=>new Date().toISOString();
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- i18n (EN default · ES · PT) — UI only, documents stay English ---------- */
+const I18N={
+ ES:{"Dashboard":"Panel","Project":"Proyecto","Change Log":"Registro","Access":"Accesos","Legal":"Legal",
+  "Sign in":"Identifícate","No file":"Sin archivo","Manual mode":"Modo manual","Auto-save":"Auto-guardado",
+  "Connect JSON":"Conectar JSON","Load":"Cargar","Save":"Guardar","Hide":"Ocultar","Reload":"Recargar","Force save":"Forzar guardado",
+  "Active projects":"Proyectos activos","Every project the team manages. The BIM Manager sees them all on entry.":"Todos los proyectos del equipo. El BIM Manager los ve todos al entrar.",
+  "Project identity":"Identidad del proyecto","Contract / quote, client and base data. Editable — every change is logged.":"Contrato / cotización, cliente y datos base. Editable — cada cambio se registra.",
+  "Team & disciplines":"Equipo y disciplinas","Client file register":"Registro de archivos del cliente",
+  "Client / Appointing Party (ISO 19650)":"Cliente / Parte Contratante (ISO 19650)",
+  "Milestones & delivery dates":"Hitos y fechas de entrega","Create ISO 19650 folders & documents":"Crear carpetas y documentos ISO 19650",
+  "Create folders + documents":"Crear carpetas + documentos","Copy documents only":"Solo copiar documentos",
+  "Link _BASELINE DOCUMENTS":"Vincular _BASELINE DOCUMENTS","Template library:":"Biblioteca de plantillas:","not linked":"no vinculada",
+  "+ Add row":"+ Añadir fila","+ Add file":"+ Añadir archivo","+ Add milestone":"+ Añadir hito","+ Add legal document":"+ Añadir documento legal","+ Register user":"+ Registrar usuario","+ New project":"+ Nuevo proyecto",
+  "Users & access":"Usuarios y accesos","Access history":"Historial de accesos","Contract & legal entities":"Contrato y entidades legales","Legal document register":"Registro de documentos legales",
+  "Change log — who changed what":"Registro de cambios — quién cambió qué","Export report .md":"Exportar reporte .md","All projects":"Todos los proyectos",
+  "Project identity — confirmed from legal documents":"Identidad del proyecto — confirmada por documentos legales",
+  "Type":"Tipo","Role / Discipline / Function":"Rol / Disciplina / Función","Responsible":"Responsable","Email":"Email",
+  "File":"Archivo","From":"De","Promised":"Prometida","Delivered":"Entregada","Rev":"Rev","Our update":"N/actualización","Status":"Estado",
+  "Code":"Código","Name / purpose":"Nombre / propósito","Planned date":"Fecha planeada","Actual date":"Fecha real",
+  "When":"Cuándo","Who":"Quién","Change":"Cambio","Name":"Nombre","Cancel":"Cancelar","Create":"Crear",
+  "Role / note":"Rol / nota","First access":"Primer acceso","Last access":"Último acceso","Legal document":"Documento legal",
+  "Reference / no.":"Referencia / nº","Date":"Fecha","Notes":"Notas","Project":"Proyecto","Client":"Cliente","Address":"Dirección",
+  "Contract / no.":"Contrato / nº","Quote / value":"Cotización / valor","Document version":"Versión del documento","Document date":"Fecha del documento",
+  "External architecture office (AR)":"Oficina de arquitectura externa (AR)","External geotechnical office (GE)":"Oficina geotécnica externa (GE)",
+  "Appointing Party (legal name)":"Parte contratante (razón social)","Representative":"Representante","Contact (email / phone)":"Contacto (email / teléfono)",
+  "Client legal entity":"Razón social del cliente","Client registration no. (CNPJ)":"CNPJ del cliente","Our legal entity":"Nuestra razón social",
+  "Our registration no. (CNPJ)":"Nuestro CNPJ","Total fee":"Honorarios totales","Currency":"Moneda","Payment schedule":"Plan de pago",
+  "Governing law":"Ley aplicable","Dispute resolution":"Resolución de disputas","Status":"Estado",
+  "New project":"Nuevo proyecto","Project name":"Nombre del proyecto","Code (2–4 letters)":"Código (2–4 letras)",
+  "Who are you?":"¿Quién eres?","Delete project?":"¿Borrar proyecto?","Folders created ✓":"Carpetas creadas ✓",
+  "No, later":"No, después","Yes, copy documents":"Sí, copiar documentos","Delete from register":"Borrar del registro",
+  "Location / address":"Ubicación / dirección","Regenerate .xlsx only":"Solo regenerar .xlsx"},
+ PT:{"Dashboard":"Painel","Project":"Projeto","Change Log":"Registro","Access":"Acessos","Legal":"Jurídico",
+  "Sign in":"Identifique-se","No file":"Sem arquivo","Manual mode":"Modo manual","Auto-save":"Salvamento automático",
+  "Connect JSON":"Conectar JSON","Load":"Carregar","Save":"Salvar","Hide":"Ocultar","Reload":"Recarregar","Force save":"Forçar salvamento",
+  "Active projects":"Projetos ativos","Every project the team manages. The BIM Manager sees them all on entry.":"Todos os projetos da equipe. O BIM Manager vê todos ao entrar.",
+  "Project identity":"Identidade do projeto","Contract / quote, client and base data. Editable — every change is logged.":"Contrato / proposta, cliente e dados base. Editável — cada mudança é registrada.",
+  "Team & disciplines":"Equipe e disciplinas","Client file register":"Registro de arquivos do cliente",
+  "Client / Appointing Party (ISO 19650)":"Cliente / Parte Contratante (ISO 19650)",
+  "Milestones & delivery dates":"Marcos e datas de entrega","Create ISO 19650 folders & documents":"Criar pastas e documentos ISO 19650",
+  "Create folders + documents":"Criar pastas + documentos","Copy documents only":"Apenas copiar documentos",
+  "Link _BASELINE DOCUMENTS":"Vincular _BASELINE DOCUMENTS","Template library:":"Biblioteca de modelos:","not linked":"não vinculada",
+  "+ Add row":"+ Adicionar linha","+ Add file":"+ Adicionar arquivo","+ Add milestone":"+ Adicionar marco","+ Add legal document":"+ Adicionar documento jurídico","+ Register user":"+ Registrar usuário","+ New project":"+ Novo projeto",
+  "Users & access":"Usuários e acessos","Access history":"Histórico de acessos","Contract & legal entities":"Contrato e entidades jurídicas","Legal document register":"Registro de documentos jurídicos",
+  "Change log — who changed what":"Registro de mudanças — quem mudou o quê","Export report .md":"Exportar relatório .md","All projects":"Todos os projetos",
+  "Project identity — confirmed from legal documents":"Identidade do projeto — confirmada por documentos jurídicos",
+  "Type":"Tipo","Role / Discipline / Function":"Função / Disciplina","Responsible":"Responsável","Email":"Email",
+  "File":"Arquivo","From":"De","Promised":"Prometida","Delivered":"Entregue","Rev":"Rev","Our update":"N/atualização","Status":"Estado",
+  "Code":"Código","Name / purpose":"Nome / propósito","Planned date":"Data planejada","Actual date":"Data real",
+  "When":"Quando","Who":"Quem","Change":"Mudança","Name":"Nome","Cancel":"Cancelar","Create":"Criar",
+  "Role / note":"Função / nota","First access":"Primeiro acesso","Last access":"Último acesso","Legal document":"Documento jurídico",
+  "Reference / no.":"Referência / nº","Date":"Data","Notes":"Notas","Project":"Projeto","Client":"Cliente","Address":"Endereço",
+  "Contract / no.":"Contrato / nº","Quote / value":"Proposta / valor","Document version":"Versão do documento","Document date":"Data do documento",
+  "External architecture office (AR)":"Escritório de arquitetura externo (AR)","External geotechnical office (GE)":"Escritório geotécnico externo (GE)",
+  "Appointing Party (legal name)":"Parte contratante (razão social)","Representative":"Representante","Contact (email / phone)":"Contato (email / telefone)",
+  "Client legal entity":"Razão social do cliente","Client registration no. (CNPJ)":"CNPJ do cliente","Our legal entity":"Nossa razão social",
+  "Our registration no. (CNPJ)":"Nosso CNPJ","Total fee":"Honorários totais","Currency":"Moeda","Payment schedule":"Cronograma de pagamento",
+  "Governing law":"Lei aplicável","Dispute resolution":"Resolução de disputas","Status":"Estado",
+  "New project":"Novo projeto","Project name":"Nome do projeto","Code (2–4 letters)":"Código (2–4 letras)",
+  "Who are you?":"Quem é você?","Delete project?":"Excluir projeto?","Folders created ✓":"Pastas criadas ✓",
+  "No, later":"Não, depois","Yes, copy documents":"Sim, copiar documentos","Delete from register":"Excluir do registro",
+  "Location / address":"Localização / endereço","Regenerate .xlsx only":"Apenas regenerar .xlsx"}
+};
+let LANG=localStorage.getItem("mc_lang")||"EN";
+const t=s=>(LANG==="EN"?s:((I18N[LANG]||{})[s]||s));
+// Walk the DOM translating text nodes; the English original is cached so switching back works.
+function applyLang(){
+  document.querySelectorAll("nav.tabs button, .card>h2, .card>.sub, .btn, .pill span, .banner b, th, label, dialog h3, dialog p, footer")
+    .forEach(el=>{
+      if(el.children.length && !el.matches("th,label,.btn,button")) return;
+      if(!el.dataset.i18nSrc) el.dataset.i18nSrc=el.textContent.trim();
+      const src=el.dataset.i18nSrc, tr=t(src);
+      if(tr!==el.textContent.trim()){
+        // keep any badge/dot child elements intact
+        const kid=el.querySelector(".badge,.dot");
+        if(kid){ el.childNodes.forEach(n=>{ if(n.nodeType===3&&n.textContent.trim()) n.textContent=tr+" "; }); }
+        else el.textContent=tr;
+      }
+    });
+  $$("#langsel button").forEach(b=>b.classList.toggle("on",b.dataset.lang===LANG));
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("#langsel button"); if(!b)return;
+  LANG=b.dataset.lang; try{localStorage.setItem("mc_lang",LANG)}catch(err){}
+  renderAll(); applyLang();
+});
+
+/* ---------- team catalogue (roles / disciplines / site / suppliers) ---------- */
+const KINDS=[["Role","Role (mgmt)"],["Discipline","Discipline"],["Site","Site"],["Supplier","Supplier"]];
+const TEAM_OPTIONS={
+  Role:["Appointing Party (Client)","Client representative","Lead Appointed Party","Appointed Party","Information Manager","BIM Manager","BIM Coordinator","BIM Author / Modeller","Project Manager","Design Manager","Lead Designer","Task Team Manager","Document Controller","Quality Manager","Health & Safety Coordinator","Cost Manager / Quantity Surveyor","Legal reviewer"],
+  Discipline:["Architecture (ARC)","Structural Concrete (STR)","Structural Steel (STL)","Structural Masonry (MAS)","Foundations (FDN)","Geotechnical (GEO)","Hydraulic / Sanitary (HID)","Storm Drainage (DRA)","Fire-Fighting (FIR)","HVAC / Mechanical (MEC)","Electrical (ELE)","Telecom / Data (ELV)","Gas (GAS)","Civil / Earthworks (CIV)","Roads / Pavement (ROA)","Acoustics (ACO)","Sustainability / Environmental (SUS)","Topography / Survey (TOP)"],
+  Site:["Site Manager (Obra)","Resident Engineer","Site Engineer","Foreman (Encargado)","Master builder (Mestre de obra)","Site Surveyor (Topógrafo)","Safety Officer (Seguridad)","Quality Inspector","Works Superintendent","Clerk of Works","Subcontractor (Subcontratista)"],
+  Supplier:["Concrete supplier (Hormigón)","Rebar / Steel supplier (Acero)","Steel fabricator","Formwork supplier (Encofrado)","Precast supplier (Prefabricado)","Masonry / Blocks","Waterproofing (Impermeabilización)","MEP equipment","Electrical materials","Plumbing materials","HVAC equipment","Elevator supplier","Facade / Glazing (Fachada)","Finishes supplier (Acabados)","Aggregates / Earthworks (Áridos)","Equipment rental (Alquiler)","Logistics / Transport","Testing laboratory (Laboratorio)"]
+};
+const FILE_CATALOG=[
+ "Architectural project (existing)","Architectural model / IFC (existing)","Floor plans & sections (existing)",
+ "Topographic survey","Terrain surface / DTM (LandXML)","Point cloud / laser scan (existing building)",
+ "SPT / field test results (raw data)","Geotechnical report (analysis + slope stability)",
+ "Structural project — Concrete (existing)","Structural project — Steel (existing)","Structural project — Masonry (existing)","Foundation project (existing)",
+ "Electrical installation (existing)","Hydraulic / plumbing installation (existing)","Storm drainage installation (existing)","Gas installation (existing)","HVAC installation (existing)","Fire protection installation (existing)","Telecom / data cabling (existing)","MEP as-built drawings",
+ "Civil / earthworks (existing)","Roads / pavement (existing)","Acoustic study (existing)","Environmental / sustainability report",
+ "Room data / program of needs","Site reference photos"
+];
+const MILESTONE_CATALOG=["Concept / feasibility","Preliminary design","Developed design","Coordinated / for construction","Handover / as-designed","Tender documentation","Construction support","Site survey complete","Client approval gate","Clash-free coordination","As-built / record model"];
+const LEGAL_CATALOG=["Deed / Title (Escritura)","Property Registration (Matrícula)","Zoning Certificate","Building Permit (Alvará)","Environmental License","Fire Dept Approval (AVCB)","Property Tax (IPTU)","Utility Feasibility Letter","Georeferencing / Land Survey","Occupancy Certificate (Habite-se)","Contract / Tender","Power of Attorney","Other legal document"];
+function ensureDatalists(){
+  if($("#dl-Role"))return;
+  const box=document.createElement("div"); box.style.display="none";
+  const allOpts=[...new Set(Object.values(TEAM_OPTIONS).flat())];
+  box.innerHTML=Object.entries(TEAM_OPTIONS).map(([k,arr])=>`<datalist id="dl-${k}">${arr.map(o=>`<option value="${esc(o)}"></option>`).join("")}</datalist>`).join("")
+    +`<datalist id="dl-all">${allOpts.map(o=>`<option value="${esc(o)}"></option>`).join("")}</datalist>`
+    +`<datalist id="dl-files">${FILE_CATALOG.map(o=>`<option value="${esc(o)}"></option>`).join("")}</datalist>`
+    +`<datalist id="dl-legal">${LEGAL_CATALOG.map(o=>`<option value="${esc(o)}"></option>`).join("")}</datalist>`
+    +`<datalist id="dl-miles">${MILESTONE_CATALOG.map(o=>`<option value="${esc(o)}"></option>`).join("")}</datalist>`;
+  document.body.appendChild(box);
+}
+
+/* ---------- default template ---------- */
+function templateProject(name,code,client){
+  return {id:uid(),name:name||"New project",code:(code||"XX").toUpperCase(),client:client||"",
+    address:"",status:"active",contractNo:"",quote:"",
+    team:[
+      {id:uid(),kind:"Role",label:"Information Manager",person:"",email:""},
+      {id:uid(),kind:"Role",label:"BIM Manager",person:"",email:""},
+      {id:uid(),kind:"Role",label:"BIM Coordinator",person:"",email:""},
+      {id:uid(),kind:"Role",label:"Client representative",person:"",email:""},
+      {id:uid(),kind:"Discipline",label:"Structural Concrete (STR)",person:"",email:""},
+      {id:uid(),kind:"Discipline",label:"Structural Steel (STL)",person:"",email:""},
+      {id:uid(),kind:"Discipline",label:"Hydraulic / Sanitary (HID)",person:"",email:""},
+    ],
+    files:[],
+    clientData:{ap_name:"",ap_rep:"",ap_contact:"",oir:"",pir:"",air:"",brand:"",permits:[]},
+    milestones:[
+      {id:uid(),code:"M1",name:"Concept",planned:"",actual:""},
+      {id:uid(),code:"M2",name:"Preliminary design",planned:"",actual:""},
+      {id:uid(),code:"M3",name:"Developed design",planned:"",actual:""},
+      {id:uid(),code:"M4",name:"Coordinated / for construction",planned:"",actual:""},
+      {id:uid(),code:"M5",name:"Handover / as-designed",planned:"",actual:""}
+    ],
+    contract:{client_legal:"",client_reg:"",our_legal:"",our_reg:"",fee:"",currency:"",payment:"",law:"",dispute:""},
+    docMeta:{version:"1.0",date:new Date().toISOString().slice(0,10)},
+    externals:{ar_office:"",ge_office:""}};
+}
+function seed(){
+  const mc=templateProject("Sample Project — City","XX","Sample Client");
+  mc.address="123 Main Street, City";
+  const EC="Eric Castro (EC)", EM="you@example.com";
+  mc.team.forEach(t=>{ if(["Information Manager","BIM Manager","BIM Coordinator"].includes(t.label)||t.kind==="Discipline"){t.person=EC;t.email=EM;} });
+  mc.files=[
+    {id:uid(),file:"Architecture model (AR)",from:"AR office",promised:"",delivered:"",rev:"P01",ourUpdate:"",status:"awaited"},
+    {id:uid(),file:"Geotechnical / borehole report (GE)",from:"GE office",promised:"",delivered:"",rev:"P01",ourUpdate:"",status:"awaited"},
+  ];
+  return {meta:{title:"BIM Mission Control",schema:1,created:nowISO()},rev:1,lastSavedBy:"",lastSavedAt:"",
+    projects:[mc],users:[],accessLog:[],log:[{id:uid(),ts:nowISO(),editor:"system",email:"",project:mc.id,projName:mc.name,field:"project created (seed)",from:"",to:mc.name}]};
+}
+function normalize(s){ if(!s)return s; s.projects=s.projects||[]; s.log=s.log||[]; s.users=s.users||[]; s.accessLog=s.accessLog||[];
+  s.projects.forEach(p=>{
+    p.clientData=p.clientData||{}; const d=p.clientData;
+    ["ap_name","ap_rep","ap_contact","oir","pir","air","brand"].forEach(k=>{ if(!(k in d))d[k]=""; }); d.permits=d.permits||[];
+    if(!p.milestones) p.milestones=[["M1","Concept"],["M2","Preliminary design"],["M3","Developed design"],["M4","Coordinated / for construction"],["M5","Handover / as-designed"]].map(([c,n])=>({id:uid(),code:c,name:n,planned:"",actual:""}));
+    // legacy: 'contract' used to be the contract number (a string) — move it to contractNo
+    if(typeof p.contract==="string"){ if(!p.contractNo)p.contractNo=p.contract; p.contract=null; }
+    if(!p.contractNo)p.contractNo="";
+    p.contract=p.contract||{}; ["client_legal","client_reg","our_legal","our_reg","fee","currency","payment","law","dispute"].forEach(k=>{ if(!(k in p.contract))p.contract[k]=""; });
+    p.docMeta=p.docMeta||{}; if(!p.docMeta.version)p.docMeta.version="1.0"; if(!p.docMeta.date)p.docMeta.date=new Date().toISOString().slice(0,10);
+    p.externals=p.externals||{}; ["ar_office","ge_office"].forEach(k=>{ if(!(k in p.externals))p.externals[k]=""; });
+  });
+  return s; }
+
+/* ---------- state + persistence ---------- */
+let STATE=null, fileHandle=null, loadedRev=0, curProj=null, me=null;
+const LS_ME="mc_identity", LS_STATE="mc_state_cache";
+
+function loadMe(){ try{me=JSON.parse(localStorage.getItem(LS_ME))||null}catch{me=null} paintWho(); }
+function saveMe(){ try{localStorage.setItem(LS_ME,JSON.stringify(me))}catch{} paintWho(); }
+function cacheState(){ try{localStorage.setItem(LS_STATE,JSON.stringify(STATE))}catch{} }
+function loadCache(){ try{return JSON.parse(localStorage.getItem(LS_STATE))}catch{return null} }
+
+function ensureMe(){ if(me&&me.name)return true; toast("Sign in first (top right)"); openWho(); return false; }
+
+function logChange(field,from,to,projId){
+  const p=projId?byId(projId):curProj;
+  STATE.log.push({id:uid(),ts:nowISO(),editor:me?me.name:"?",email:me?me.email:"",
+    project:p?p.id:"",projName:p?p.name:"",field,from:from??"",to:to??""});
+  autosave();
+}
+const byId=id=>STATE.projects.find(p=>p.id===id);
+
+/* register who accesses the MC */
+function registerAccess(u){
+  if(!u||!u.name||!STATE)return;
+  STATE.users=STATE.users||[]; STATE.accessLog=STATE.accessLog||[];
+  const em=(u.email||"").toLowerCase();
+  let rec=STATE.users.find(x=>(em&&(x.email||"").toLowerCase()===em)||x.name===u.name);
+  const now=nowISO();
+  if(!rec){ rec={id:uid(),name:u.name,email:u.email||"",note:"",firstSeen:now,lastAccess:now,accesses:1}; STATE.users.push(rec); }
+  else{ rec.lastAccess=now; rec.accesses=(rec.accesses||0)+1; rec.name=u.name; if(u.email)rec.email=u.email; }
+  STATE.accessLog.push({id:uid(),ts:now,name:u.name,email:u.email||""});
+  autosave();
+}
+
+/* File System Access */
+const hasFSA = "showOpenFilePicker" in window;
+async function connectFile(){
+  if(!hasFSA){ toast("This browser doesn't support auto-save. Use Load/Save."); return; }
+  try{
+    let handle;
+    const opts={types:[{description:"MC data",accept:{"application/json":[".json"]}}],suggestedName:"MC_data.json"};
+    try{ [handle]=await window.showOpenFilePicker({types:opts.types}); }
+    catch(e){ if(e.name==="AbortError")return; handle=await window.showSaveFilePicker(opts); }
+    fileHandle=handle;
+    const f=await handle.getFile();
+    if(f.size>0){ const txt=await f.text(); const data=JSON.parse(txt); adoptRemote(data); }
+    else{ await writeFile(); }
+    paintData(); toast("File connected — auto-save on");
+  }catch(e){ if(e.name!=="AbortError") toast("Could not connect: "+e.message); }
+}
+async function readRemote(){ if(!fileHandle)return null; const f=await fileHandle.getFile(); const t=await f.text(); return t?JSON.parse(t):null; }
+async function writeFile(){ if(!fileHandle)return; const w=await fileHandle.createWritable(); await w.write(JSON.stringify(STATE,null,2)); await w.close(); loadedRev=STATE.rev; }
+
+function mergeLogs(a,b){ const seen=new Set(),out=[]; for(const e of [...a,...b]){ if(!seen.has(e.id)){seen.add(e.id);out.push(e);} } out.sort((x,y)=>x.ts<y.ts?-1:1); return out; }
+function mergeUsers(remote,local){ const map=new Map(); for(const u of (remote||[]))map.set(u.id,u); for(const u of (local||[]))map.set(u.id,{...(map.get(u.id)||{}),...u}); return [...map.values()]; }
+function mergeShared(remote){ if(!remote)return; STATE.log=mergeLogs(remote.log||[],STATE.log); STATE.accessLog=mergeLogs(remote.accessLog||[],STATE.accessLog); STATE.users=mergeUsers(remote.users||[],STATE.users); }
+
+let saveTimer=null, saving=false;
+function autosave(){ cacheState(); renderAll(); if(!fileHandle){ paintData(); return; } clearTimeout(saveTimer); saveTimer=setTimeout(doSave,500); }
+async function doSave(force){
+  if(!fileHandle||saving)return; saving=true;
+  try{
+    const remote=await readRemote();
+    if(remote && remote.rev!==loadedRev && !force){
+      mergeShared(remote);        // never lose log / access / users
+      showConflict(remote.lastSavedBy||"otra persona");
+      saving=false; return;
+    }
+    mergeShared(remote);
+    STATE.rev=(remote?Math.max(remote.rev||0,loadedRev):loadedRev)+1;
+    STATE.lastSavedBy=me?me.name:""; STATE.lastSavedAt=nowISO();
+    await writeFile(); hideConflict(); paintData();
+  }catch(e){ toast("Save error: "+e.message); }
+  saving=false;
+}
+function showConflict(who){ const b=$("#conflict"); b.querySelector(".sp").innerHTML=`The MC was modified by <b>${esc(who)}</b>. Reload to see their changes, or force the save (you may overwrite their fields — the log and access records are never lost).`; b.style.display="flex"; }
+function hideConflict(){ $("#conflict").style.display="none"; }
+
+function adoptRemote(data){ STATE=normalize(data); loadedRev=STATE.rev||0; cacheState(); if(!curProj&&STATE.projects[0])curProj=STATE.projects[0]; renderAll(); }
+
+/* manual load/save */
+function manualSave(){ const blob=new Blob([JSON.stringify(STATE,null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="MC_data.json"; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000); toast("Downloaded MC_data.json — replace it in the folder"); }
+function manualLoad(){ const i=document.createElement("input"); i.type="file"; i.accept=".json,application/json";
+  i.onchange=()=>{ const f=i.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>{ try{ adoptRemote(JSON.parse(r.result)); toast("Loaded"); }catch(e){ toast("Invalid JSON"); } }; r.readAsText(f); }; i.click(); }
+
+/* ---------- rendering ---------- */
+function paintWho(){ const el=$("#who"); if(me&&me.name){ el.classList.remove("unset"); $("#who-label").textContent=me.name; } else { el.classList.add("unset"); $("#who-label").textContent="Sign in"; } }
+function paintData(){ const el=$("#data-status"),l=$("#data-label"); if(fileHandle){ el.classList.remove("off"); l.textContent="Auto-save"+(STATE&&STATE.lastSavedBy?" · "+STATE.lastSavedBy:""); } else { el.classList.add("off"); l.textContent=hasFSA?"No file":"Manual mode"; } }
+
+function renderPeopleDatalist(){ let dl=$("#dl-people"); if(!dl){ dl=document.createElement("datalist"); dl.id="dl-people"; document.body.appendChild(dl); } const names=[...new Set((STATE.users||[]).map(u=>u.name).filter(Boolean))]; dl.innerHTML=names.map(n=>`<option value="${esc(n)}"></option>`).join(""); }
+function renderAll(){ renderPeopleDatalist(); renderPortfolio(); renderProject(); renderLog(); renderAccess(); renderLegal(); renderSchedule(); $("#b-proj").textContent=STATE.projects.length; $("#b-log").textContent=STATE.log.length; paintData(); }
+
+function renderPortfolio(){
+  const g=$("#proj-grid");
+  g.innerHTML=STATE.projects.map(p=>`<div class="proj" data-open="${p.id}">
+    <button class="proj-del" data-delproj="${p.id}" title="Delete project">×</button>
+    <div class="pc">${esc(p.code)}</div><h3>${esc(p.name)}</h3><div class="cl">${esc(p.client||"—")}</div>
+    <div class="meta"><span class="tag st-${p.status}">${p.status}</span>
+      <span class="tag">${p.team.filter(t=>t.kind==="Discipline").length} disc.</span>
+      <span class="tag">${p.files.length} files</span></div></div>`).join("")
+    +`<button class="proj add" id="new-proj">+ New project</button>`;
+}
+
+function fld(label,val,field,type){ return `<div class="f"><label>${label}</label><input data-pf="${field}" type="${type||"text"}" value="${esc(val)}"></div>`; }
+function cfld(label,val,field){ return `<div class="f"><label>${label}</label><input data-cf="${field}" value="${esc(val)}"></div>`; }
+function cta(label,val,field,ph){ return `<div class="f" style="grid-column:1/-1"><label>${label}</label><textarea data-cf="${field}" rows="2" placeholder="${esc(ph||"")}">${esc(val)}</textarea></div>`; }
+function renderClientData(p){
+  const c=p.clientData||{};
+  $("#client-ap").innerHTML=cfld("Appointing Party (legal name)",c.ap_name||p.client||"","ap_name")+cfld("Representative",c.ap_rep||"","ap_rep")+cfld("Contact (email / phone)",c.ap_contact||"","ap_contact");
+  $("#client-reqs").innerHTML=`<div class="fields">`+
+    cta("OIR — Organisational Information Requirements",c.oir||"","oir","Client organisation asset/business needs")+
+    cta("PIR — Project Information Requirements",c.pir||"","pir","What the client needs at each milestone M1–M5")+
+    cta("AIR — Asset Information Requirements",c.air||"","air","Operational / FM data needs at handover")+
+    cta("Brand / Corporate standards",c.brand||"","brand","Franchise brand book, client BIM standards")+`</div>`;
+}
+function renderMilestones(p){
+  const ms=p.milestones||[];
+  $("#miles-tbl").innerHTML=`<thead><tr><th style="width:80px">Code</th><th>Name / purpose</th><th style="width:150px">Planned date</th><th style="width:150px">Actual date</th><th style="width:34px"></th></tr></thead><tbody>`+
+    (ms.length?ms.map((m,i)=>{
+      const prev=ms[i-1]||{}, pMin=prev.planned||"", aMin=prev.actual||"";
+      const pBad=m.planned&&pMin&&m.planned<pMin, aBad=m.actual&&aMin&&m.actual<aMin;
+      const pc=esc(prev.code||"the previous milestone");
+      return `<tr data-msrow="${m.id}">
+      <td><input data-msf="code" value="${esc(m.code)}" placeholder="M1"></td>
+      <td><input data-msf="name" list="dl-miles" value="${esc(m.name)}" placeholder="pick or type…"></td>
+      <td><input data-msf="planned" type="date"${pMin?` min="${pMin}"`:""} class="${!m.planned?"sched-missing":(pBad?"sched-badorder":"")}" value="${esc(m.planned)}" title="${!m.planned?"Needed for the Schedule tab":(pBad?"Earlier than "+pc+" — planned dates must go in order":"Target deadline for this milestone")}"></td>
+      <td><input data-msf="actual" type="date"${aMin?` min="${aMin}"`:""} class="${aBad?"sched-badorder":""}" value="${esc(m.actual)}" title="${aBad?"Earlier than "+pc+" — actual dates must go in order":"When it was really delivered (leave empty until it happens)"}"></td>
+      <td><button class="del" data-delms="${m.id}" title="remove">×</button></td></tr>`;}).join(""):`<tr><td colspan="5"><div class="empty">No milestones yet. Add the data drops this project needs.</div></td></tr>`)+`</tbody>`;
+  const dm=p.docMeta||{};
+  $("#doc-meta").innerHTML=`<div class="f"><label>Document version</label><input data-dmf="version" value="${esc(dm.version||"1.0")}"></div>`+
+    `<div class="f"><label>Document date</label><input data-dmf="date" type="date" value="${esc(dm.date||"")}"></div>`+
+    `<div class="f"><label>External architecture office (AR)</label><input data-exf="ar_office" value="${esc((p.externals||{}).ar_office||"")}" placeholder="office name"></div>`+
+    `<div class="f"><label>External geotechnical office (GE)</label><input data-exf="ge_office" value="${esc((p.externals||{}).ge_office||"")}" placeholder="office name"></div>`;
+}
+function renderContract(p){
+  const c=p.contract||{};
+  const f=(l,k,ph)=>`<div class="f"><label>${l}</label><input data-ctf="${k}" value="${esc(c[k]||"")}" placeholder="${esc(ph||"")}"></div>`;
+  $("#contract-fields").innerHTML=
+    f("Client legal entity","client_legal","full legal name")+f("Client registration no. (CNPJ)","client_reg","")+
+    f("Our legal entity","our_legal","your company legal name")+f("Our registration no. (CNPJ)","our_reg","")+
+    f("Total fee","fee","amount")+f("Currency","currency","BRL / USD / EUR")+
+    f("Payment schedule","payment","tied to milestones")+f("Governing law","law","e.g. your country / state")+
+    f("Dispute resolution","dispute","mediation / arbitration / courts");
+}
+function renderLegal(){
+  if(!curProj){ $("#legal-none").style.display="block"; $("#legal-body").style.display="none"; return; }
+  $("#legal-none").style.display="none"; $("#legal-body").style.display="block";
+  const p=curProj, c=p.clientData||{};
+  $("#legal-id").innerHTML=fld("Project name",p.name,"name")+fld("Location / address",p.address,"address")+fld("Client",p.client,"client");
+  renderContract(p);
+  $("#legal-tbl").innerHTML=`<thead><tr><th>Legal document</th><th style="width:160px">Reference / no.</th><th style="width:120px">Status</th><th style="width:130px">Date</th><th>Notes</th><th style="width:34px"></th></tr></thead><tbody>`+
+    (c.permits||[]).map(pm=>`<tr data-permrow="${pm.id}">
+      <td><input data-permf="item" list="dl-legal" value="${esc(pm.item)}" placeholder="e.g. Deed / Building Permit"></td>
+      <td><input data-permf="ref" value="${esc(pm.ref)}" placeholder="number"></td>
+      <td><select data-permf="status">${["pending","requested","received","approved","expired"].map(s=>`<option${pm.status===s?" selected":""}>${s}</option>`).join("")}</select></td>
+      <td><input data-permf="date" type="date" value="${esc(pm.date)}"></td>
+      <td><input data-permf="notes" value="${esc(pm.notes||"")}" placeholder="notes"></td>
+      <td><button class="del" data-delpermit="${pm.id}" title="remove">×</button></td></tr>`).join("")+`</tbody>`;
+}
+function renderProject(){
+  if(!curProj){ $("#proj-none").style.display="block"; $("#proj-detail").style.display="none"; return; }
+  $("#proj-none").style.display="none"; $("#proj-detail").style.display="block";
+  const _ts=$("#tree-status"); if(_ts)_ts.textContent=""; const _ds=$("#docs-status"); if(_ds)_ds.textContent="";
+  const p=curProj;
+  $("#proj-fields").innerHTML=
+    fld("Project","name"in p?p.name:"","name")+fld("Code",p.code,"code")+fld("Client",p.client,"client")+
+    fld("Address",p.address,"address")+
+    `<div class="f"><label>Status</label><select data-pf="status">
+      <option value="active"${p.status==="active"?" selected":""}>active</option>
+      <option value="hold"${p.status==="hold"?" selected":""}>on hold</option>
+      <option value="closed"${p.status==="closed"?" selected":""}>closed</option></select></div>`+
+    fld("Contract / no.",p.contractNo||"","contractNo")+fld("Quote / value",p.quote||"","quote");
+  // team table
+  $("#team-tbl").innerHTML=`<thead><tr><th style="width:130px">Type</th><th>Role / Discipline / Function</th><th>Responsible</th><th>Email</th><th style="width:34px"></th></tr></thead><tbody>`+
+    p.team.map(t=>`<tr data-row="${t.id}">
+      <td><select data-tf="kind">${KINDS.map(([v,l])=>`<option value="${v}"${t.kind===v?" selected":""}>${l}</option>`).join("")}</select></td>
+      <td><input data-tf="label" list="dl-${t.kind||'Discipline'}" value="${esc(t.label)}" placeholder="pick from list or type…"></td>
+      <td><input data-tf="person" list="dl-people" value="${esc(t.person)}" placeholder="name"></td>
+      <td><input data-tf="email" type="email" value="${esc(t.email)}" placeholder="email"></td>
+      <td><button class="del" data-delteam="${t.id}" title="remove">×</button></td></tr>`).join("")+`</tbody>`;
+  // files table
+  $("#files-tbl").innerHTML=`<thead><tr><th>File</th><th>From</th><th style="width:130px">Promised</th><th style="width:130px">Delivered</th><th style="width:70px">Rev</th><th style="width:130px">Our update</th><th style="width:100px">Status</th><th style="width:34px"></th></tr></thead><tbody>`+
+    p.files.map(f=>`<tr data-frow="${f.id}">
+      <td><input data-ff="file" list="dl-files" value="${esc(f.file)}"></td>
+      <td><input data-ff="from" value="${esc(f.from)}"></td>
+      <td><input data-ff="promised" type="date" value="${esc(f.promised)}"></td>
+      <td><input data-ff="delivered" type="date" value="${esc(f.delivered)}"></td>
+      <td><input data-ff="rev" value="${esc(f.rev)}"></td>
+      <td><input data-ff="ourUpdate" type="date" value="${esc(f.ourUpdate)}"></td>
+      <td><select data-ff="status">${["awaited","received","verified","registered","rejected"].map(s=>`<option${f.status===s?" selected":""}>${s}</option>`).join("")}</select></td>
+      <td><button class="del" data-delfile="${f.id}">×</button></td></tr>`).join("")+`</tbody>`;
+  renderClientData(p);
+  renderMilestones(p);
+  paintStd();
+  // log project filter options
+  const sel=$("#log-proj"),cur=sel.value; sel.innerHTML=`<option value="">All projects</option>`+STATE.projects.map(p=>`<option value="${p.id}"${cur===p.id?" selected":""}>${esc(p.code)} · ${esc(p.name)}</option>`).join("");
+}
+
+function renderLog(){
+  const pf=$("#log-proj").value, q=$("#log-search").value.toLowerCase();
+  let rows=[...STATE.log].reverse().filter(e=>(!pf||e.project===pf)&&(!q||(e.editor+e.field+e.projName+e.to+e.from).toLowerCase().includes(q)));
+  $("#log-tbl").innerHTML=`<thead><tr><th style="width:150px">When</th><th style="width:160px">Who</th><th>Project</th><th>Change</th></tr></thead><tbody>`+
+    (rows.length?rows.map(e=>{ const d=new Date(e.ts);
+      return `<tr><td class="when">${isNaN(d)?esc(e.ts):d.toLocaleString()}</td>
+      <td class="who">${esc(e.editor)}<small>${esc(e.email||"")}</small></td>
+      <td>${esc(e.projName||"—")}</td>
+      <td class="chg"><b>${esc(e.field)}</b>${e.from||e.to?`<br>${esc(e.from||"∅")}<span class="arr">→</span>${esc(e.to||"∅")}`:""}</td></tr>`;
+    }).join(""):`<tr><td colspan="4"><div class="empty">No changes logged yet.</div></td></tr>`)+`</tbody>`;
+}
+
+function renderAccess(){
+  const us=STATE.users||[];
+  $("#users-tbl").innerHTML=`<thead><tr><th>Name</th><th>Email</th><th>Role / note</th><th style="width:150px">First access</th><th style="width:150px">Last access</th><th style="width:46px">#</th><th style="width:34px"></th></tr></thead><tbody>`+
+    (us.length?us.map(u=>`<tr data-urow="${u.id}">
+      <td><input data-uf="name" value="${esc(u.name)}" placeholder="name"></td>
+      <td><input data-uf="email" type="email" value="${esc(u.email)}" placeholder="email"></td>
+      <td><input data-uf="note" list="dl-all" value="${esc(u.note||"")}" placeholder="role / discipline"></td>
+      <td class="when">${u.firstSeen?new Date(u.firstSeen).toLocaleString():"—"}</td>
+      <td class="when">${u.lastAccess?new Date(u.lastAccess).toLocaleString():"—"}</td>
+      <td class="ctr">${u.accesses||0}</td>
+      <td><button class="del" data-deluser="${u.id}" title="remove">×</button></td></tr>`).join(""):`<tr><td colspan="7"><div class="empty">Nobody registered yet. Someone is registered on sign-in, or add them via the + Register user button.</div></td></tr>`)+`</tbody>`;
+  const ev=[...(STATE.accessLog||[])].reverse().slice(0,120);
+  $("#access-tbl").innerHTML=`<thead><tr><th style="width:180px">When</th><th>Who</th><th>Email</th></tr></thead><tbody>`+
+    (ev.length?ev.map(a=>`<tr><td class="when">${new Date(a.ts).toLocaleString()}</td><td class="who">${esc(a.name)}</td><td class="mono">${esc(a.email||"")}</td></tr>`).join(""):`<tr><td colspan="3"><div class="empty">No access logged yet.</div></td></tr>`)+`</tbody>`;
+  const b=$("#b-users"); if(b)b.textContent=us.length;
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const dp=e.target.closest("[data-delproj]"); if(dp){ askDeleteProject(dp.dataset.delproj); return; }
+  const o=e.target.closest("[data-open]"); if(o){ curProj=byId(o.dataset.open); switchView("project"); return; }
+  if(e.target.id==="new-proj"){ $("#dlg-new").showModal(); return; }
+  const dt=e.target.closest("[data-delteam]"); if(dt){ if(!ensureMe())return; const p=curProj,id=dt.dataset.delteam,row=p.team.find(t=>t.id===id); p.team=p.team.filter(t=>t.id!==id); logChange("removed team row",row?row.label:"",""); renderProject(); return; }
+  const df=e.target.closest("[data-delfile]"); if(df){ if(!ensureMe())return; const p=curProj,id=df.dataset.delfile,row=p.files.find(t=>t.id===id); p.files=p.files.filter(t=>t.id!==id); logChange("removed client file",row?row.file:"",""); renderProject(); return; }
+  const du=e.target.closest("[data-deluser]"); if(du){ if(!ensureMe())return; const u=(STATE.users||[]).find(x=>x.id===du.dataset.deluser); STATE.users=(STATE.users||[]).filter(x=>x.id!==du.dataset.deluser); logChange("removed user",u?u.name:"",""); renderAccess(); return; }
+  const dms=e.target.closest("[data-delms]"); if(dms){ if(!ensureMe())return; const id=dms.dataset.delms; const m=(curProj.milestones||[]).find(x=>x.id===id); curProj.milestones=curProj.milestones.filter(x=>x.id!==id); logChange("removed milestone",m?m.code+" "+m.name:"",""); renderProject(); return; }
+  const dpe=e.target.closest("[data-delpermit]"); if(dpe){ if(!ensureMe())return; const id=dpe.dataset.delpermit; const pm=(curProj.clientData.permits||[]).find(x=>x.id===id); curProj.clientData.permits=curProj.clientData.permits.filter(x=>x.id!==id); logChange("removed legal document",pm?pm.item:"",""); renderLegal(); return; }
+});
+$("#add-team").onclick=()=>{ if(!ensureMe())return; curProj.team.push({id:uid(),kind:"Discipline",label:"",person:"",email:""}); logChange("added team member","",""); renderProject(); };
+$("#add-file").onclick=()=>{ if(!ensureMe())return; curProj.files.push({id:uid(),file:"New file",from:"",promised:"",delivered:"",rev:"",ourUpdate:"",status:"awaited"}); logChange("added client file","","New file"); renderProject(); };
+$("#add-user").onclick=()=>{ if(!ensureMe())return; STATE.users=STATE.users||[]; STATE.users.push({id:uid(),name:"",email:"",note:"",firstSeen:"",lastAccess:"",accesses:0}); logChange("registered user (manual)","",""); renderAccess(); };
+$("#add-milestone").onclick=()=>{ if(!ensureMe())return; curProj.milestones=curProj.milestones||[]; const n=curProj.milestones.length+1; curProj.milestones.push({id:uid(),code:"M"+n,name:"",planned:"",actual:""}); logChange("added milestone","","M"+n); renderProject(); };
+$("#add-permit").onclick=()=>{ if(!ensureMe())return; curProj.clientData=curProj.clientData||{}; curProj.clientData.permits=curProj.clientData.permits||[]; curProj.clientData.permits.push({id:uid(),item:"",ref:"",status:"pending",date:"",notes:""}); logChange("added legal document","",""); renderLegal(); };
+
+// editable inputs — capture old on focus, log on change
+let oldVal=null;
+document.addEventListener("focusin",e=>{ if(e.target.matches("[data-pf],[data-tf],[data-ff],[data-uf],[data-cf],[data-permf],[data-msf],[data-dmf],[data-exf],[data-ctf]")) oldVal=e.target.value; });
+document.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.matches("[data-pf]")){ if(!ensureMe()){t.value=oldVal;return;} const f=t.dataset.pf; const from=curProj[f]; curProj[f]=t.value; if(f==="code")curProj.code=t.value.toUpperCase(); logChange("project · "+f,from,curProj[f]); if(["name","code","client","status"].includes(f))renderPortfolio(); }
+  else if(t.matches("[data-tf]")){ if(!ensureMe()){t.value=oldVal;return;} const row=curProj.team.find(x=>x.id===t.closest("[data-row]").dataset.row); const f=t.dataset.tf; const from=row[f]; row[f]=t.value; if(f==="person"){ const u=(STATE.users||[]).find(x=>x.name===t.value&&x.email); if(u)row.email=u.email; } logChange((row.kind||"team")+" · "+(row.label||f)+" › "+f,from,t.value); if(f==="kind")renderProject(); }
+  else if(t.matches("[data-ff]")){ if(!ensureMe()){t.value=oldVal;return;} const row=curProj.files.find(x=>x.id===t.closest("[data-frow]").dataset.frow); const f=t.dataset.ff; const from=row[f]; row[f]=t.value; logChange("client file · "+(row.file||"?")+" › "+f,from,t.value); }
+  else if(t.matches("[data-uf]")){ if(!ensureMe()){t.value=oldVal;return;} const u=(STATE.users||[]).find(x=>x.id===t.closest("[data-urow]").dataset.urow); const f=t.dataset.uf; const from=u[f]; u[f]=t.value; logChange("user · "+(u.name||"?")+" › "+f,from,t.value); }
+  else if(t.matches("[data-cf]")){ if(!ensureMe()){t.value=oldVal;return;} curProj.clientData=curProj.clientData||{}; const f=t.dataset.cf; const from=curProj.clientData[f]; curProj.clientData[f]=t.value; logChange("client · "+f,from,t.value); }
+  else if(t.matches("[data-permf]")){ if(!ensureMe()){t.value=oldVal;return;} const pm=(curProj.clientData.permits||[]).find(x=>x.id===t.closest("[data-permrow]").dataset.permrow); const f=t.dataset.permf; const from=pm[f]; pm[f]=t.value; logChange("permit · "+(pm.item||"?")+" › "+f,from,t.value); }
+  else if(t.matches("[data-msf]")){ if(!ensureMe()){t.value=oldVal;return;} const m=(curProj.milestones||[]).find(x=>x.id===t.closest("[data-msrow]").dataset.msrow); const f=t.dataset.msf; const from=m[f]; m[f]=t.value; logChange("milestone · "+(m.code||"?")+" › "+f,from,t.value); }
+  else if(t.matches("[data-dmf]")){ if(!ensureMe()){t.value=oldVal;return;} curProj.docMeta=curProj.docMeta||{}; const f=t.dataset.dmf; const from=curProj.docMeta[f]; curProj.docMeta[f]=t.value; logChange("document · "+f,from,t.value); }
+  else if(t.matches("[data-exf]")){ if(!ensureMe()){t.value=oldVal;return;} curProj.externals=curProj.externals||{}; const f=t.dataset.exf; const from=curProj.externals[f]; curProj.externals[f]=t.value; logChange("external office · "+f,from,t.value); }
+  else if(t.matches("[data-ctf]")){ if(!ensureMe()){t.value=oldVal;return;} curProj.contract=curProj.contract||{}; const f=t.dataset.ctf; const from=curProj.contract[f]; curProj.contract[f]=t.value; logChange("contract · "+f,from,t.value); }
+});
+
+$$("nav.tabs button").forEach(b=>b.onclick=()=>switchView(b.dataset.v));
+$("#sched-reset")&&$("#sched-reset").addEventListener("click",()=>{ if(!ensureMe())return; if(!curProj)return; curProj.schedule={}; logChange("schedule reset to milestones","",""); });
+$("#sched-legend")&&$("#sched-legend").addEventListener("change",e=>{
+  const dEl=e.target.closest("[data-sd-day]"), pEl=e.target.closest("[data-sd-pct]");
+  if(!dEl&&!pEl)return; if(!ensureMe())return;
+  if(dEl){ schSetDays(dEl.dataset.sdDay,dEl.value); logChange("schedule days · "+dEl.dataset.sdDay,"",dEl.value+"d"); }
+  else { schSetPct(pEl.dataset.sdPct,pEl.value); logChange("schedule % · "+pEl.dataset.sdPct,"",pEl.value+"%"); }
+});
+/* ================= Schedule tab ================= */
+const DISC_COLOR={STR:"#e0654f",STL:"#4f8fe0",MAS:"#e0a54f",FDN:"#8a6fe0",HID:"#2fb39a",FIR:"#e05f6f",ELE:"#d8c23f",MEC:"#4fbede",GEO:"#b0895a",ARC:"#7bbf5f",ELV:"#5fbf9f",CRD:"#cf6fd0",ZZZ:"#8a97a3",DRA:"#3fa8d8",GAS:"#e08a3f",CIV:"#9a7b5a",ROA:"#7a8a99",ACO:"#a06fd0",SUS:"#4fbf7f",TOP:"#c0a060"};
+const SCHED_RANGE={STR:["M2","M5"],STL:["M2","M5"],MAS:["M2","M5"],FDN:["M2","M5"],HID:["M3","M5"],ELE:["M3","M5"],FIR:["M3","M5"],MEC:["M3","M5"],GEO:["M1","M2"],ARC:["M1","M3"],CRD:["M2","M5"]};
+const dcolor=c=>DISC_COLOR[c]||"var(--accent)";
+const schT=s=>s?new Date(s+"T00:00:00").getTime():0;
+const schFmt=t=>new Date(t).toLocaleDateString("en-GB",{day:"2-digit",month:"short"});
+const schIso=t=>{const d=new Date(t);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
+let SCHED=null;
+const schPct=t=>(t-SCHED.T0)/(SCHED.T1-SCHED.T0)*100;
+const schDur=r=>Math.max(0,Math.round((schT(r.end)-schT(r.start))/864e5));
+
+function schedModel(p){
+  const ms={}; (p.milestones||[]).forEach(m=>{ if(m.planned) ms[m.code]=m.planned; });
+  const codes=[]; (p.team||[]).forEach(t=>{ if(t.kind==="Discipline"&&t.label){ const c=discLetter(t.label); if(!codes.includes(c)) codes.push(c); } });
+  if(codes.length>=2 && !codes.includes("CRD")) codes.push("CRD");
+  const md=Object.values(ms).map(schT).filter(Boolean).sort((a,b)=>a-b);
+  const msT0=md[0]||0, msT1=md[md.length-1]||0, mt0=msT0?schIso(msT0):"", mt1=msT1?schIso(msT1):"";
+  const msA={}; (p.milestones||[]).forEach(m=>{ if(m.actual) msA[m.code]=m.actual; });      // milestone ACTUAL dates
+  const docD=(p.docMeta&&p.docMeta.date)?schT(p.docMeta.date):0;                             // project start = document date
+  const valid=msT1>msT0;                                         // need >=2 DIFFERENT milestone dates
+  const missing=(p.milestones||[]).filter(m=>!m.planned).map(m=>m.code);
+  p.schedule=p.schedule||{};
+  const rows=[];
+  if(valid){
+    codes.forEach(c=>{
+      const rg=SCHED_RANGE[c]||["M1","M5"], cap=ms[rg[1]]||mt1;   // its milestone (default delivery = the deadline)
+      const defStart=ms[rg[0]]||mt0;
+      const sv=p.schedule[c]||{};
+      let end=sv.end||cap, start=sv.start||defStart;             // BOTH editable; seeded from the milestone range
+      // re-seed only if absurdly stale (dates far outside the milestone window)
+      if(schT(end)<msT0-400*864e5 || schT(end)>msT1+400*864e5) end=cap;
+      if(schT(start)>=schT(end) || schT(start)<msT0-400*864e5) start=schIso(schT(end)-864e5);
+      p.schedule[c]={start,end};
+      rows.push({code:c,start,end,cap,actual:msA[rg[1]]||""});    // actual = delivery milestone's ACTUAL date
+    });
+    Object.keys(p.schedule).forEach(k=>{ if(!codes.includes(k)) delete p.schedule[k]; });
+  }
+  // timeline starts at the document date and spans every bar plus any late actual deliveries
+  const acts=rows.map(r=>schT(r.actual)).filter(Boolean);
+  const T0=Math.min(...[docD||msT0, msT0, ...rows.map(r=>schT(r.start))]);
+  const T1=Math.max(...[msT1, ...rows.map(r=>schT(r.end)), ...acts]);
+  return {rows,codes,ms,T0,T1,msT0,msT1,docD,valid,missing,msList:(p.milestones||[]).filter(m=>m.planned)};
+}
+function schSeg(cx,cy,R,r,a1,a2,c){const P=(a,rad)=>{const x=(a-90)*Math.PI/180;return[cx+rad*Math.cos(x),cy+rad*Math.sin(x)];};const A=P(a1,R),B=P(a2,R),C=P(a2,r),D=P(a1,r),lg=(a2-a1)>180?1:0;return `<path d="M${A[0]} ${A[1]} A${R} ${R} 0 ${lg} 1 ${B[0]} ${B[1]} L${C[0]} ${C[1]} A${r} ${r} 0 ${lg} 0 ${D[0]} ${D[1]} Z" fill="${c}"/>`;}
+function schPie(){
+  const rows=SCHED.rows, total=rows.reduce((s,r)=>s+schDur(r),0)||1; let a=0,paths="";
+  rows.forEach(r=>{const f=schDur(r)/total,a2=a+f*360;if(f>0)paths+=schSeg(82,82,74,47,a+.6,a2-.6,dcolor(r.code));a=a2;});
+  $("#sched-donut").innerHTML=`<svg width="164" height="164" viewBox="0 0 164 164">${paths}</svg><div class="ctr"><b>${total}</b><span>days</span></div>`;
+  $("#sched-legend").innerHTML=rows.map(r=>{const pc=Math.round(schDur(r)/total*100);return `<div class="li"><span class="sw" style="background:${dcolor(r.code)}"></span><span class="nm">${r.code} · ${esc(DISC_NAME[r.code]||r.code)}</span><span class="pc"><input class="sched-inp" type="number" min="0" max="99" data-sd-pct="${r.code}" value="${pc}" title="edit % share">% · <input class="sched-inp" type="number" min="1" data-sd-day="${r.code}" value="${schDur(r)}" title="edit days">d</span></div>`;}).join("");
+}
+function schCols(){
+  const rows=SCHED.rows, max=Math.max(1,...rows.map(schDur));
+  $("#sched-cols").innerHTML=rows.map(r=>`<div class="col"><div class="bwrap"><div class="bar" style="height:${schDur(r)/max*100}%;background:${dcolor(r.code)}"><span class="v">${schDur(r)}d</span></div></div><div class="lbl">${r.code}</div></div>`).join("");
+}
+function schGantt(){
+  const g=$("#sched-gantt"); g.innerHTML="";
+  // year-boundary lines (1 Jan) drawn inside the tracks alongside the milestone lines
+  const yStart=new Date(SCHED.T0).getFullYear(), yEnd=new Date(SCHED.T1).getFullYear();
+  let ylines="", bands="", ymarks="";
+  for(let y=yStart;y<=yEnd;y++){
+    const bs=Math.max(SCHED.T0,new Date(y,0,1).getTime()), be=Math.min(SCHED.T1,new Date(y+1,0,1).getTime());
+    const l=schPct(bs), w=schPct(be)-schPct(bs), mid=l+w/2;
+    if(y%2===0) bands+=`<div class="sched-yband" style="left:${l}%;width:${w}%"></div>`;         // shade alternate years
+    ymarks+=`<div class="ymk" style="left:${mid}%">${y}</div>`;                                    // year centred under its span
+    if(y>yStart){ const t=new Date(y,0,1).getTime(); if(t>SCHED.T0&&t<SCHED.T1) ylines+=`<div class="sched-yline" style="left:${schPct(t)}%"></div>`; }   // 1-Jan boundary line
+  }
+  const docLine=SCHED.docD?`<div class="sched-msl doc" style="left:${schPct(SCHED.docD)}%"></div>`:"";
+  const lines=bands+docLine+SCHED.msList.map(m=>`<div class="sched-msl" style="left:${schPct(schT(m.planned))}%"></div>`).join("")+ylines;
+  SCHED.rows.forEach((r,i)=>{
+    const row=document.createElement("div"); row.className="sched-grow";
+    // actual delivery vs planned: red tail if late, green tail if early
+    let variance="", amark="";
+    if(r.actual){
+      const pT=schT(r.end), aT=schT(r.actual), pp=schPct(pT), pa=schPct(aT);
+      if(aT>pT){ variance=`<div class="sched-var late" style="left:${pp}%;width:${pa-pp}%"></div>`; amark=`<div class="sched-amark late" style="left:${pa}%" title="Delivered late: ${schFmt(aT)}"></div>`; }
+      else if(aT<pT){ variance=`<div class="sched-var early" style="left:${pa}%;width:${pp-pa}%"></div>`; amark=`<div class="sched-amark early" style="left:${pa}%" title="Delivered early: ${schFmt(aT)}"></div>`; }
+      else amark=`<div class="sched-amark" style="left:${pa}%" title="Delivered on time: ${schFmt(aT)}"></div>`;
+    }
+    row.innerHTML=`<div class="code"><span class="sw" style="background:${dcolor(r.code)}"></span>${r.code}</div><div class="sched-track">${lines}<div class="sched-bar" data-i="${i}" style="left:${schPct(schT(r.start))}%;width:${schPct(schT(r.end))-schPct(schT(r.start))}%;background:${dcolor(r.code)}"><div class="dia"></div><div class="h"></div></div>${variance}${amark}</div>`;
+    g.appendChild(row);
+  });
+  let prevY=null;
+  $("#sched-axis").innerHTML=SCHED.msList.map(m=>{ const t=schT(m.planned), yr=new Date(t).getFullYear(), showY=(yr!==prevY); prevY=yr;
+    return `<div class="mk" style="left:${schPct(t)}%"><div class="c">${m.code}</div><div class="d">${schFmt(t)}${showY?" "+yr:""}</div></div>`; }).join("");
+  $("#sched-start").innerHTML=SCHED.docD?`<div class="stag" style="left:${schPct(SCHED.docD)}%">▸ Start · ${schFmt(SCHED.docD)}</div>`:"";
+  $("#sched-year").innerHTML=ymarks;
+  schBindDrag();
+}
+function schReposition(){ document.querySelectorAll("#sched-gantt .sched-bar").forEach(b=>{const r=SCHED.rows[+b.dataset.i];b.style.left=schPct(schT(r.start))+"%";b.style.width=(schPct(schT(r.end))-schPct(schT(r.start)))+"%";}); }
+function schBindDrag(){
+  let fl=$("#sched-flabel"); if(!fl){ fl=document.createElement("div"); fl.className="sched-flabel"; fl.id="sched-flabel"; document.body.appendChild(fl); }
+  document.querySelectorAll("#sched-gantt .sched-bar").forEach(bar=>{
+    bar.addEventListener("pointerdown",e=>{
+      if(!ensureMe())return;
+      const i=+bar.dataset.i, r=SCHED.rows[i], resize=e.target.classList.contains("h");
+      const track=bar.parentElement, tw=track.clientWidth||1, SPANd=(SCHED.T1-SCHED.T0)/864e5;
+      const x0=e.clientX, s0=schT(r.start), e0=schT(r.end);
+      bar.classList.add("drag"); bar.setPointerCapture(e.pointerId);
+      const move=ev=>{
+        const dd=Math.round((ev.clientX-x0)/tw*SPANd)*864e5;
+        if(resize){ r.end=schIso(Math.max(s0+864e5,e0+dd)); }      // adjust delivery (end); min 1 day, no milestone cap
+        else{ r.start=schIso(s0+dd); r.end=schIso(e0+dd); }        // move the whole bar
+        curProj.schedule[r.code]={start:r.start,end:r.end};
+        schReposition(); schPie(); schCols();
+        fl.style.opacity=1; fl.style.left=ev.clientX+"px"; fl.style.top=ev.clientY+"px"; fl.textContent=schFmt(schT(r.start))+" → "+schFmt(schT(r.end))+"  ("+schDur(r)+"d)";
+      };
+      const up=()=>{ bar.classList.remove("drag"); fl.style.opacity=0; try{bar.releasePointerCapture(e.pointerId);}catch(x){} bar.removeEventListener("pointermove",move); bar.removeEventListener("pointerup",up); logChange("schedule · "+r.code,"",r.start+" → "+r.end); };
+      bar.addEventListener("pointermove",move); bar.addEventListener("pointerup",up); e.preventDefault();
+    });
+  });
+}
+// numeric edits from the legend: set a discipline's duration in days, or its % share of total
+function schSetDays(code,n){
+  if(!SCHED)return; const r=SCHED.rows.find(x=>x.code===code); if(!r)return;
+  n=Math.max(1,Math.round(+n||1));
+  // delivery (end) stays on its milestone; the duration sets how far back the start goes
+  r.start=schIso(schT(r.end)-n*864e5);
+  curProj.schedule[code]={start:r.start,end:r.end};
+}
+function schSetPct(code,p){
+  if(!SCHED)return; p=Math.max(0,Math.min(95,+p||0));
+  const others=SCHED.rows.filter(x=>x.code!==code).reduce((s,x)=>s+schDur(x),0);
+  schSetDays(code, p<=0?1:Math.max(1,Math.round(p*others/(100-p))));
+}
+function renderSchedule(){
+  if(!$("#v-schedule"))return;
+  if(!curProj){ $("#sched-none").style.display="block"; $("#sched-body").style.display="none"; return; }
+  $("#sched-none").style.display="none"; $("#sched-body").style.display="block";
+  const M=schedModel(curProj), warn=$("#sched-warn"), charts=$("#sched-charts");
+  if(!M.codes.length){ warn.className="sched-notice"; warn.style.display="block"; warn.innerHTML="Add at least one <b>discipline</b> in the Project tab (section 02) to build the schedule."; charts.style.display="none"; return; }
+  if(!M.valid){
+    warn.className="sched-notice"; warn.style.display="block"; charts.style.display="none";
+    warn.innerHTML = M.missing.length
+      ? "Fill the milestone <b>planned dates</b> in the Project tab (section 05) — missing: <b>"+M.missing.join(", ")+"</b>. The charts appear once at least two milestones have different dates."
+      : "Milestones need <b>different</b> planned dates (M1 earliest → M5 latest). Update them in the Project tab (section 05) and the charts will build automatically.";
+    return;
+  }
+  if(M.missing.length){ warn.className="sched-notice soft"; warn.style.display="block"; warn.innerHTML="Some milestones have no date yet (<b>"+M.missing.join(", ")+"</b>) — those bars fall back to the nearest milestone. Fill them in section 05 and this clears."; }
+  else warn.style.display="none";
+  charts.style.display="block";
+  SCHED=M; schPie(); schCols(); schGantt();
+}
+function switchView(v){ $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===v)); $$(".view").forEach(x=>x.classList.remove("on")); $("#v-"+v).classList.add("on"); if(v==="project")renderProject(); if(v==="log")renderLog(); if(v==="access")renderAccess(); if(v==="legal")renderLegal(); if(v==="schedule")renderSchedule(); }
+
+$("#log-proj").onchange=renderLog; $("#log-search").oninput=renderLog;
+
+// identity
+$("#who").onclick=openWho;
+function openWho(){ if(me){ $("#who-name").value=me.name||""; $("#who-email").value=me.email||""; } $("#dlg-who").showModal(); }
+$("#dlg-who").addEventListener("close",()=>{ if($("#dlg-who").returnValue==="ok"){ const n=$("#who-name").value.trim(); if(n){ me={name:n,email:$("#who-email").value.trim()}; saveMe(); registerAccess(me); toast("Editing as "+n); } } });
+
+// new project
+$("#dlg-new").addEventListener("close",()=>{ if($("#dlg-new").returnValue==="ok"){ if(!ensureMe())return; const n=$("#np-name").value.trim(); if(!n)return; const p=templateProject(n,$("#np-code").value.trim(),$("#np-client").value.trim()); STATE.projects.push(p); curProj=p; logChange("project created","",p.name,p.id); renderAll(); switchView("project"); $("#np-name").value="";$("#np-code").value="";$("#np-client").value=""; } });
+
+// delete project (register only; disk folders untouched)
+let _delProjId=null;
+function askDeleteProject(id){ const p=byId(id); if(!p)return; _delProjId=id; $("#dlg-delproj-name").textContent=p.code+" · "+p.name; $("#dlg-delproj").showModal(); }
+$("#dlg-delproj").addEventListener("close",()=>{ if($("#dlg-delproj").returnValue==="ok" && _delProjId){ if(!ensureMe()){_delProjId=null;return;} const p=byId(_delProjId); const nm=p?p.name:_delProjId; STATE.projects=STATE.projects.filter(x=>x.id!==_delProjId); if(curProj&&curProj.id===_delProjId)curProj=STATE.projects[0]||null; logChange("deleted project (register only): "+nm,nm,""); toast("Project removed: "+nm); switchView("portfolio"); } _delProjId=null; });
+
+// documents confirmation after folder creation (template handle already resolved)
+$("#dlg-docs").addEventListener("close",async()=>{
+  if($("#dlg-docs").returnValue==="yes" && _pendingRoot){
+    const st=$("#tree-status"); st.textContent+=" · copying documents…";
+    try{
+      const docs=await genDocs(_pendingRoot,curProj);
+      st.textContent=` Done · ${treeCount} folders + ${docs.length} documents`;
+      logChange("copied documents from _BASELINE DOCUMENTS","",docs.join(", "));
+      toast("Documents copied: "+docs.length);
+    }
+    catch(e){ st.textContent=" Folders OK · documents FAILED: "+e.message; toast("Could not copy documents: "+e.message); }
+  }
+  _pendingRoot=null;
+});
+
+// persistence buttons
+$("#btn-connect").onclick=connectFile;
+$("#btn-save").onclick=()=>{ if(fileHandle)doSave(true); else manualSave(); };
+$("#btn-load").onclick=()=>{ if(hasFSA&&!fileHandle)connectFile(); else manualLoad(); };
+$("#conflict-reload").onclick=async()=>{ const r=await readRemote(); if(r)adoptRemote(r); hideConflict(); toast("Reloaded"); };
+$("#conflict-force").onclick=()=>doSave(true);
+
+// export report
+$("#export-log").onclick=async()=>{
+  const md=`# MC — Change log report\nGenerated: ${new Date().toLocaleString()}\n\n`+
+    STATE.projects.map(p=>{ const rows=STATE.log.filter(e=>e.project===p.id); if(!rows.length)return"";
+      return `## ${p.code} · ${p.name}\n\n| When | Who | Change | From → To |\n|---|---|---|---|\n`+
+      rows.map(e=>`| ${new Date(e.ts).toLocaleString()} | ${e.editor} | ${e.field} | ${e.from||"∅"} → ${e.to||"∅"} |`).join("\n")+"\n"; }).join("\n");
+  if(window.claude&&window.claude.downloads){ try{ await window.claude.downloads.save({filename:"MC_changelog.md",data:md}); }catch(err){ if(err.code!=="declined")toast("Could not export: "+(err.message||err.code)); } }
+  else{ const b=new Blob([md],{type:"text/markdown"}); const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="MC_changelog.md"; a.click(); }
+};
+
+let tt=null; function toast(m){ const el=$("#toast"); el.textContent=m; el.classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove("show"),2600); }
+
+/* ---------- create ISO 19650 folder tree (no Claude) ---------- */
+const WIP_SOFT=["Revit","Robot","Midas-GTS-NX","Civil-3D"];
+const DISC_MAP={ARC:"00_Architecture",STR:"01_Structural-Concrete",STL:"02_Structural-Steel",MAS:"03_Structural-Masonry",HID:"04_Hydraulic",FIR:"05_Fire-Fighting",ELE:"06_Electrical",GEO:"07_Geotechnical",FDN:"08_Foundations",MEC:"09_HVAC-Mechanical",ELV:"10_Telecom-Data",DRA:"11_Storm-Drainage",GAS:"12_Gas",CIV:"13_Civil-Earthworks",ROA:"14_Roads-Pavement",ACO:"15_Acoustics",SUS:"16_Sustainability",TOP:"17_Topography-Survey"};
+function _sanFolder(s){ return String(s).replace(/[\\/:*?"<>|]/g,"").replace(/\s+/g,"-").trim(); }
+function discToFolder(label){ const m=(label.match(/\(([A-Z]{1,3})\)/)||[])[1]; if(m&&DISC_MAP[m])return DISC_MAP[m]; const l=label.toLowerCase(); if(l.includes("architect"))return "00_Architecture"; if(l.includes("concrete"))return "01_Structural-Concrete"; if(l.includes("steel"))return "02_Structural-Steel"; if(l.includes("masonry"))return "03_Structural-Masonry"; if(l.includes("hydraul")||l.includes("sanitary")||l.includes("plumb")||l.includes("mep"))return "04_Hydraulic"; if(l.includes("fire"))return "05_Fire-Fighting"; if(l.includes("electr"))return "06_Electrical"; if(l.includes("foundation"))return "08_Foundations"; if(l.includes("civil")||l.includes("earth"))return "13_Civil-Earthworks"; if(l.includes("geotech"))return "07_Geotechnical"; if(l.includes("hvac")||l.includes("mechanical"))return "09_HVAC-Mechanical"; if(l.includes("telecom"))return "10_Telecom-Data"; if(l.includes("storm")||l.includes("drainage"))return "11_Storm-Drainage"; if(l.includes("gas"))return "12_Gas"; if(l.includes("road")||l.includes("pavement"))return "14_Roads-Pavement"; if(l.includes("acoustic"))return "15_Acoustics"; if(l.includes("sustainab")||l.includes("environmental"))return "16_Sustainability"; if(l.includes("topograph")||l.includes("survey"))return "17_Topography-Survey"; return "90_"+_sanFolder(label); }
+// CDE folders are DRIVEN BY SCOPE: ONLY the disciplines listed in section 02.
+// Nothing is forced — if Architecture is not in the team, no Architecture folder is created.
+function disciplineFolders(project){ const set=new Set(); ((project&&project.team)||[]).forEach(t=>{ if(t.kind==="Discipline"&&t.label) set.add(discToFolder(t.label)); }); return [...set].sort(); }
+function hasDisc(project,re){ return ((project&&project.team)||[]).some(t=>t.kind==="Discipline"&&re.test(t.label||"")); }
+// Incoming (external deliveries) is driven FIRST by the Client file register
+// (every promised/received delivery gets its own inbox), then by discipline scope.
+function incomingFolderFor(text){
+  const s=String(text||"").toLowerCase();
+  if(/architect|floor plan|elevation|ifc/.test(s)) return "Architecture";
+  if(/topograph|survey|terrain|dtm|landxml|point cloud|laser scan/.test(s)) return "Topography-Survey";
+  if(/geotech.*report|slope|stability|earthworks analysis|geotechnical analysis/.test(s)) return "Geotechnical-Report";
+  if(/geotech|soil|spt|cpt|borehole/.test(s)) return "Geotechnical-Borehole-Data";
+  if(/structural|foundation/.test(s)) return "Structural-Existing";
+  if(/electric/.test(s)) return "Electrical-Existing";
+  if(/hydraulic|plumb|sanitary/.test(s)) return "Hydraulic-Existing";
+  if(/storm|drainage/.test(s)) return "Storm-Drainage-Existing";
+  if(/hvac|mechanical/.test(s)) return "HVAC-Existing";
+  if(/fire/.test(s)) return "Fire-Existing";
+  if(/gas/.test(s)) return "Gas-Existing";
+  if(/telecom|data cabling/.test(s)) return "Telecom-Existing";
+  if(/civil|earthwork/.test(s)) return "Civil-Existing";
+  if(/road|pavement/.test(s)) return "Roads-Existing";
+  if(/acoustic/.test(s)) return "Acoustics-Existing";
+  if(/sustainab|environmental/.test(s)) return "Environmental-Existing";
+  if(/mep/.test(s)) return "MEP-Existing";
+  return "Client-Provided";
+}
+function incomingFolders(project){
+  const o={};
+  // 1) one inbox per entry in the Client file register (file name + source)
+  (project.files||[]).forEach(f=>{ o[incomingFolderFor((f.file||"")+" "+(f.from||""))]={}; });
+  // 2) fallback / union with discipline scope
+  if(hasDisc(project,/architect/i)) o["Architecture"]={};
+  if(hasDisc(project,/geotech|foundation|earthwork/i)) o["Geotechnical-Borehole-Data"]={};
+  if(hasDisc(project,/geotech|civil|earthwork|road|topograph/i)) o["Topography-Survey"]={};
+  if(!Object.keys(o).length) o["Client-Provided"]={};   // always at least one inbox
+  return o;
+}
+// WIP subfolders are by CONTENT TYPE (industry practice), never by software.
+// Templates live centrally in 03_Resources, not inside each discipline.
+function wipFolders(folder){
+  if(/Structural-Concrete|Structural-Steel|Structural-Masonry/.test(folder))
+    return ["Models","Analysis","Exports","Reference","Data"];   // Analysis: Robot/CYPE/TQS · Data: result CSV
+  if(/Geotechnical|Earthworks/.test(folder))
+    return ["Models","Analysis","Exports","Reference"];          // Analysis: GTS NX / Slide
+  if(/Civil|Roads|Pavement/.test(folder))
+    return ["Models","Analysis","Exports","Reference"];
+  return ["Models","Exports","Reference"];                       // architecture, MEP, hydraulic, electrical, fire, HVAC
+}
+function stateNode(soft,discs){ const o={}; for(const d of discs) o[d]=soft?Object.fromEntries(wipFolders(d).map(s=>[s,{}])):{}; return o; }
+// 03_Resources — project templates, families and standards. Template subfolders
+// ARE by software here (a .rte only exists for Revit), and follow the scope.
+function resourcesNode(project){
+  const T={"Revit":{},"Excel":{}};                                  // always used
+  if(hasDisc(project,/concrete|steel|masonry|structur/i)) T["Robot"]={};
+  if(hasDisc(project,/geotech|foundation|earthwork/i)){ T["Midas-GTS-NX"]={}; T["Civil-3D"]={}; }
+  if(hasDisc(project,/civil|road|pavement|earthwork/i)) T["Civil-3D"]={};
+  if(disciplineFolders(project).length>1) T["Navisworks"]={};       // coordination needs 2+ disciplines
+  T["AutoCAD"]={};
+  return {"Templates":T,"Families":{},"Shared-Parameters":{},"Export-Settings":{}};
+}
+function isoTree(project){ const D=disciplineFolders(project); return {
+  "00_Admin_Contracts":{},
+  "01_Incoming":incomingFolders(project),
+  "02_CDE":{"01_WIP":stateNode(true,D),"02_Shared":stateNode(false,D),"03_Published":stateNode(false,D),"04_Archived":stateNode(false,D)},
+  "03_Resources":resourcesNode(project),
+  "04_Project-Documentation":{"EIR_Exchange-Info-Requirements":{},"BEP_BIM-Execution-Plan":{},"MIDP-TIDP_Delivery-Plans":{},"Container-Register":{},"ISO19650-Standards-Templates":{},"Calculation-Reports":{},"Drawings-Deliverables":{},"Meeting-Minutes":{}}
+};}
+const README_MAP={
+ // ---- top level ----
+ "00_Admin_Contracts":"Signed agreement, BIM Protocol, fee proposals and appointment letters. Admin only — no models here.",
+ "01_Incoming":"RECEPTION / QUARANTINE ONLY. Everything an external party delivers lands here first. Verify completeness, coordinates, format and naming (<=5 working days), then register a copy into 02_CDE/02_Shared. Originals stay untouched.",
+ "02_CDE":"Common Data Environment (ISO 19650-1). Four states: 01_WIP -> 02_Shared -> 03_Published -> 04_Archived. Every transition gets a row in the Container Register.",
+ "03_Resources":"Project resources used to AUTHOR the models: templates, families, shared parameters and export settings. Not deliverables — these are the tools the team works with.",
+ "04_Project-Documentation":"Information-management documents: EIR, BEP + annexes, MIDP/TIDP, Container Register, standards (LDE, User Manual), calculation reports, drawings and meeting minutes.",
+ // ---- CDE states ----
+ "01_WIP":"Work in progress. Native authoring and analysis files being developed by each task team. Private to that team — nobody works from another team's WIP.",
+ "02_Shared":"Checked containers issued for multidisciplinary coordination (status S1-S4). Read-only for other teams: link them, never edit them.",
+ "03_Published":"Client-authorised information, issued for use (status A, revision Cnn). Read-only for everyone.",
+ "04_Archived":"Superseded revisions. Immutable audit trail — never modify or delete anything here.",
+ // ---- WIP content-type subfolders ----
+ "Models":"Native authoring models (.rvt, .dwg). The live model each modeller works on. One model per discipline unless the BEP defines a split.",
+ "Analysis":"Calculation models and their runs: Robot (.rtd), CYPE, TQS, Midas GTS NX. Keep the analysis file that produced each report here.",
+ "Exports":"Files exported OUT of this discipline for others: IFC, DWG, PDF, NWC. These feed the Shared state and the federated model.",
+ "Reference":"Files coming IN from other tools or disciplines to work against (interoperability): linked CAD, IFC from another discipline, converted geometry.",
+ "Data":"Numeric outputs from analysis: result CSVs, load tables, reaction schedules exported from Robot / TQS.",
+ // ---- Incoming ----
+ "Architecture":"Architectural models and drawings delivered by the external architecture office (AR).",
+ "Geotechnical-Borehole-Data":"RAW field data delivered by the geotechnical office (GE): borehole logs, SPT/CPT results and laboratory test results — no interpretation.",
+ "Geotechnical-Report":"Interpreted geotechnical report delivered by the geotechnical office (GE): soil analysis and interpretation of field tests, bearing capacity, and slope / earth-mass stability calculations (Slide, Midas GTS, Geo5, etc.).",
+ "Topography-Survey":"Topographic survey: planialtimetric drawings, terrain surface / DTM, geodetic control points, orthophotos.",
+ "Structural-Existing":"Existing structural project delivered by the client / a third party: drawings, models or calculation reports of concrete, steel, masonry or foundations already built or previously designed.",
+ "Electrical-Existing":"Existing electrical installation delivered by the client / a third party: drawings, models or as-builts of the electrical system already in place.",
+ "Hydraulic-Existing":"Existing hydraulic / plumbing / sanitary installation delivered by the client / a third party: drawings, models or as-builts.",
+ "HVAC-Existing":"Existing HVAC / mechanical installation delivered by the client / a third party: drawings, models or as-builts.",
+ "Fire-Existing":"Existing fire-protection installation delivered by the client / a third party: drawings, models or as-builts.",
+ "MEP-Existing":"Existing MEP installations delivered by the client / a third party: electrical, hydraulic/plumbing, HVAC or fire-protection drawings, models or as-builts.",
+ "Storm-Drainage-Existing":"Existing storm-water / drainage installation delivered by the client / a third party: drawings, models or as-builts.",
+ "Gas-Existing":"Existing gas installation delivered by the client / a third party: drawings, models or as-builts.",
+ "Telecom-Existing":"Existing telecom / data cabling installation delivered by the client / a third party: drawings, models or as-builts.",
+ "Civil-Existing":"Existing civil / earthworks project delivered by the client / a third party: site works, grading, retaining, drawings or models.",
+ "Roads-Existing":"Existing roads / pavement project delivered by the client / a third party: access roads, parking, pavement drawings or models.",
+ "Acoustics-Existing":"Acoustic study delivered by the client / a third party: measurements, insulation reports, environmental noise assessments.",
+ "Environmental-Existing":"Environmental / sustainability report delivered by the client / a third party: environmental licenses, impact studies, certification requirements.",
+ "Client-Provided":"Anything the client delivers directly: existing projects, brand standards, site information.",
+ // ---- Resources ----
+ "Templates":"Project templates by software. A template only exists for one application, so they are organised by tool.",
+ "Families":"Revit families (.rfa) created or adapted for this project. Company-wide families stay in the central library.",
+ "Shared-Parameters":"Shared parameter file (.txt) used by every discipline model. One single file — never duplicate it.",
+ "Export-Settings":"Export configurations: IFC mapping tables, DWG layer export setup, PDF/print settings.",
+ "Revit":"Revit templates: .rte project templates, starter .rvt files, view templates.",
+ "Robot":"Robot Structural Analysis templates: load combinations, design codes, result table layouts.",
+ "Civil-3D":"Civil 3D templates: .dwt, surface / alignment / corridor styles, label styles.",
+ "Midas-GTS-NX":"Midas GTS NX templates: soil constitutive models, mesh and analysis presets.",
+ "Navisworks":"Navisworks setup: .nwf federation file, search sets, clash test rules and report templates.",
+ "AutoCAD":"AutoCAD templates: .dwt, plot styles (.ctb/.stb), standard blocks and title blocks.",
+ "Excel":"Spreadsheet templates (.xltx): quantity take-off, schedules, tracking and check sheets.",
+ // ---- Project documentation ----
+ "EIR_Exchange-Info-Requirements":"Exchange Information Requirements — what the Client requires per milestone. Requires Client adoption.",
+ "BEP_BIM-Execution-Plan":"BIM Execution Plan and its annexes: exchange flow matrix, IE worksheet, process maps. The BEP responds to every EIR clause.",
+ "MIDP-TIDP_Delivery-Plans":"Master and Task Information Delivery Plans: what is delivered, by whom, at which milestone, with planned and actual dates.",
+ "Container-Register":"Log of every information container transaction: state transition, status, revision, date, approver, file size, security class. This is the audit trail.",
+ "ISO19650-Standards-Templates":"Project standards: LDE Style Manual (modelling rules) and the User Manual for the team.",
+ "Calculation-Reports":"Signed calculation reports: structural analysis, foundation verification, MEP sizing.",
+ "Drawings-Deliverables":"Drawing sheets issued as deliverables (PDF/DWG), numbered per the naming convention.",
+ "Meeting-Minutes":"Minutes of every coordination and milestone meeting, using the project minutes template. The actions table is mandatory."
+};
+// Discipline code inferred from the folder, so the example in each README is contextual.
+function discCodeOf(path){
+  const s=String(path);
+  if(/Structural-Concrete/.test(s))return "STR"; if(/Structural-Steel/.test(s))return "STL";
+  if(/Structural-Masonry/.test(s))return "MAS"; if(/Hydraulic/.test(s))return "HID";
+  if(/Storm-Drainage|Drainage/.test(s))return "DRA";
+  if(/Fire-Fighting/.test(s))return "FIR"; if(/Electrical/.test(s))return "ELE"; if(/Telecom/.test(s))return "ELV";
+  if(/Foundations/.test(s))return "FDN";
+  if(/Civil|Earthworks/.test(s))return "CIV"; if(/Geotechnical/.test(s))return "GEO";
+  if(/Roads|Pavement/.test(s))return "ROA"; if(/Gas/.test(s))return "GAS"; if(/HVAC|Mechanical/.test(s))return "MEC";
+  if(/Acoustics/.test(s))return "ACO"; if(/Sustainability|Environmental/.test(s))return "SUS"; if(/Topography|Survey/.test(s))return "TOP";
+  if(/Architecture/.test(s))return "ARC";
+  return "ZZZ";
+}
+function namingBlock(path){
+  const p=curProj||{}, code=p.code||"XX", or=originatorOf(p), d=discCodeOf(path);
+  const isReport=/Calculation-Reports|Container-Register|Documentation|Meeting|EIR|BEP|MIDP/.test(String(path));
+  const type=isReport?"RP":"M3", lvl=isReport?"XX":"ZZ";
+  return `
+## Naming convention (every file in this folder)
+
+\`{Project}-{Originator}-{Level}-{Type}-{Discipline}-{Number}_{Status}_{Revision}\`
+
+Example for this folder: \`${code}-${or}-${lvl}-${type}-${d}-0001_S2_P01\`
+
+| Field | This example | Meaning |
+|---|---|---|
+| Project | ${code} | Project code |
+| Originator | ${or} | Who authored it (${or} = us · AR = architect · GE = geotechnical office · CL = client) |
+| Level | ${lvl} | **Building level.** ZZ = several levels · XX = no level applies (reports, schedules) · 00 = ground floor · 01, 02… · B1 = basement |
+| Type | ${type} | M3 = 3D model · M2 = 2D file · DR = drawing · RP = report · SP = spreadsheet · CM = communication · VS = visualisation |
+| Discipline | ${d} | STR = structural concrete · STL = steel · MAS = masonry · HID = hydraulic · FIR = fire · ELE = electrical · GEO = geotechnical · ARC = architecture · MEC = HVAC/mechanical · CRD = coordination · ZZZ = multidisciplinary |
+| Number | 0001 | Sequential within that combination |
+| Status | S2 | S0 = WIP · S1 coordination · S2 information · S3 review · S4 approval · A = published |
+| Revision | P01 | P01, P02… preliminary (status S0–S4) · C01, C02… contractual (status A) |
+
+If a model ever has to be split (size rule), keep the same Level and Discipline and use consecutive Numbers (\`0001\`, \`0002\`…). There is **no Volume field** in this convention.
+
+Codes must come from these tables. Never invent one — a new code is registered through a BEP revision first.
+
+## Why the discipline folder numbers skip (00, 01, 02, 04, 07…)
+
+Each discipline keeps a **fixed** number across every project of the office, so a gap simply means that discipline is **not contracted here**:
+
+| Nr | Discipline | Nr | Discipline |
+|---|---|---|---|
+| 00 | Architecture | 05 | Fire-Fighting |
+| 01 | Structural Concrete | 06 | Electrical |
+| 02 | Structural Steel | 07 | Geotechnical |
+| 03 | Structural Masonry | 08 | Foundations |
+| 04 | Hydraulic | 09+ | Others (HVAC, Civil, Roads…) |
+
+Deliberate choice: \`01\` is **always** structural concrete and \`04\` is **always** hydraulic, in every project. Renumbering them consecutively would make the same number mean different things from one project to the next and break traceability between projects, the Container Register and the MIDP.
+`;
+}
+function readmeFor(name,path){
+  const purpose=README_MAP[name]||"ISO 19650 project folder.";
+  const inCDE=/02_CDE/.test(String(path)) || /Drawings|Calculation-Reports|Container-Register/.test(name);
+  return `# ${name}\n\n${purpose}\n\n- **Path:** ${path}\n- **Project:** ${curProj?curProj.name:""} (${curProj?curProj.code:""})\n- **Generated by MC:** ${new Date().toLocaleString()}\n`
+    + (inCDE?namingBlock(path):"");
+}
+async function writeText(dir,name,content){ const fh=await dir.getFileHandle(name,{create:true}); const w=await fh.createWritable(); await w.write(content); await w.close(); }
+let treeCount=0;
+async function makeTree(parent,node,path){ for(const [name,child] of Object.entries(node)){ const dir=await parent.getDirectoryHandle(name,{create:true}); treeCount++; await writeText(dir,"_README.md",readmeFor(name,path+"/"+name)); if(child&&Object.keys(child).length) await makeTree(dir,child,path+"/"+name); } }
+function rootReadme(p){ return `# ${p.name}\n\n**Code:** ${p.code}  ·  **Client:** ${p.client}  ·  **Address:** ${p.address}\n\nISO 19650 project structure generated by MC (BIM Mission Control) on ${new Date().toLocaleString()} by ${me?me.name:"?"}.\n\n## Folder map\n- 00_Admin_Contracts - contracts, fees\n- 01_Incoming - quarantine for external deliveries\n- 02_CDE - WIP / Shared / Published / Archived (disciplines 00-07; WIP by content type)\n- 04_Project-Documentation - EIR, BEP, MIDP/TIDP, register, standards, reports, drawings, minutes\n`; }
+let _pendingRoot=null;
+async function createProjectTree(){
+  if(!curProj){ toast("Pick a project first"); return; }
+  if(!("showDirectoryPicker" in window)){ toast("Your browser can't create folders. Use Chrome/Edge."); return; }
+  if(!ensureMe())return;
+  let parent; try{ parent=await window.showDirectoryPicker({mode:"readwrite"}); }catch(e){ if(e.name==="AbortError")return; toast("Could not open the folder: "+e.message); return; }
+  // Resolve the template library from cache / auto-detect ONLY.
+  // A browser allows just ONE directory picker per click, and the parent picker
+  // above already consumed it — so never open a second picker here.
+  const std=await findStd(parent);
+  if(!std) toast("Template library not linked — folders will be created without documents. Use 'Link _BASELINE DOCUMENTS' first.");
+  const st=$("#tree-status"); st.textContent=" Creating…"; treeCount=0;
+  try{
+    const root=await parent.getDirectoryHandle(curProj.name,{create:true});
+    await writeText(root,"README.md",rootReadme(curProj));
+    await makeTree(root,isoTree(curProj),"");
+    st.textContent=` Done · ${treeCount} folders in "${curProj.name}"`;
+    logChange("created ISO 19650 folder tree","",treeCount+" folders");
+    toast(`Created: ${treeCount} folders`);
+    _pendingRoot=root; try{ await idbSet("proj_"+curProj.id,root); }catch(e){} $("#dlg-docs").showModal();
+  }catch(e){ st.textContent=" Error: "+e.message; toast("Error creating folders: "+e.message); }
+}
+document.addEventListener("click",e=>{ if(e.target.id==="create-tree") createProjectTree(); });
+
+/* ---------- .xlsx engine (pure JS, no library — validated) ---------- */
+const _CRC=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1);t[n]=c>>>0;}return t;})();
+function _crc32(b){let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=_CRC[(c^b[i])&0xFF]^(c>>>8);return (c^0xFFFFFFFF)>>>0;}
+function _sb(s){return new TextEncoder().encode(s);}
+function _zip(files){const chunks=[],central=[];let off=0;const dt=0,dd=0x21;for(const f of files){const nb=_sb(f.name),data=f.data,crc=_crc32(data);const lh=new DataView(new ArrayBuffer(30));lh.setUint32(0,0x04034b50,true);lh.setUint16(4,20,true);lh.setUint16(8,0,true);lh.setUint16(10,dt,true);lh.setUint16(12,dd,true);lh.setUint32(14,crc,true);lh.setUint32(18,data.length,true);lh.setUint32(22,data.length,true);lh.setUint16(26,nb.length,true);chunks.push(new Uint8Array(lh.buffer),nb,data);const ch=new DataView(new ArrayBuffer(46));ch.setUint32(0,0x02014b50,true);ch.setUint16(4,20,true);ch.setUint16(6,20,true);ch.setUint16(12,dt,true);ch.setUint16(14,dd,true);ch.setUint32(16,crc,true);ch.setUint32(20,data.length,true);ch.setUint32(24,data.length,true);ch.setUint16(28,nb.length,true);ch.setUint32(42,off,true);central.push(new Uint8Array(ch.buffer),nb);off+=30+nb.length+data.length;}let cs=0;for(const c of central)cs+=c.length;const eo=new DataView(new ArrayBuffer(22));eo.setUint32(0,0x06054b50,true);eo.setUint16(8,files.length,true);eo.setUint16(10,files.length,true);eo.setUint32(12,cs,true);eo.setUint32(16,off,true);const all=[...chunks,...central,new Uint8Array(eo.buffer)];let tot=0;for(const c of all)tot+=c.length;const out=new Uint8Array(tot);let p=0;for(const c of all){out.set(c,p);p+=c.length;}return out;}
+/* ---------- helpers still in use ---------- */
+function originatorOf(p){ const t=(p.team||[]); const bm=t.find(x=>/BIM Manager|Lead/i.test(x.label)&&x.person)||t.find(x=>x.person); if(bm&&bm.person){const m=bm.person.match(/\(([A-Z]{1,3})\)/); if(m)return m[1]; return bm.person.split(/\s+/).filter(Boolean).map(w=>w[0]).slice(0,2).join("").toUpperCase();} return "XX"; }
+
+/* ---------- write binary docs into the ISO 19650 tree ---------- */
+async function writeBytes(dir,name,bytes){ const fh=await dir.getFileHandle(name,{create:true}); const w=await fh.createWritable(); await w.write(bytes); await w.close(); }
+async function getPath(root,parts){ let d=root; for(const part of parts) d=await d.getDirectoryHandle(part,{create:true}); return d; }
+/* ---------- _BaseLine Documents (template library) — copy, not generate ---------- */
+function _idbReq(fn){ return new Promise((res,rej)=>{ const o=indexedDB.open("mc-store",1); o.onupgradeneeded=()=>o.result.createObjectStore("kv"); o.onsuccess=()=>{ try{ const tx=o.result.transaction("kv","readwrite"); const r=fn(tx.objectStore("kv")); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }catch(e){ rej(e); } }; o.onerror=()=>rej(o.error); }); }
+const idbGet=k=>_idbReq(os=>os.get(k)).catch(()=>null);
+const idbSet=(k,v)=>_idbReq(os=>os.put(v,k)).catch(()=>null);
+async function verifyPerm(h,mode){ try{ const o={mode:mode||"read"}; if((await h.queryPermission(o))==="granted")return true; if((await h.requestPermission(o))==="granted")return true; }catch(e){} return false; }
+let stdHandle=null;
+const BASELINE_NAMES=["_BASELINE DOCUMENTS","_BaseLine Documents","_Baseline Documents","_baseline documents","Documents Standard"];
+// Try, in order: cached handle -> IndexedDB -> auto-detect inside the chosen parent folder.
+async function findStd(parentDir){
+  if(stdHandle && await verifyPerm(stdHandle)) return stdHandle;
+  const saved=await idbGet("stdDir");
+  if(saved && await verifyPerm(saved)){ stdHandle=saved; return stdHandle; }
+  if(parentDir){
+    for(const nm of BASELINE_NAMES){
+      try{ const h=await parentDir.getDirectoryHandle(nm); stdHandle=h; await idbSet("stdDir",h); return h; }catch(e){}
+    }
+    // case-insensitive scan as a fallback
+    try{ for await(const [name,handle] of parentDir.entries()){
+      if(handle.kind==="directory" && /baseline|documents standard/i.test(name)){ stdHandle=handle; await idbSet("stdDir",handle); return handle; }
+    } }catch(e){}
+  }
+  return null;
+}
+// MUST be called directly from a user gesture (click), never from a dialog 'close' event.
+async function pickStd(){
+  toast("One-time: select your _BASELINE DOCUMENTS folder (the template SOURCE)");
+  const h=await window.showDirectoryPicker({mode:"read"});
+  stdHandle=h; await idbSet("stdDir",h); return h;
+}
+async function getStdHandle(parentDir){
+  const found=await findStd(parentDir);
+  if(found) return found;
+  throw new Error("template library not linked — use 'Link _BASELINE DOCUMENTS'");
+}
+// Count real documents (ignores auto-generated readmes) so linking gives instant feedback.
+async function countDocs(dir,depth){
+  let n=0;
+  for await(const [name,h] of dir.entries()){
+    const low=name.toLowerCase();
+    if(h.kind==="file"){ if(low!=="readme.md"&&low!=="_readme.md") n++; }
+    else { if(depth===0&&(name==="01_Incoming"||name==="02_CDE")) continue; n+=await countDocs(h,depth+1); }
+  }
+  return n;
+}
+async function paintStd(){
+  const el=$("#std-state"); if(!el)return;
+  const h=await findStd(null);
+  if(!h){ el.textContent="not linked"; el.style.color="var(--tbd)"; return; }
+  try{ const n=await countDocs(h,0); el.textContent=`${h.name} · ${n} documents`; el.style.color=n?"var(--ok)":"var(--gate)"; }
+  catch(e){ el.textContent=h.name+" (linked)"; el.style.color="var(--ok)"; }
+}
+document.addEventListener("click",async e=>{
+  if(e.target.id!=="link-std")return;
+  try{
+    const h=await pickStd();            // own click gesture -> picker allowed
+    const n=await countDocs(h,0);
+    toast(n?`Linked: ${h.name} · ${n} documents found`:`Linked ${h.name}, but it has NO documents`);
+    logChange("linked template library","",h.name+" ("+n+" docs)");
+    paintStd();
+  }catch(err){ if(err.name!=="AbortError") toast("Could not link: "+err.message); }
+});
+function renameToProject(name,project){ const or=originatorOf(project); return name.startsWith("XX-XX-")?(project.code+"-"+or+"-"+name.slice(6)):name; }
+
+/* ===== Template filling: {{TOKEN}} -> real project data (docx / xlsx / md) ===== */
+function tokenMap(p){
+  const or=originatorOf(p), t=(p.team||[]), c=p.clientData||{}, ct=p.contract||{}, dm=p.docMeta||{}, ex=p.externals||{};
+  const who=lbl=>{ const r=t.find(x=>new RegExp(lbl,"i").test(x.label||"")); return r&&r.person?r.person:""; };
+  const m={
+    PROJECT_NAME:p.name||"", CODE:p.code||"", OR:or, CLIENT:p.client||"", ADDRESS:p.address||"",
+    AUTHOR:who("BIM Manager")||who("Lead")||"", DOC_VERSION:dm.version||"1.0", DOC_DATE:dm.date||"",
+    CLIENT_LEGAL:ct.client_legal||"", CLIENT_REG:ct.client_reg||"", OUR_LEGAL:ct.our_legal||"", OUR_REG:ct.our_reg||"",
+    FEE:ct.fee||"", CURRENCY:ct.currency||"", PAYMENT:ct.payment||"", LAW:ct.law||"", DISPUTE:ct.dispute||"",
+    CONTRACT_NO:p.contractNo||"", QUOTE:p.quote||"",
+    CLIENT_REP:c.ap_rep||who("Client representative")||"", CLIENT_CONTACT:c.ap_contact||"",
+    OIR:c.oir||"", PIR:c.pir||"", AIR:c.air||"", BRAND:c.brand||"",
+    AR_OFFICE:ex.ar_office||"", GE_OFFICE:ex.ge_office||"",
+    INFO_MANAGER:who("Information Manager"), BIM_MANAGER:who("BIM Manager"), BIM_COORDINATOR:who("BIM Coordinator"),
+    MODELLER_S:who("Structural Concrete")||who("Structural Steel")||who("Structural"),
+    MODELLER_H:who("Hydraulic")||who("Sanitary"),
+    CALC_STRUCTURAL:who("Structural calculist")||who("Structural Concrete"),
+    CALC_FOUNDATIONS:who("Foundations calculist")||who("Foundation")||who("Geotech"),
+    GEOTECH_ENGINEER:who("Geotech")||who("Foundation"),
+    DISCIPLINES:(t.filter(x=>x.kind==="Discipline").map(x=>x.label).join(", "))
+  };
+  (p.milestones||[]).forEach(ms=>{ const k=(ms.code||"").toUpperCase(); if(!k)return;
+    m[k+"_DATE"]=ms.planned||""; m[k+"_ACTUAL"]=ms.actual||""; m[k+"_NAME"]=ms.name||""; m[k+"_CODE"]=ms.code||""; });
+  // M1..M9 always resolve, even if that milestone was removed, so no token is left raw
+  for(let i=1;i<=9;i++){ ["_DATE","_ACTUAL","_NAME","_CODE"].forEach(sfx=>{ const k="M"+i+sfx; if(!(k in m)) m[k]=""; }); }
+  return m;
+}
+/* --- Repeating rows: one template row in the file becomes N rows, one per team member --- */
+const ROLE_AUTHORITY={
+ "Information Manager":"CDE + Container Register + incoming verification",
+ "BIM Manager":"Standards/LDE + BEP + approves model splits",
+ "BIM Coordinator":"Federation + clash detection + coordination meetings",
+ "Client representative":"Authorises Shared to Published; adopts the EIR",
+ "Appointing Party (Client)":"Commissions the information; receives milestone data drops",
+ "Lead Appointed Party":"Coordinates delivery of information",
+ "Project Manager":"Overall project delivery","Document Controller":"Numbering, revisions and issue control",
+ "Legal reviewer":"Reviews Agreement and BIM Protocol before signature"
+};
+function authorityFor(t){
+  if(ROLE_AUTHORITY[t.label]) return ROLE_AUTHORITY[t.label];
+  if(t.kind==="Discipline") return "Authors and shares the "+(t.label||"")+" models; runs the pre-share checklist";
+  if(t.kind==="Site") return "Site execution and supervision";
+  if(t.kind==="Supplier") return "Supplies materials / services";
+  return "Defined in the BEP";
+}
+const DISC_NORMALIZE={S:"STR",ST:"STL",SM:"MAS",H:"HID",E:"ELE",G:"GEO",Z:"ZZZ",IN:"HID"};
+const discLetter=l=>{ const m=(l||"").match(/\(([A-Z]{1,4})\)/); if(m){const c=m[1]; return DISC_NORMALIZE[c]||c;} const s=(l||"").toLowerCase();
+  if(s.includes("architect")||s.includes("facade")||s.includes("envelope")||s.includes("interior")||s.includes("landscape"))return "ARC";
+  if(s.includes("concrete"))return "STR"; if(s.includes("steel")||s.includes("lift")||s.includes("vertical transport")||s.includes("elevator"))return "STL";
+  if(s.includes("masonry"))return "MAS"; if(s.includes("hydraul")||s.includes("sanitary"))return "HID"; if(s.includes("storm")||s.includes("drainage"))return "DRA";
+  if(s.includes("fire"))return "FIR"; if(s.includes("electr"))return "ELE"; if(s.includes("telecom"))return "ELV"; if(s.includes("foundation"))return "FDN";
+  if(s.includes("civil")||s.includes("earthwork"))return "CIV"; if(s.includes("geotech"))return "GEO"; if(s.includes("road")||s.includes("pavement"))return "ROA"; if(s.includes("gas"))return "GAS";
+  if(s.includes("acoustic"))return "ACO"; if(s.includes("sustainab")||s.includes("environmental"))return "SUS"; if(s.includes("topograph")||s.includes("survey"))return "TOP";
+  if(s.includes("hvac")||s.includes("mechanical"))return "MEC"; return "ZZZ"; };
+// originator initials from a person's name (reuses the "(XX)" suffix if present)
+function initialsOf(person){ if(!person)return ""; const m=person.match(/\(([A-Z]{1,3})\)/); if(m)return m[1]; return person.split(/\s+/).filter(Boolean).map(w=>w[0]).slice(0,2).join("").toUpperCase(); }
+// model information-need development per milestone, by discipline type (MOD-development / IE-Worksheet)
+const LOD_DEV={
+  ext:{M1:"Ref",M2:"Ref",M3:"Ref",M4:"Ref",M5:"Ref"},
+  crd:{M1:"-",M2:"First federation",M3:"Clash cycles",M4:"Clash-free",M5:"As-designed"},
+  std:{M1:"-",M2:"Concept",M3:"Developed",M4:"Coordinated",M5:"For construction"}
+};
+function lodFor(code){ if(code==="GEO"||code==="ARC")return LOD_DEV.ext; if(code==="CRD")return LOD_DEV.crd; return LOD_DEV.std; }
+function teamRows(p){
+  const projOR=originatorOf(p);
+  return ((p&&p.team)||[]).filter(t=>t.label).map((t,i)=>{
+    const code=discLetter(t.label), lod=lodFor(code), isExt=(code==="GEO"||code==="ARC");
+    return {
+      ROW_ROLE:t.label, ROW_PERSON:t.person||"[TO BE DEFINED]", ROW_AUTHORITY:authorityFor(t),
+      ROW_EMAIL:t.email||"", ROW_TYPE:t.kind||"", ROW_DISC:code, ROW_N:String(i+1),
+      ROW_OR:initialsOf(t.person)||projOR,
+      ROW_M1:lod.M1, ROW_M2:lod.M2, ROW_M3:lod.M3, ROW_M4:lod.M4, ROW_M5:lod.M5,
+      ROW_NOTE:isExt?"External (TO BE DEFINED)":""
+    };
+  });
+}
+// only disciplines — used by the TIDP / Container Register (one row per discipline)
+function disciplineRows(p){ return teamRows(p).filter(r=>r.ROW_TYPE==="Discipline"); }
+
+/* --- Deliverable RULES (fixed office standard, same for every project) ---
+   Internal design disciplines deliver Model + calculation report + drawings.
+   External/incoming (GEO, ARC) deliver a single container. Coordination (CRD)
+   delivers the federated model + clash reports. Types: M3 model, RP report, DR drawing. */
+const DELIV_RULES={
+  STR:["M3","RP","DR"], STL:["M3","RP","DR"], MAS:["M3","RP","DR"], FDN:["M3","RP","DR"],
+  HID:["M3","RP","DR"], ELE:["M3","RP","DR"], FIR:["M3","RP","DR"], MEC:["M3","RP","DR"],
+  GEO:["RP"], ARC:["M3"], CRD:["M3","RP"]
+};
+const TYPE_WORD={M3:"Model",RP:"calculation report",DR:"drawings"};
+function delivSummary(code){
+  if(code==="GEO") return "Geotechnical report (incoming)";
+  if(code==="ARC") return "Reference model (incoming)";
+  if(code==="CRD") return "Federated model, clash reports";
+  return (DELIV_RULES[code]||["M3","RP","DR"]).map(t=>TYPE_WORD[t]||t).join(", ");
+}
+// One row per discipline in scope (+ an auto CRD coordination row) for the Agreement "Disciplines in scope" table
+function scopeRowsFrom(discRows,allRows){
+  const out=discRows.map(r=>({
+    DISC_CODE:r.ROW_DISC,
+    DISC_NAME:(r.ROW_ROLE||"").replace(/\s*\([A-Z]{1,4}\)\s*$/,"").trim(),
+    DISC_DELIV:delivSummary(r.ROW_DISC)
+  }));
+  if(discRows.length>=2 || (allRows||[]).some(r=>/coordinator/i.test(r.ROW_ROLE||"")))
+    out.push({DISC_CODE:"CRD",DISC_NAME:"3D coordination",DISC_DELIV:delivSummary("CRD")});
+  return out;
+}
+
+// discipline display names for deliverable titles
+const DISC_NAME={STR:"Structural concrete",STL:"Structural steel",MAS:"Structural masonry",FDN:"Foundation",HID:"Hydraulic",ELE:"Electrical",FIR:"Fire-fighting",MEC:"HVAC",GEO:"Geotechnical",ARC:"Architecture",CRD:"Coordination",DRA:"Storm drainage",GAS:"Gas",CIV:"Civil / earthworks",ROA:"Roads / pavement",ACO:"Acoustics",SUS:"Sustainability",TOP:"Topography / survey",ELV:"Telecom / data"};
+const TYPE_TITLE={M3:"model",RP:"calculation report",DR:"drawings"};
+// One row per DELIVERABLE (MIDP / Container Register). Internal design disciplines = model + calc report + drawings.
+function deliverableRowsFrom(rows){
+  const discs=rows.filter(r=>r.ROW_TYPE==="Discipline");
+  const lead=rows.find(r=>/BIM Manager|Lead/i.test(r.ROW_ROLE||"")&&r.ROW_OR);
+  const projOR=(lead&&lead.ROW_OR)||(discs[0]&&discs[0].ROW_OR)||"XX";
+  const out=[], cnt={}, seen=new Set();
+  const add=(code,or,level,type,title,ms,notes)=>{
+    const k=type+code; cnt[k]=(cnt[k]||0)+1;
+    out.push({DEL_N:String(out.length+1),DEL_DISC:code,DEL_OR:or||projOR,DEL_LEVEL:level,DEL_TYPE:type,DEL_NUM:String(cnt[k]).padStart(4,"0"),DEL_TITLE:title,DEL_MS:ms,DEL_NOTES:notes,DEL_STATUS:(notes||"").indexOf("External")===0?"-":"S0"});
+  };
+  discs.forEach(d=>{
+    const code=d.ROW_DISC; if(seen.has(code))return; seen.add(code);
+    const or=d.ROW_OR||projOR, nm=DISC_NAME[code]||code;
+    if(code==="GEO"){ add("GEO",or,"XX","RP",nm+" report (incoming)","Before M2","External - TO BE DEFINED"); return; }
+    if(code==="ARC"){ add("ARC",or,"ZZ","M3",nm+" reference (incoming)","Before drops","External - TO BE DEFINED"); return; }
+    add(code,or,"ZZ","M3",nm+" model","M2-M5","From TIDP-"+code);
+    add(code,or,"XX","RP",nm+" calculation report","M3-M5","From TIDP-"+code);
+    add(code,or,"XX","DR",nm+" drawings","M4-M5","From TIDP-"+code);
+  });
+  if(discs.length>=2 || rows.some(r=>/coordinator/i.test(r.ROW_ROLE||"")))
+    add("CRD",projOR,"ZZ","M3","Federated model + clash report","M2-M5","Coordination");
+  return out;
+}
+
+// docx: clone the <w:tr> that carries {{ROW_ROLE}} once per team member
+function expandDocxRows(xml,rows){
+  return xml.replace(/<w:tr[ >][\s\S]*?<\/w:tr>/g,tr=>{
+    if(tr.indexOf("{{ROW_ROLE}}")<0) return tr;
+    if(!rows.length) return "";
+    return rows.map(r=>tr.replace(/\{\{(ROW_[A-Z0-9]+)\}\}/g,(m,k)=>xmlEscVal(r[k]!==undefined?r[k]:""))).join("");
+  });
+}
+// docx: clone the <w:tr> carrying a prefixed token (e.g. {{DISC_CODE}}) once per row in the set
+function expandDocxRowsPfx(xml,rows,marker,pfx){
+  const re=new RegExp("\\{\\{("+pfx+"[A-Z_]+)\\}\\}","g");
+  return xml.replace(/<w:tr[ >][\s\S]*?<\/w:tr>/g,tr=>{
+    if(tr.indexOf(marker)<0) return tr;
+    if(!rows.length) return "";
+    return rows.map(r=>tr.replace(re,(m,k)=>xmlEscVal(r[k]!==undefined?r[k]:""))).join("");
+  });
+}
+// xlsx: clone the <row> that carries a {{ROW_*}} token once per data row.
+// Cells are converted to inline strings so each clone can hold its own text
+// (shared-string cells would all point at the same entry), then rows and cell
+// references are renumbered so Excel still opens the sheet.
+function expandXlsxRows(xml,shared,rows,map,pfx){
+  pfx=pfx||"ROW_";
+  if(xml.indexOf("<row")<0) return xml;
+  const parts=xml.split(/(<row[\s\S]*?<\/row>)/);
+  const resolve=body=>{ let txt="";
+    body.replace(/<c\b[^>]*>[\s\S]*?<\/c>|<c\b[^>]*\/>/g,c=>{
+      const s=/t="s"/.test(c)&&/<v>(\d+)<\/v>/.exec(c);
+      if(s) txt+=(shared[+s[1]]||"")+" ";
+      const inl=/<is>[\s\S]*?<t[^>]*>([\s\S]*?)<\/t>/.exec(c); if(inl) txt+=inl[1]+" ";
+      return c; });
+    return txt; };
+  const unesc=s=>String(s).replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,"&");
+  const cellText=c=>{ const s=/t="s"/.test(c)&&/<v>(\d+)<\/v>/.exec(c);
+    if(s) return unesc(shared[+s[1]]||"");
+    const inl=/<is>[\s\S]*?<t[^>]*>([\s\S]*?)<\/t>/.exec(c); return inl?unesc(inl[1]):null; };
+  const out=parts.map(p=>{
+    if(!/^<row/.test(p)) return p;
+    const body=p;
+    if(resolve(body).indexOf("{{"+pfx)<0) return p;
+    if(!rows.length) return "";
+    const tokRe=new RegExp("\\{\\{("+pfx+"[A-Z0-9]+)\\}\\}","g");
+    return rows.map(r=>{
+      return body.replace(/<c\b[^>]*>[\s\S]*?<\/c>|<c\b[^>]*\/>/g,c=>{
+        let txt=cellText(c); if(txt===null) return c;
+        const filled=fillText(txt.replace(tokRe,(m,k)=>r[k]!==undefined?r[k]:""),map,false);
+        const ref=(/r="([A-Z]+\d+)"/.exec(c)||[])[1]||"";
+        const st=(/s="(\d+)"/.exec(c)||[])[1];
+        return `<c r="${ref}"${st!==undefined?` s="${st}"`:""} t="inlineStr"><is><t xml:space="preserve">${xmlEscVal(filled)}</t></is></c>`;
+      });
+    }).join(" ROWSPLIT ");
+  }).join("");
+  // renumber every <row r> and cell r= so Excel accepts the file
+  let n=0;
+  return out.split(" ROWSPLIT ").join("").replace(/<row([^>]*)r="(\d+)"([^>]*)>([\s\S]*?)<\/row>/g,(m,a,old,b,body)=>{
+    n++;
+    const nb=body.replace(/(<c\b[^>]*?r=")([A-Z]+)\d+(")/g,(mm,p1,col,p3)=>p1+col+n+p3);
+    return `<row${a}r="${n}"${b}>${nb}</row>`;
+  });
+}
+// markdown: repeat the "| {{ROW_ROLE}} | …" line
+function expandMdRows(txt,rows){
+  return txt.split("\n").map(l=>{
+    if(l.indexOf("{{ROW_ROLE}}")<0) return l;
+    return rows.map(r=>l.replace(/\{\{(ROW_[A-Z0-9]+)\}\}/g,(m,k)=>r[k]!==undefined?r[k]:"")).join("\n");
+  }).join("\n");
+}
+/* Word splits text into runs while you edit, so a token can end up as
+   <w:t>{{PROJECT</w:t>…<w:t>_NAME}}</w:t> and stop matching. Before replacing,
+   rejoin each paragraph's runs whenever a token is broken across them. This makes
+   the templates safe to edit by hand. */
+function healSplitTokens(xml){
+  return xml.replace(/<w:p[ >][\s\S]*?<\/w:p>/g,para=>{
+    const runs=para.match(/<w:t(?:\s[^>]*)?>[\s\S]*?<\/w:t>/g);
+    if(!runs||runs.length<2) return para;
+    const texts=runs.map(r=>r.replace(/^<w:t(?:\s[^>]*)?>/,"").replace(/<\/w:t>$/,""));
+    const joined=texts.join("");
+    // only act when the joined text has a token that no single run holds
+    if(!/\{\{[A-Z_0-9]+\}\}/.test(joined)) return para;
+    if(texts.some(t=>/\{\{[A-Z_0-9]+\}\}/.test(t)) && !/\{\{[^}]*$/.test(texts.join("|"))){
+      const whole=joined.match(/\{\{[A-Z_0-9]+\}\}/g)||[];
+      const inRuns=texts.join(" ").match(/\{\{[A-Z_0-9]+\}\}/g)||[];
+      if(whole.length===inRuns.length) return para;   // nothing is split
+    }
+    let first=true;
+    return para.replace(/<w:t(?:\s[^>]*)?>[\s\S]*?<\/w:t>/g,r=>{
+      if(first){ first=false; return r.replace(/>[\s\S]*?<\/w:t>$/,'>'+joined.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")+'</w:t>'); }
+      return r.replace(/>[\s\S]*?<\/w:t>$/,'></w:t>');
+    });
+  });
+}
+const TOKEN_RE=/\{\{([A-Z_0-9]+)\}\}/g;
+const xmlEscVal=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function fillText(txt,map,forXml){ return txt.replace(TOKEN_RE,(m,k)=>{ if(!(k in map))return m; const v=map[k]||""; return forXml?xmlEscVal(v):v; }); }
+
+async function inflateRaw(bytes){
+  const s=new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
+  return new Uint8Array(await new Response(s).arrayBuffer());
+}
+async function unzipEntries(buf){
+  const u=new Uint8Array(buf), dv=new DataView(u.buffer);
+  let eocd=-1;
+  for(let i=u.length-22;i>=0&&i>u.length-66000;i--){ if(dv.getUint32(i,true)===0x06054b50){eocd=i;break;} }
+  if(eocd<0) throw new Error("not a zip file");
+  const count=dv.getUint16(eocd+10,true); let off=dv.getUint32(eocd+16,true);
+  const out=[];
+  for(let n=0;n<count;n++){
+    if(dv.getUint32(off,true)!==0x02014b50) break;
+    const method=dv.getUint16(off+10,true), csize=dv.getUint32(off+20,true);
+    const nlen=dv.getUint16(off+28,true), elen=dv.getUint16(off+30,true), clen=dv.getUint16(off+32,true);
+    const lho=dv.getUint32(off+42,true);
+    const name=new TextDecoder().decode(u.subarray(off+46,off+46+nlen));
+    const lnlen=dv.getUint16(lho+26,true), lelen=dv.getUint16(lho+28,true);
+    const start=lho+30+lnlen+lelen;
+    const raw=u.subarray(start,start+csize);
+    out.push({name,method,raw});
+    off+=46+nlen+elen+clen;
+  }
+  return out;
+}
+async function fillDocument(name,buf,map,rows){
+  rows=rows||[];
+  if(/\.(md|txt|csv)$/i.test(name)){
+    let txt=new TextDecoder().decode(new Uint8Array(buf));
+    txt=expandMdRows(txt,rows);                       // repeat team rows first
+    return _sb(fillText(txt,map,false));
+  }
+  if(!/\.(docx|xlsx|pptx)$/i.test(name)) return new Uint8Array(buf);   // other binaries: copy as-is
+  let entries; try{ entries=await unzipEntries(buf); }catch(e){ return new Uint8Array(buf); }
+  // xlsx: resolve sharedStrings first so row templates can be detected
+  let shared=[];
+  const ss=entries.find(e=>/sharedStrings\.xml$/i.test(e.name));
+  if(ss){
+    const sx=new TextDecoder().decode(ss.method===8?await inflateRaw(ss.raw):ss.raw);
+    shared=(sx.match(/<si>[\s\S]*?<\/si>/g)||[]).map(si=>(si.match(/<t[^>]*>([\s\S]*?)<\/t>/g)||[]).map(t=>t.replace(/<[^>]+>/g,"")).join(""));
+  }
+  const dRows=/\.xlsx$/i.test(name)
+    ? rows.filter(r=>r.ROW_TYPE==="Discipline").map((r,i)=>Object.assign({},r,{ROW_N:String(i+1)}))
+    : rows;
+  const files=[];
+  for(const e of entries){
+    let data = e.method===8 ? await inflateRaw(e.raw) : e.raw.slice();
+    if(/\.(xml|rels)$/i.test(e.name)){
+      let xml=new TextDecoder().decode(data);
+      if(/^word\//i.test(e.name)) xml=healSplitTokens(xml);      // repair hand-edited templates
+      if(/worksheets\//i.test(e.name)){
+        xml=expandXlsxRows(xml,shared,dRows.length?dRows:rows,map,"ROW_");       // per-discipline rows (TIDP, MOD, Container Register summary)
+        const delRows=deliverableRowsFrom(rows);
+        if(delRows.length) xml=expandXlsxRows(xml,shared,delRows,map,"DEL_");    // per-deliverable rows (MIDP, Container Register)
+      }
+      if(xml.indexOf("{{ROW_ROLE}}")>=0) xml=expandDocxRows(xml,rows);   // repeat team rows first
+      if(xml.indexOf("{{DISC_CODE}}")>=0) xml=expandDocxRowsPfx(xml,scopeRowsFrom(rows.filter(r=>r.ROW_TYPE==="Discipline"),rows),"{{DISC_CODE}}","DISC_");  // disciplines-in-scope table
+      TOKEN_RE.lastIndex=0;
+      if(TOKEN_RE.test(xml)){ TOKEN_RE.lastIndex=0; xml=fillText(xml,map,true); }
+      TOKEN_RE.lastIndex=0;
+      data=_sb(xml);
+    }
+    files.push({name:e.name,data});
+  }
+  return _zip(files);   // rewritten as a STORE zip — Word/Excel accept it
+}
+async function copyTree(srcDir,dstDir,project,report,depth,map,rows){
+  for await(const [name,handle] of srcDir.entries()){
+    if(handle.kind==="file"){
+      const lower=name.toLowerCase();
+      if(lower==="readme.md"||lower==="_readme.md") continue;  // auto readmes, not copied
+      const buf=await (await handle.getFile()).arrayBuffer();
+      const outName=renameToProject(name,project);
+      const filled=await fillDocument(name,buf,map,rows);     // {{TOKEN}} + repeating team rows
+      const fh=await dstDir.getFileHandle(outName,{create:true}); const w=await fh.createWritable(); await w.write(filled); await w.close();
+      report.push(outName);
+    } else {
+      if(depth===0 && (name==="01_Incoming"||name==="02_CDE")) continue;  // CDE is scope-driven, created separately
+      const sub=await dstDir.getDirectoryHandle(name,{create:true});
+      await copyTree(handle,sub,project,report,depth+1,map,rows);
+    }
+  }
+}
+async function genDocs(root,project,parentDir){
+  const std=await getStdHandle(parentDir);
+  if(!std) throw new Error("_BASELINE DOCUMENTS folder not available");
+  const report=[];
+  await copyTree(std,root,project,report,0,tokenMap(project),teamRows(project));
+  if(!report.length) throw new Error("_BASELINE DOCUMENTS has no documents to copy");
+  return report;
+}
+async function createProjectDocs(){
+  if(!curProj){ toast("Pick a project first"); return; }
+  if(!("showDirectoryPicker" in window)){ toast("Your browser can't create files. Use Chrome/Edge."); return; }
+  if(!ensureMe())return;
+  let root=null;
+  try{ const saved=await idbGet("proj_"+curProj.id); if(saved && await verifyPerm(saved,"readwrite")) root=saved; }catch(e){}
+  if(!root){ toast("First time: point me to this project's ROOT folder"); try{ root=await window.showDirectoryPicker({mode:"readwrite"}); await idbSet("proj_"+curProj.id,root); }catch(e){ if(e.name==="AbortError")return; toast("Could not open the folder: "+e.message); return; } }
+  if(!(await findStd(null))){ toast("Link your _BASELINE DOCUMENTS folder first (button above)"); return; }
+  const st=$("#docs-status"); st.textContent=" Copying…";
+  try{
+    const docs=await genDocs(root,curProj);
+    st.textContent=` Done · ${docs.length} documents copied`;
+    logChange("copied documents from Standard","",docs.join(", "));
+    toast("Documents copied: "+docs.length);
+  }catch(e){ st.textContent=" Error: "+e.message; toast("Error copying documents: "+e.message); }
+}
+document.addEventListener("click",e=>{ if(e.target.id==="create-docs") createProjectDocs(); });
+
+/* ---------- boot ---------- */
+loadMe();
+ensureDatalists();
+const cached=loadCache();
+STATE = normalize(cached || seed());
+loadedRev=STATE.rev||0;
+curProj=STATE.projects[0]||null;
+renderAll();
+applyLang();
+if(me&&me.name) registerAccess(me);
+</script>
+</body>
+</html>

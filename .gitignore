@@ -1,0 +1,16 @@
+# Generated client projects — private data, not part of the tool
+/BURGER KING/
+/OBRATEST/
+
+# Backups and archives
+/_ARCHIVE/
+*.bak
+*.bak_*
+
+# Office lock/temp files
+~$*
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
