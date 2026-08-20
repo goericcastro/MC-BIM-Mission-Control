@@ -163,7 +163,9 @@
   .sched-cols{display:flex;align-items:flex-end;gap:8px;height:160px;padding-top:10px}
   .sched-cols .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
   .sched-cols .bwrap{width:100%;flex:1;display:flex;align-items:flex-end;justify-content:center}
-  .sched-cols .bar{width:66%;max-width:32px;border-radius:4px 4px 0 0;position:relative;min-height:3px;transition:height .18s}
+  .sched-cols .bar{width:66%;max-width:32px;border-radius:4px 4px 0 0;position:relative;min-height:3px;transition:height .18s;cursor:ns-resize;touch-action:none}
+  .sched-cols .bar::before{content:"";position:absolute;top:-3px;left:50%;transform:translateX(-50%) rotate(45deg);width:7px;height:7px;background:inherit;border:1.25px solid var(--surface-2)}
+  .sched-cols .bar.cdrag{transition:none}
   .sched-cols .v{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10px;font-family:var(--mono);color:var(--mute);white-space:nowrap}
   .sched-cols .lbl{font-size:10px;font-family:var(--mono);color:var(--mute)}
   .sched-gantt{position:relative}
@@ -176,6 +178,8 @@
   .sched-bar:hover{opacity:1}
   .sched-bar.drag{cursor:grabbing;opacity:1;z-index:5}
   .sched-bar .h{position:absolute;right:0;top:0;bottom:0;width:11px;cursor:ew-resize}
+  .sched-bar .hstart{position:absolute;left:0;top:0;bottom:0;width:11px;cursor:ew-resize}
+  .sched-bar .hstart::after{content:"";position:absolute;left:2px;top:50%;transform:translateY(-50%);width:2px;height:11px;border-radius:1px;background:rgba(255,255,255,.55)}
   .sched-bar .dia{position:absolute;right:-5px;top:50%;transform:translateY(-50%) rotate(45deg);width:9px;height:9px;background:inherit;border:1.5px solid var(--surface-2)}
   .sched-msl.doc{background:transparent;border-left:2px dashed var(--accent);width:0;opacity:.55}
   .sched-var{position:absolute;top:9px;height:14px;border-radius:3px;pointer-events:none}
@@ -184,12 +188,19 @@
   .sched-amark{position:absolute;top:4px;bottom:4px;width:2px;border-radius:1px;pointer-events:none;transform:translateX(-1px);background:var(--mute)}
   .sched-amark.late{background:var(--gate)}
   .sched-amark.early{background:var(--ok)}
+  .sched-dlabel{position:absolute;top:50%;transform:translateY(-50%);margin-left:9px;font-family:var(--mono);font-size:10px;color:var(--mute);white-space:nowrap;pointer-events:none;font-variant-numeric:tabular-nums}
+  .sched-dlabel.l{transform:translate(-100%,-50%);margin-left:-9px}
+  .sched-dlabel.late{color:var(--gate)}
+  .sched-dlabel.early{color:var(--ok)}
   .sched-axis{display:flex;height:36px;margin-left:92px;position:relative;border-top:1px solid var(--hair);margin-top:6px}
+  .sched-axis.top{border-top:none;margin-top:0;margin-bottom:0}
+  .sched-daycount{position:relative;height:15px;margin-left:92px;margin-top:7px;padding-top:2px;border-top:1px solid var(--hair)}
+  .sched-daycount .dc{position:absolute;top:2px;transform:translateX(-50%);font-family:var(--mono);font-size:10px;color:var(--faint)}
   .sched-axis .mk{position:absolute;top:5px;transform:translateX(-50%);text-align:center}
   .sched-axis .mk .c{font-family:var(--mono);font-size:11px;color:var(--accent)}
   .sched-axis .mk .d{font-family:var(--mono);font-size:9.5px;color:var(--mute);margin-top:2px;white-space:nowrap}
   .sched-flabel{position:fixed;pointer-events:none;background:var(--surface);border:1px solid var(--accent);color:var(--ink);font-family:var(--mono);font-size:11px;padding:4px 8px;border-radius:5px;z-index:50;opacity:0;transform:translate(-50%,-140%);white-space:nowrap;box-shadow:var(--shadow)}
-  .sched-start{position:relative;height:15px;margin-left:92px;margin-bottom:3px}
+  .sched-start{position:relative;height:15px;margin-left:92px;margin-top:6px;margin-bottom:1px}
   .sched-start .stag{position:absolute;top:0;font-family:var(--mono);font-size:10.5px;color:var(--mute);white-space:nowrap}
   .sched-year{position:relative;height:18px;margin-left:92px;margin-top:2px;border-top:1px solid var(--hair-2)}
   .sched-year .ymk{position:absolute;top:3px;transform:translateX(-50%);font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.03em}
@@ -369,10 +380,11 @@
           </div>
           <div class="sched-panel" style="margin-top:14px">
             <div class="sched-h">Timeline · disciplines within milestones <button class="btn sm" id="sched-reset" title="Re-seed every discipline from the current milestone dates" style="margin-left:auto">↻ Reset to milestones</button></div>
-            <div class="sched-hint" style="margin:-6px 0 12px">timeline starts at the Document date · drag a bar = move · drag right edge = set the estimated delivery (before or after its milestone) · <span style="color:var(--gate)">red</span> = delivered late · <span style="color:var(--ok)">green</span> = delivered early</div>
-            <div class="sched-start" id="sched-start"></div>
+            <div class="sched-hint" style="margin:-6px 0 12px">timeline starts at the Document date · drag a bar = move · drag left edge = set the start · drag right edge = set the estimated delivery · the date at each bar's end is its delivery — <span style="color:var(--ok)">green</span> if within the last milestone, <span style="color:var(--gate)">red</span> if it overruns it</div>
+            <div class="sched-axis top" id="sched-axis"></div>
             <div class="sched-gantt" id="sched-gantt"></div>
-            <div class="sched-axis" id="sched-axis"></div>
+            <div class="sched-start" id="sched-start"></div>
+            <div class="sched-daycount" id="sched-daycount"></div>
             <div class="sched-year" id="sched-year"></div>
           </div>
         </div>
@@ -908,7 +920,30 @@ function schPie(){
 }
 function schCols(){
   const rows=SCHED.rows, max=Math.max(1,...rows.map(schDur));
-  $("#sched-cols").innerHTML=rows.map(r=>`<div class="col"><div class="bwrap"><div class="bar" style="height:${schDur(r)/max*100}%;background:${dcolor(r.code)}"><span class="v">${schDur(r)}d</span></div></div><div class="lbl">${r.code}</div></div>`).join("");
+  $("#sched-cols").innerHTML=rows.map(r=>`<div class="col"><div class="bwrap"><div class="bar" data-code="${r.code}" style="height:${schDur(r)/max*100}%;background:${dcolor(r.code)}"><span class="v">${schDur(r)}d</span></div></div><div class="lbl">${r.code}</div></div>`).join("");
+  bindColsDrag();
+}
+// drag the TOP of a column up/down to set that discipline's days
+function bindColsDrag(){
+  const maxD=Math.max(1,...SCHED.rows.map(schDur));
+  document.querySelectorAll("#sched-cols .bar").forEach(bar=>{
+    bar.addEventListener("pointerdown",e=>{
+      if(!ensureMe())return;
+      const code=bar.dataset.code, r=SCHED.rows.find(x=>x.code===code); if(!r)return;
+      const H=bar.parentElement.clientHeight||1, y0=e.clientY, px0=schDur(r)/maxD*H;
+      bar.classList.add("cdrag"); bar.setPointerCapture(e.pointerId);
+      const move=ev=>{
+        const px=Math.max(1,px0+(y0-ev.clientY));                 // drag up = taller = more days
+        const nd=Math.max(1,Math.round(px/H*maxD));
+        schSetDaysFwd(code,nd);                                   // grow the delivery forward, keep the start fixed
+        bar.style.height=Math.min(100,nd/maxD*100)+"%";
+        const v=bar.querySelector(".v"); if(v)v.textContent=nd+"d";
+        schPie(); schGantt();                                     // update pie + gantt live (not cols, to keep this bar)
+      };
+      const up=()=>{ bar.classList.remove("cdrag"); try{bar.releasePointerCapture(e.pointerId);}catch(x){} bar.removeEventListener("pointermove",move); bar.removeEventListener("pointerup",up); logChange("schedule days · "+code,"",schDur(r)+"d"); };
+      bar.addEventListener("pointermove",move); bar.addEventListener("pointerup",up); e.preventDefault();
+    });
+  });
 }
 function schGantt(){
   const g=$("#sched-gantt"); g.innerHTML="";
@@ -927,19 +962,22 @@ function schGantt(){
   SCHED.rows.forEach((r,i)=>{
     const row=document.createElement("div"); row.className="sched-grow";
     // actual delivery vs planned: red tail if late, green tail if early
-    let variance="", amark="";
-    if(r.actual){
-      const pT=schT(r.end), aT=schT(r.actual), pp=schPct(pT), pa=schPct(aT);
-      if(aT>pT){ variance=`<div class="sched-var late" style="left:${pp}%;width:${pa-pp}%"></div>`; amark=`<div class="sched-amark late" style="left:${pa}%" title="Delivered late: ${schFmt(aT)}"></div>`; }
-      else if(aT<pT){ variance=`<div class="sched-var early" style="left:${pa}%;width:${pp-pa}%"></div>`; amark=`<div class="sched-amark early" style="left:${pa}%" title="Delivered early: ${schFmt(aT)}"></div>`; }
-      else amark=`<div class="sched-amark" style="left:${pa}%" title="Delivered on time: ${schFmt(aT)}"></div>`;
-    }
-    row.innerHTML=`<div class="code"><span class="sw" style="background:${dcolor(r.code)}"></span>${r.code}</div><div class="sched-track">${lines}<div class="sched-bar" data-i="${i}" style="left:${schPct(schT(r.start))}%;width:${schPct(schT(r.end))-schPct(schT(r.start))}%;background:${dcolor(r.code)}"><div class="dia"></div><div class="h"></div></div>${variance}${amark}</div>`;
+    // delivery date shown at the end of the bar — red if late, green if early (vs the actual delivery)
+    // colour the delivery date green if it lands within the final milestone (M5), red if it overruns it
+    const over=schT(r.end)>SCHED.msT1, dcls=over?" late":" early";
+    const dtip=(over?"Delivers AFTER the last milestone — late: ":"Delivers within the deadline: ")+schFmt(schT(r.end));
+    const pp=schPct(schT(r.end)), nearR=pp>80;
+    const dlabel=`<div class="sched-dlabel${dcls}${nearR?" l":""}" style="left:${pp}%" title="${dtip}">${schFmt(schT(r.end))}</div>`;
+    row.innerHTML=`<div class="code"><span class="sw" style="background:${dcolor(r.code)}"></span>${r.code}</div><div class="sched-track">${lines}<div class="sched-bar" data-i="${i}" style="left:${schPct(schT(r.start))}%;width:${schPct(schT(r.end))-schPct(schT(r.start))}%;background:${dcolor(r.code)}"><div class="hstart"></div><div class="dia"></div><div class="h"></div></div>${dlabel}</div>`;
     g.appendChild(row);
   });
   let prevY=null;
   $("#sched-axis").innerHTML=SCHED.msList.map(m=>{ const t=schT(m.planned), yr=new Date(t).getFullYear(), showY=(yr!==prevY); prevY=yr;
     return `<div class="mk" style="left:${schPct(t)}%"><div class="c">${m.code}</div><div class="d">${schFmt(t)}${showY?" "+yr:""}</div></div>`; }).join("");
+  // days per section (between consecutive milestones)
+  let dc="";
+  for(let k=0;k<SCHED.msList.length-1;k++){ const a=schT(SCHED.msList[k].planned), b=schT(SCHED.msList[k+1].planned); const days=Math.round((b-a)/864e5), mid=(schPct(a)+schPct(b))/2; dc+=`<div class="dc" style="left:${mid}%">${days} d</div>`; }
+  $("#sched-daycount").innerHTML=dc;
   $("#sched-start").innerHTML=SCHED.docD?`<div class="stag" style="left:${schPct(SCHED.docD)}%">▸ Start · ${schFmt(SCHED.docD)}</div>`:"";
   $("#sched-year").innerHTML=ymarks;
   schBindDrag();
@@ -950,14 +988,15 @@ function schBindDrag(){
   document.querySelectorAll("#sched-gantt .sched-bar").forEach(bar=>{
     bar.addEventListener("pointerdown",e=>{
       if(!ensureMe())return;
-      const i=+bar.dataset.i, r=SCHED.rows[i], resize=e.target.classList.contains("h");
+      const i=+bar.dataset.i, r=SCHED.rows[i], resize=e.target.classList.contains("h"), resizeS=e.target.classList.contains("hstart");
       const track=bar.parentElement, tw=track.clientWidth||1, SPANd=(SCHED.T1-SCHED.T0)/864e5;
       const x0=e.clientX, s0=schT(r.start), e0=schT(r.end);
       bar.classList.add("drag"); bar.setPointerCapture(e.pointerId);
       const move=ev=>{
         const dd=Math.round((ev.clientX-x0)/tw*SPANd)*864e5;
-        if(resize){ r.end=schIso(Math.max(s0+864e5,e0+dd)); }      // adjust delivery (end); min 1 day, no milestone cap
-        else{ r.start=schIso(s0+dd); r.end=schIso(e0+dd); }        // move the whole bar
+        if(resize){ r.end=schIso(Math.max(s0+864e5,e0+dd)); }      // right edge → delivery (end); min 1 day, no milestone cap
+        else if(resizeS){ let ns=s0+dd; if(ns>=schT(r.end)) ns=schT(r.end)-864e5; r.start=schIso(ns); }   // left edge → start (min 1 day)
+        else{ r.start=schIso(s0+dd); r.end=schIso(e0+dd); }        // body → move the whole bar
         curProj.schedule[r.code]={start:r.start,end:r.end};
         schReposition(); schPie(); schCols();
         fl.style.opacity=1; fl.style.left=ev.clientX+"px"; fl.style.top=ev.clientY+"px"; fl.textContent=schFmt(schT(r.start))+" → "+schFmt(schT(r.end))+"  ("+schDur(r)+"d)";
@@ -973,6 +1012,13 @@ function schSetDays(code,n){
   n=Math.max(1,Math.round(+n||1));
   // delivery (end) stays on its milestone; the duration sets how far back the start goes
   r.start=schIso(schT(r.end)-n*864e5);
+  curProj.schedule[code]={start:r.start,end:r.end};
+}
+// set duration keeping the START fixed and moving the delivery (end) FORWARD
+function schSetDaysFwd(code,n){
+  if(!SCHED)return; const r=SCHED.rows.find(x=>x.code===code); if(!r)return;
+  n=Math.max(1,Math.round(+n||1));
+  r.end=schIso(schT(r.start)+n*864e5);
   curProj.schedule[code]={start:r.start,end:r.end};
 }
 function schSetPct(code,p){
