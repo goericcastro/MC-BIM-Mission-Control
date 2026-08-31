@@ -97,6 +97,14 @@
   .f label{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
   .f input,.f select{width:100%;font:inherit;font-size:13px;padding:7px 9px;border:1px solid var(--hair);
     border-radius:8px;background:var(--surface-2);color:var(--ink)}
+  .f input.ro{background:transparent;border-style:dashed;color:var(--mute);cursor:default}
+  .logo-row{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+  .logo-prev{width:90px;height:90px;object-fit:contain;border:1px solid var(--hair);border-radius:12px;background:var(--surface-2);padding:8px}
+  .logo-empty{width:90px;height:90px;display:flex;align-items:center;justify-content:center;border:1px dashed var(--hair);border-radius:12px;color:var(--faint);font-size:12px;text-align:center}
+  .logo-actions{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+  .logo-actions .upl{cursor:pointer}
+  .logo-hint{font-size:11.5px;color:var(--faint)}
+  .btn.ghost{background:transparent;color:var(--mute)}
   .f textarea{width:100%;font:inherit;font-size:13px;padding:7px 9px;border:1px solid var(--hair);border-radius:8px;background:var(--surface-2);color:var(--ink);resize:vertical}
   .f textarea:focus{outline:2px solid color-mix(in srgb,var(--accent) 40%,transparent);border-color:var(--accent)}
   .f input:focus,.f select:focus,.tbl input:focus,.tbl select:focus{outline:2px solid color-mix(in srgb,var(--accent) 40%,transparent);outline-offset:0;border-color:var(--accent)}
@@ -113,6 +121,16 @@
   .tbl td.ctr{text-align:center;font-family:var(--mono)}
   .tbl .del{color:var(--faint);border:none;background:none;cursor:pointer;font-size:15px;padding:2px 6px}
   .tbl .del:hover{color:var(--gate)}
+  .tbl .texp{color:var(--mute);border:none;background:none;cursor:pointer;font-size:12px;padding:2px 4px;line-height:1}
+  .tbl .texp:hover{color:var(--accent)}
+  .tbl tr.tdetail>td{background:var(--surface-2);padding:10px 14px 14px;border-top:none}
+  .tdetail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px 16px}
+  .tdetail-grid label{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+  .tdetail-grid label input,.tdetail-grid label select{margin-top:4px;width:100%}
+  .tdetail-grid .hint{text-transform:none;letter-spacing:0;color:var(--faint);opacity:.7}
+  .tdetail-grid .chatpair{display:flex;gap:6px;margin-top:4px}
+  .tdetail-grid .chatpair select{flex:0 0 auto;width:auto}
+  .tdetail-grid .chatpair input{flex:1;margin-top:0}
   .rowadd{margin-top:9px}
 
   /* change log */
@@ -150,8 +168,9 @@
   .sched-pie-row{display:flex;gap:16px;align-items:center}
   .sched-donut{position:relative;flex:0 0 auto;width:164px;height:164px}
   .sched-donut .ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .sched-donut .ctr b{font-size:20px;font-family:var(--mono);line-height:1}
-  .sched-donut .ctr span{font-size:9.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+  .sched-donut .ctr b{font-size:17px;font-family:var(--mono);line-height:1}
+  .sched-donut .ctr b.p2{color:var(--accent);margin-top:6px}
+  .sched-donut .ctr span{font-size:9px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
   .sched-legend{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
   .sched-legend .li{display:flex;align-items:center;gap:7px;font-size:12px}
   .sched-legend .sw{width:9px;height:9px;border-radius:2px;flex:0 0 auto}
@@ -206,6 +225,20 @@
   .sched-year .ymk{position:absolute;top:3px;transform:translateX(-50%);font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.03em}
   .sched-yline{position:absolute;top:0;bottom:0;border-left:1px dashed var(--accent);opacity:.5;pointer-events:none}
   .sched-yband{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--accent) 6%,transparent);pointer-events:none}
+  .sched-nwb{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--mute) 11%,transparent);pointer-events:none}
+  .sched-nwb.hol{background:color-mix(in srgb,var(--gate) 15%,transparent)}
+  .sched-cal{display:flex;flex-direction:column;gap:9px;padding:10px 12px;margin-bottom:14px;border:1px solid var(--hair);border-radius:10px;background:var(--surface-2)}
+  .sched-cal .cal-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .sched-cal .cal-lbl{font-family:var(--mono);font-size:11px;color:var(--mute);min-width:78px;text-transform:uppercase;letter-spacing:.04em}
+  .sched-cal .cal-wk{display:flex;gap:4px}
+  .sched-cal .wk{font-family:var(--mono);font-size:11px;padding:4px 8px;border:1px solid var(--hair);border-radius:6px;background:transparent;color:var(--mute);cursor:pointer;user-select:none}
+  .sched-cal .wk.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .sched-cal select,.sched-cal input[type=date]{font-family:var(--mono);font-size:12px;padding:4px 6px;border:1px solid var(--hair);border-radius:6px;background:var(--surface-2);color:inherit}
+  .sched-cal .cal-hols{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+  .sched-cal .holchip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10.5px;padding:2px 6px;border-radius:20px;background:color-mix(in srgb,var(--gate) 15%,transparent);color:var(--mute)}
+  .sched-cal .holchip.pre{background:color-mix(in srgb,var(--accent) 13%,transparent)}
+  .sched-cal .holchip button{border:none;background:none;color:var(--gate);cursor:pointer;font-size:12px;line-height:1;padding:0}
+  .sched-cal .cal-note{font-size:10.5px;color:var(--faint)}
   .sched-notice{text-align:left;padding:11px 14px;border-radius:9px;background:var(--gate-bg);border:1px solid var(--gate);color:var(--ink);font-size:13px;margin-bottom:6px}
   .sched-notice b{color:var(--gate)}
   .sched-notice.soft{background:var(--tbd-bg);border-color:var(--tbd)}
@@ -242,10 +275,11 @@
   <nav class="tabs">
     <button data-v="portfolio" aria-selected="true">Dashboard <span class="badge" id="b-proj">0</span></button>
     <button data-v="project" aria-selected="false">Project</button>
+    <button data-v="legal" aria-selected="false">Legal</button>
+    <button data-v="bim" aria-selected="false">BIM Manager</button>
+    <button data-v="schedule" aria-selected="false">Schedule</button>
     <button data-v="log" aria-selected="false">Change Log <span class="badge" id="b-log">0</span></button>
     <button data-v="access" aria-selected="false">Access <span class="badge" id="b-users">0</span></button>
-    <button data-v="legal" aria-selected="false">Legal</button>
-    <button data-v="schedule" aria-selected="false">Schedule</button>
   </nav>
 
   <!-- PROJECTS -->
@@ -352,10 +386,83 @@
         <div class="fields" id="contract-fields"></div>
       </section>
       <section class="card">
+        <h2><span class="idx">07d</span>Company logo</h2>
+        <div class="sub">Your office logo — used for <b>all</b> projects. On generation it replaces the placeholder logo on the Information Standard cover and the Meeting-Minutes header.</div>
+        <div id="logo-box"></div>
+      </section>
+      <section class="card">
         <h2><span class="idx">07c</span>Legal document register</h2>
         <div class="sub">Deeds, licenses, taxes and permits the client provides — with reference, status and date.</div>
         <div class="scroll"><table class="tbl" id="legal-tbl"></table></div>
         <button class="btn sm rowadd" id="add-permit">+ Add legal document</button>
+      </section>
+    </div>
+  </div>
+
+  <div class="view" id="v-bim">
+    <section class="card" id="bim-none" style="display:none"><div class="empty">Pick a project in the Dashboard first.</div></section>
+    <div id="bim-body" style="display:none">
+      <section class="card">
+        <h2><span class="idx">09</span>Contract type &amp; appointments</h2>
+        <div class="sub">Overall contract/procurement type, and one appointment per professional service (ISO 19650 appointed parties). Services &amp; parties come from Team (section 02) — no re-typing. Feeds section A.1.5 of the Information Standard.</div>
+        <div class="fields" id="bim-contract"></div>
+        <div class="scroll"><table class="tbl" id="bim-app-tbl"></table></div>
+        <button class="btn sm rowadd" id="add-app">+ Add professional service (non-modeling: H&amp;S, technical control, QS…)</button>
+      </section>
+      <section class="card">
+        <h2><span class="idx">10</span>Software &amp; versions</h2>
+        <div class="sub">The BIM toolchain by discipline — feeds the interoperability table of the Information Standard.</div>
+        <div class="scroll"><table class="tbl" id="bim-sw-tbl"></table></div>
+        <button class="btn sm rowadd" id="add-sw">+ Add software</button>
+      </section>
+      <section class="card">
+        <h2><span class="idx">11</span>Coordination &amp; communication</h2>
+        <div class="sub">Where the team coordinates during the work (WIP): messaging, task board and shared calendar.</div>
+        <div class="fields" id="bim-comm"></div>
+      </section>
+      <section class="card">
+        <h2><span class="idx">12</span>Project coordinates &amp; site</h2>
+        <div class="sub">Base point for interoperability (0,0,0 at the building's lower-left) and the plot's cadastral reference.</div>
+        <div class="fields" id="bim-coords"></div>
+      </section>
+      <section class="card">
+        <h2><span class="idx">13</span>Information management</h2>
+        <div class="sub">Who manages the project information (ISO 19650 Information Manager). The Level of Information Need (LOD) per milestone lives with the delivery dates — Project tab, section 05.</div>
+        <div class="fields" id="bim-im"></div>
+      </section>
+      <section class="card">
+        <h2><span class="idx">14</span>Responsibility matrix</h2>
+        <div class="sub">Who is responsible for what: task or area, responsible party and the deliverable it produces.</div>
+        <div class="scroll"><table class="tbl" id="bim-rsp-tbl"></table></div>
+        <button class="btn sm rowadd" id="add-rsp">+ Add responsibility</button>
+      </section>
+      <section class="card">
+        <h2><span class="idx">15</span>Risk register</h2>
+        <div class="sub">Project information risks with their impact, mitigation and owner (annex to the BEP).</div>
+        <div class="scroll"><table class="tbl" id="bim-rsk-tbl"></table></div>
+        <button class="btn sm rowadd" id="add-rsk">+ Add risk</button>
+      </section>
+      <section class="card">
+        <h2><span class="idx">16</span>CDE — Common Data Environment</h2>
+        <div class="sub">Where the project CDE is hosted and how it is accessed. The four states are fixed by ISO 19650 (WIP · Shared · Published · Archived).</div>
+        <div class="fields" id="bim-cde"></div>
+      </section>
+      <section class="card">
+        <h2><span class="idx">17</span>Federation &amp; model breakdown</h2>
+        <div class="sub">How the discipline models are split and federated for coordination.</div>
+        <div class="fields" id="bim-fed"></div>
+      </section>
+      <section class="card">
+        <h2><span class="idx">18</span>Model validation (QA)</h2>
+        <div class="sub">Quality checks run before information moves up a CDE state.</div>
+        <div class="scroll"><table class="tbl" id="bim-qa-tbl"></table></div>
+        <button class="btn sm rowadd" id="add-qa">+ Add check</button>
+      </section>
+      <section class="card">
+        <h2><span class="idx">19</span>Delivery &amp; exchange formats</h2>
+        <div class="sub">Formats and versions used for exchange and delivery — software-agnostic.</div>
+        <div class="scroll"><table class="tbl" id="bim-fmt-tbl"></table></div>
+        <button class="btn sm rowadd" id="add-fmt">+ Add format</button>
       </section>
     </div>
   </div>
@@ -368,6 +475,7 @@
         <div class="sub">Estimated time each discipline needs up to its milestone deliveries. Deadlines are the project milestones (section 05); drag a bar to set a discipline's estimated dates within them. Charts update live — this data is ready to export to ClickUp later.</div>
         <div id="sched-warn" class="empty" style="display:none"></div>
         <div id="sched-charts">
+          <div class="sched-cal" id="sched-cal"></div>
           <div class="sched-grid">
             <div class="sched-panel">
               <div class="sched-h">Time weight by discipline</div>
@@ -380,7 +488,7 @@
           </div>
           <div class="sched-panel" style="margin-top:14px">
             <div class="sched-h">Timeline · disciplines within milestones <button class="btn sm" id="sched-reset" title="Re-seed every discipline from the current milestone dates" style="margin-left:auto">↻ Reset to milestones</button></div>
-            <div class="sched-hint" style="margin:-6px 0 12px">timeline starts at the Document date · drag a bar = move · drag left edge = set the start · drag right edge = set the estimated delivery · the date at each bar's end is its delivery — <span style="color:var(--ok)">green</span> if within the last milestone, <span style="color:var(--gate)">red</span> if it overruns it</div>
+            <div class="sched-hint" style="margin:-6px 0 12px">timeline starts at the Document date · durations count <b>working days only</b> (weekends + holidays shaded grey) · drag a bar = move · drag left edge = set the start · drag right edge = set the estimated delivery · the date at each bar's end is its delivery — <span style="color:var(--ok)">green</span> if within the last milestone, <span style="color:var(--gate)">red</span> if it overruns it</div>
             <div class="sched-axis top" id="sched-axis"></div>
             <div class="sched-gantt" id="sched-gantt"></div>
             <div class="sched-start" id="sched-start"></div>
@@ -569,9 +677,12 @@ function templateProject(name,code,client){
       {id:uid(),code:"M4",name:"Coordinated / for construction",planned:"",actual:""},
       {id:uid(),code:"M5",name:"Handover / as-designed",planned:"",actual:""}
     ],
-    contract:{client_legal:"",client_reg:"",our_legal:"",our_reg:"",fee:"",currency:"",payment:"",law:"",dispute:""},
+    city:"",postal:"",country:"",desc:"",
+    contract:{client_legal:"",client_reg:"",client_address:"",client_phone:"",our_legal:"",our_reg:"",our_address:"",our_phone:"",our_email:"",our_web:"",fee:"",currency:"",payment:"",law:"",dispute:""},
+    cal:{workdays:[1,2,3,4,5],country:"",holidays:[]},
     docMeta:{version:"1.0",date:new Date().toISOString().slice(0,10)},
-    externals:{ar_office:"",ge_office:""}};
+    externals:{ar_office:"",ge_office:""},
+    bim:{software:[],comm:{chat:"",board:"",calendar:""},coords:{ns:"",ew:"",elev:"",north:"",cadastral:""},infoManager:"",lod:{},responsibilities:[],risks:[]}};
 }
 function seed(){
   const mc=templateProject("Sample Project — City","XX","Sample Client");
@@ -585,7 +696,7 @@ function seed(){
   return {meta:{title:"BIM Mission Control",schema:1,created:nowISO()},rev:1,lastSavedBy:"",lastSavedAt:"",
     projects:[mc],users:[],accessLog:[],log:[{id:uid(),ts:nowISO(),editor:"system",email:"",project:mc.id,projName:mc.name,field:"project created (seed)",from:"",to:mc.name}]};
 }
-function normalize(s){ if(!s)return s; s.projects=s.projects||[]; s.log=s.log||[]; s.users=s.users||[]; s.accessLog=s.accessLog||[];
+function normalize(s){ if(!s)return s; s.projects=s.projects||[]; s.log=s.log||[]; s.users=s.users||[]; s.accessLog=s.accessLog||[]; s.office=s.office||{logo:""};
   s.projects.forEach(p=>{
     p.clientData=p.clientData||{}; const d=p.clientData;
     ["ap_name","ap_rep","ap_contact","oir","pir","air","brand"].forEach(k=>{ if(!(k in d))d[k]=""; }); d.permits=d.permits||[];
@@ -593,9 +704,11 @@ function normalize(s){ if(!s)return s; s.projects=s.projects||[]; s.log=s.log||[
     // legacy: 'contract' used to be the contract number (a string) — move it to contractNo
     if(typeof p.contract==="string"){ if(!p.contractNo)p.contractNo=p.contract; p.contract=null; }
     if(!p.contractNo)p.contractNo="";
-    p.contract=p.contract||{}; ["client_legal","client_reg","our_legal","our_reg","fee","currency","payment","law","dispute"].forEach(k=>{ if(!(k in p.contract))p.contract[k]=""; });
+    p.contract=p.contract||{}; ["client_legal","client_reg","client_address","client_phone","our_legal","our_reg","our_address","our_phone","our_email","our_web","fee","currency","payment","law","dispute"].forEach(k=>{ if(!(k in p.contract))p.contract[k]=""; });
     p.docMeta=p.docMeta||{}; if(!p.docMeta.version)p.docMeta.version="1.0"; if(!p.docMeta.date)p.docMeta.date=new Date().toISOString().slice(0,10);
     p.externals=p.externals||{}; ["ar_office","ge_office"].forEach(k=>{ if(!(k in p.externals))p.externals[k]=""; });
+    p.bim=p.bim||{}; const b=p.bim; b.software=b.software||[]; b.comm=b.comm||{chat:"",board:"",calendar:""}; b.coords=b.coords||{ns:"",ew:"",elev:"",north:"",cadastral:""}; if(!("infoManager"in b))b.infoManager=""; b.lod=b.lod||{}; b.responsibilities=b.responsibilities||[]; b.risks=b.risks||[];
+    (p.milestones||[]).forEach(m=>{ if(!("lod"in m))m.lod=(b.lod&&b.lod[m.code])||""; });   // LOD now lives on the milestone (section 05)
   });
   return s; }
 
@@ -689,7 +802,7 @@ function paintWho(){ const el=$("#who"); if(me&&me.name){ el.classList.remove("u
 function paintData(){ const el=$("#data-status"),l=$("#data-label"); if(fileHandle){ el.classList.remove("off"); l.textContent="Auto-save"+(STATE&&STATE.lastSavedBy?" · "+STATE.lastSavedBy:""); } else { el.classList.add("off"); l.textContent=hasFSA?"No file":"Manual mode"; } }
 
 function renderPeopleDatalist(){ let dl=$("#dl-people"); if(!dl){ dl=document.createElement("datalist"); dl.id="dl-people"; document.body.appendChild(dl); } const names=[...new Set((STATE.users||[]).map(u=>u.name).filter(Boolean))]; dl.innerHTML=names.map(n=>`<option value="${esc(n)}"></option>`).join(""); }
-function renderAll(){ renderPeopleDatalist(); renderPortfolio(); renderProject(); renderLog(); renderAccess(); renderLegal(); renderSchedule(); $("#b-proj").textContent=STATE.projects.length; $("#b-log").textContent=STATE.log.length; paintData(); }
+function renderAll(){ renderPeopleDatalist(); renderPortfolio(); renderProject(); renderLog(); renderAccess(); renderLegal(); renderBIM(); renderSchedule(); $("#b-proj").textContent=STATE.projects.length; $("#b-log").textContent=STATE.log.length; paintData(); }
 
 function renderPortfolio(){
   const g=$("#proj-grid");
@@ -707,6 +820,7 @@ function cfld(label,val,field){ return `<div class="f"><label>${label}</label><i
 function cta(label,val,field,ph){ return `<div class="f" style="grid-column:1/-1"><label>${label}</label><textarea data-cf="${field}" rows="2" placeholder="${esc(ph||"")}">${esc(val)}</textarea></div>`; }
 function renderClientData(p){
   const c=p.clientData||{};
+  if(!c.ap_name && p.contract && p.contract.client_legal) c.ap_name=p.contract.client_legal;  /* DRY: appointing-party legal name is the single source (migrated from old Legal·07b field) */
   $("#client-ap").innerHTML=cfld("Appointing Party (legal name)",c.ap_name||p.client||"","ap_name")+cfld("Representative",c.ap_rep||"","ap_rep")+cfld("Contact (email / phone)",c.ap_contact||"","ap_contact");
   $("#client-reqs").innerHTML=`<div class="fields">`+
     cta("OIR — Organisational Information Requirements",c.oir||"","oir","Client organisation asset/business needs")+
@@ -716,7 +830,7 @@ function renderClientData(p){
 }
 function renderMilestones(p){
   const ms=p.milestones||[];
-  $("#miles-tbl").innerHTML=`<thead><tr><th style="width:80px">Code</th><th>Name / purpose</th><th style="width:150px">Planned date</th><th style="width:150px">Actual date</th><th style="width:34px"></th></tr></thead><tbody>`+
+  $("#miles-tbl").innerHTML=`<thead><tr><th style="width:80px">Code</th><th>Name / purpose</th><th style="width:150px">Planned date</th><th style="width:150px">Actual date</th><th style="width:120px" title="Level of Information Need (LOD) required at this data drop — ISO 19650">LOD</th><th style="width:34px"></th></tr></thead><tbody>`+
     (ms.length?ms.map((m,i)=>{
       const prev=ms[i-1]||{}, pMin=prev.planned||"", aMin=prev.actual||"";
       const pBad=m.planned&&pMin&&m.planned<pMin, aBad=m.actual&&aMin&&m.actual<aMin;
@@ -726,7 +840,8 @@ function renderMilestones(p){
       <td><input data-msf="name" list="dl-miles" value="${esc(m.name)}" placeholder="pick or type…"></td>
       <td><input data-msf="planned" type="date"${pMin?` min="${pMin}"`:""} class="${!m.planned?"sched-missing":(pBad?"sched-badorder":"")}" value="${esc(m.planned)}" title="${!m.planned?"Needed for the Schedule tab":(pBad?"Earlier than "+pc+" — planned dates must go in order":"Target deadline for this milestone")}"></td>
       <td><input data-msf="actual" type="date"${aMin?` min="${aMin}"`:""} class="${aBad?"sched-badorder":""}" value="${esc(m.actual)}" title="${aBad?"Earlier than "+pc+" — actual dates must go in order":"When it was really delivered (leave empty until it happens)"}"></td>
-      <td><button class="del" data-delms="${m.id}" title="remove">×</button></td></tr>`;}).join(""):`<tr><td colspan="5"><div class="empty">No milestones yet. Add the data drops this project needs.</div></td></tr>`)+`</tbody>`;
+      <td><select data-msf="lod" title="Level of Information Need at this milestone">${LOD_OPTS.map(o=>`<option value="${esc(o)}"${(m.lod||"")===o?" selected":""}>${o||"—"}</option>`).join("")}</select></td>
+      <td><button class="del" data-delms="${m.id}" title="remove">×</button></td></tr>`;}).join(""):`<tr><td colspan="6"><div class="empty">No milestones yet. Add the data drops this project needs.</div></td></tr>`)+`</tbody>`;
   const dm=p.docMeta||{};
   $("#doc-meta").innerHTML=`<div class="f"><label>Document version</label><input data-dmf="version" value="${esc(dm.version||"1.0")}"></div>`+
     `<div class="f"><label>Document date</label><input data-dmf="date" type="date" value="${esc(dm.date||"")}"></div>`+
@@ -736,19 +851,51 @@ function renderMilestones(p){
 function renderContract(p){
   const c=p.contract||{};
   const f=(l,k,ph)=>`<div class="f"><label>${l}</label><input data-ctf="${k}" value="${esc(c[k]||"")}" placeholder="${esc(ph||"")}"></div>`;
+  const clientLegal=(p.clientData&&p.clientData.ap_name)||p.client||"";  /* DRY: single source = Project · section 04 (Appointing Party) */
   $("#contract-fields").innerHTML=
-    f("Client legal entity","client_legal","full legal name")+f("Client registration no. (CNPJ)","client_reg","")+
+    `<div class="f"><label>Client legal entity</label><input value="${esc(clientLegal)}" readonly class="ro" title="Edited in Project · section 04 — Appointing Party"></div>`+f("Client registration no. (CNPJ)","client_reg","")+
+    f("Client address","client_address","client address")+f("Client phone","client_phone","client phone")+
     f("Our legal entity","our_legal","your company legal name")+f("Our registration no. (CNPJ)","our_reg","")+
+    f("Our address","our_address","your company address")+
+    f("Our phone","our_phone","office phone")+f("Our email","our_email","office email")+f("Our website","our_web","")+
     f("Total fee","fee","amount")+f("Currency","currency","BRL / USD / EUR")+
     f("Payment schedule","payment","tied to milestones")+f("Governing law","law","e.g. your country / state")+
     f("Dispute resolution","dispute","mediation / arbitration / courts");
 }
+/* ---------- company logo (global, used across projects) ---------- */
+const LOGO_DOCS=[/RP-ZZZ-0001/,/RP-ZZZ-0003/];   // docs carrying a cover/header logo placeholder
+let _genLogo=null;
+// The company logo = the FIRST image embedded in document.xml, resolved via its
+// relationship rather than a fixed media filename — so it survives Word re-saving and
+// renumbering the media (imageN.ext changes between saves), and PNG or JPG both work.
+async function findLogoTarget(entries){
+  const rd=async n=>{ const e=entries.find(x=>x.name===n); if(!e)return ""; return new TextDecoder().decode(e.method===8?await inflateRaw(e.raw):e.raw); };
+  const dx=await rd("word/document.xml"); const m=/r:embed="([^"]+)"/.exec(dx); if(!m)return null;
+  const rels=await rd("word/_rels/document.xml.rels");
+  const esc=m[1].replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+  const tm=new RegExp('Id="'+esc+'"[^>]*Target="([^"]+)"').exec(rels); if(!tm)return null;
+  let path=tm[1].replace(/^\/+/,""); if(!/^word\//.test(path)) path="word/"+path;
+  return { path, fmt:(path.split(".").pop()||"").toLowerCase()==="png"?"png":"jpg" };
+}
+function renderLogo(){
+  const box=$("#logo-box"); if(!box)return;
+  const logo=(STATE.office&&STATE.office.logo)||"";
+  box.innerHTML=`<div class="logo-row">${logo?`<img class="logo-prev" src="${esc(logo)}" alt="company logo">`:`<div class="logo-empty">No logo yet</div>`}<div class="logo-actions"><label class="btn sm upl">${logo?"Replace":"Upload"} logo<input type="file" id="logo-file" accept="image/png,image/jpeg" hidden></label>${logo?`<button class="btn sm ghost" id="logo-remove">Remove</button>`:""}<div class="logo-hint"><b>Recommended:</b> square PNG or JPG, ≥ 400×400 px, under ~1 MB. Any other size or ratio works too — it is auto-scaled to a square. Your logo is written into each new project's documents when you press <b>Create folders + documents</b>; the _BASELINE templates themselves are never modified.</div></div></div>`;
+}
+document.addEventListener("change",e=>{ if(e.target.id!=="logo-file")return; const f=e.target.files&&e.target.files[0]; if(!f)return; if(!ensureMe())return; const r=new FileReader(); r.onload=()=>{ STATE.office=STATE.office||{}; STATE.office.logo=r.result; logChange("company logo updated","",f.name); renderLogo(); autosave(); }; r.readAsDataURL(f); });
+document.addEventListener("click",e=>{
+  if(e.target.id==="logo-remove"){ if(!ensureMe())return; STATE.office=STATE.office||{}; STATE.office.logo=""; logChange("company logo removed","",""); renderLogo(); autosave(); return; }
+});
+// convert a data-URI logo into raw bytes of the target format, centred on a square canvas so aspect is kept
+function logoToBytes(dataURI,mime){ return new Promise((res,rej)=>{ const img=new Image(); img.onload=()=>{ const S=Math.max(img.width,img.height)||512, cv=document.createElement("canvas"); cv.width=S; cv.height=S; const g=cv.getContext("2d"); if(mime==="image/jpeg"){ g.fillStyle="#fff"; g.fillRect(0,0,S,S); } g.drawImage(img,(S-img.width)/2,(S-img.height)/2); cv.toBlob(async b=>{ if(!b){rej(new Error("logo convert failed"));return;} res(new Uint8Array(await b.arrayBuffer())); },mime,.92); }; img.onerror=()=>rej(new Error("logo load failed")); img.src=dataURI; }); }
+async function prepGenLogo(){ const l=(STATE.office&&STATE.office.logo)||""; if(!l){ _genLogo=null; return; } try{ _genLogo={png:await logoToBytes(l,"image/png"),jpg:await logoToBytes(l,"image/jpeg")}; }catch(e){ _genLogo=null; } }
 function renderLegal(){
   if(!curProj){ $("#legal-none").style.display="block"; $("#legal-body").style.display="none"; return; }
   $("#legal-none").style.display="none"; $("#legal-body").style.display="block";
   const p=curProj, c=p.clientData||{};
-  $("#legal-id").innerHTML=fld("Project name",p.name,"name")+fld("Location / address",p.address,"address")+fld("Client",p.client,"client");
-  renderContract(p);
+  const roFld=(l,v)=>`<div class="f"><label>${l}</label><input value="${esc(v||"")}" readonly class="ro" title="Edited in Project · section 01"></div>`;
+  $("#legal-id").innerHTML=roFld("Project name",p.name)+roFld("Location / address",p.address)+roFld("Client",p.client)+`<div class="sub" style="grid-column:1/-1;margin:0">Read-only — these come from Project · section 01.</div>`;
+  renderContract(p); renderLogo();
   $("#legal-tbl").innerHTML=`<thead><tr><th>Legal document</th><th style="width:160px">Reference / no.</th><th style="width:120px">Status</th><th style="width:130px">Date</th><th>Notes</th><th style="width:34px"></th></tr></thead><tbody>`+
     (c.permits||[]).map(pm=>`<tr data-permrow="${pm.id}">
       <td><input data-permf="item" list="dl-legal" value="${esc(pm.item)}" placeholder="e.g. Deed / Building Permit"></td>
@@ -766,19 +913,32 @@ function renderProject(){
   $("#proj-fields").innerHTML=
     fld("Project","name"in p?p.name:"","name")+fld("Code",p.code,"code")+fld("Client",p.client,"client")+
     fld("Address",p.address,"address")+
+    fld("City",p.city||"","city")+fld("Postal code",p.postal||"","postal")+fld("Country",p.country||"","country")+
+    fld("Project description",p.desc||"","desc")+
     `<div class="f"><label>Status</label><select data-pf="status">
       <option value="active"${p.status==="active"?" selected":""}>active</option>
       <option value="hold"${p.status==="hold"?" selected":""}>on hold</option>
       <option value="closed"${p.status==="closed"?" selected":""}>closed</option></select></div>`+
     fld("Contract / no.",p.contractNo||"","contractNo")+fld("Quote / value",p.quote||"","quote");
   // team table
-  $("#team-tbl").innerHTML=`<thead><tr><th style="width:130px">Type</th><th>Role / Discipline / Function</th><th>Responsible</th><th>Email</th><th style="width:34px"></th></tr></thead><tbody>`+
+  const CHAT_APPS=["Slack","Discord","Teams","WhatsApp","Other"];
+  $("#team-tbl").innerHTML=`<thead><tr><th style="width:26px"></th><th style="width:130px">Type</th><th>Role / Discipline / Function</th><th>Responsible</th><th>Email</th><th style="width:34px"></th></tr></thead><tbody>`+
     p.team.map(t=>`<tr data-row="${t.id}">
+      <td><button class="texp" data-texp="${t.id}" aria-expanded="false" title="contact details">▸</button></td>
       <td><select data-tf="kind">${KINDS.map(([v,l])=>`<option value="${v}"${t.kind===v?" selected":""}>${l}</option>`).join("")}</select></td>
       <td><input data-tf="label" list="dl-${t.kind||'Discipline'}" value="${esc(t.label)}" placeholder="pick from list or type…"></td>
       <td><input data-tf="person" list="dl-people" value="${esc(t.person)}" placeholder="name"></td>
       <td><input data-tf="email" type="email" value="${esc(t.email)}" placeholder="email"></td>
-      <td><button class="del" data-delteam="${t.id}" title="remove">×</button></td></tr>`).join("")+`</tbody>`;
+      <td><button class="del" data-delteam="${t.id}" title="remove">×</button></td></tr>
+      <tr class="tdetail" data-row="${t.id}" data-ddrow="${t.id}" hidden><td></td><td colspan="5"><div class="tdetail-grid">
+        <label>Phone<input data-tf="phone" value="${esc(t.phone||"")}" placeholder="+.. ... ..."></label>
+        <label>Organisation<input data-tf="org" value="${esc(t.org||"")}" placeholder="company / firm"></label>
+        <label>Title / qualification<input data-tf="title" value="${esc(t.title||"")}" placeholder="e.g. Structural engineer"></label>
+        <label>Messaging<span class="chatpair"><select data-tf="chatApp">${CHAT_APPS.map(a=>`<option${(t.chatApp||"Slack")===a?" selected":""}>${a}</option>`).join("")}</select><input data-tf="chat" value="${esc(t.chat||"")}" placeholder="@user"></span></label>
+        <label>Initials <span class="hint">(originator)</span><input data-tf="initials" value="${esc(t.initials||"")}" placeholder="e.g. EC" maxlength="3"></label>
+        <label>Availability<input data-tf="avail" value="${esc(t.avail||"")}" placeholder="e.g. Mon–Fri 9–18"></label>
+        <label>Time zone (UTC)<input data-tf="tz" value="${esc(t.tz||"")}" placeholder="e.g. UTC+1, UTC−5"></label>
+      </div></td></tr>`).join("")+`</tbody>`;
   // files table
   $("#files-tbl").innerHTML=`<thead><tr><th>File</th><th>From</th><th style="width:130px">Promised</th><th style="width:130px">Delivered</th><th style="width:70px">Rev</th><th style="width:130px">Our update</th><th style="width:100px">Status</th><th style="width:34px"></th></tr></thead><tbody>`+
     p.files.map(f=>`<tr data-frow="${f.id}">
@@ -831,6 +991,7 @@ document.addEventListener("click",e=>{
   const dp=e.target.closest("[data-delproj]"); if(dp){ askDeleteProject(dp.dataset.delproj); return; }
   const o=e.target.closest("[data-open]"); if(o){ curProj=byId(o.dataset.open); switchView("project"); return; }
   if(e.target.id==="new-proj"){ $("#dlg-new").showModal(); return; }
+  const tx=e.target.closest("[data-texp]"); if(tx){ const id=tx.dataset.texp; const d=document.querySelector(`.tdetail[data-ddrow="${id}"]`); if(d){ const open=d.hasAttribute("hidden"); if(open)d.removeAttribute("hidden"); else d.setAttribute("hidden",""); tx.setAttribute("aria-expanded",open); tx.textContent=open?"▾":"▸"; } return; }
   const dt=e.target.closest("[data-delteam]"); if(dt){ if(!ensureMe())return; const p=curProj,id=dt.dataset.delteam,row=p.team.find(t=>t.id===id); p.team=p.team.filter(t=>t.id!==id); logChange("removed team row",row?row.label:"",""); renderProject(); return; }
   const df=e.target.closest("[data-delfile]"); if(df){ if(!ensureMe())return; const p=curProj,id=df.dataset.delfile,row=p.files.find(t=>t.id===id); p.files=p.files.filter(t=>t.id!==id); logChange("removed client file",row?row.file:"",""); renderProject(); return; }
   const du=e.target.closest("[data-deluser]"); if(du){ if(!ensureMe())return; const u=(STATE.users||[]).find(x=>x.id===du.dataset.deluser); STATE.users=(STATE.users||[]).filter(x=>x.id!==du.dataset.deluser); logChange("removed user",u?u.name:"",""); renderAccess(); return; }
@@ -868,6 +1029,20 @@ $("#sched-legend")&&$("#sched-legend").addEventListener("change",e=>{
   if(dEl){ schSetDays(dEl.dataset.sdDay,dEl.value); logChange("schedule days · "+dEl.dataset.sdDay,"",dEl.value+"d"); }
   else { schSetPct(pEl.dataset.sdPct,pEl.value); logChange("schedule % · "+pEl.dataset.sdPct,"",pEl.value+"%"); }
 });
+// work-calendar panel (workdays, holiday preset, manual holidays)
+$("#sched-cal")&&$("#sched-cal").addEventListener("click",e=>{
+  if(!curProj)return;
+  const wk=e.target.closest("[data-wk]"), del=e.target.closest("[data-holdel]"), add=e.target.closest("#cal-holaddbtn");
+  if(wk){ if(!ensureMe())return; const d=+wk.dataset.wk, cal=normCal(curProj), i=cal.workdays.indexOf(d);
+    if(i>=0){ if(cal.workdays.length<=1)return; cal.workdays.splice(i,1); } else cal.workdays.push(d);
+    cal.workdays.sort((a,b)=>a-b); logChange("work week","",cal.workdays.join(",")); renderSchedule(); return; }
+  if(del){ if(!ensureMe())return; const d=del.dataset.holdel, cal=normCal(curProj); cal.holidays=cal.holidays.filter(x=>x!==d); logChange("holiday removed",d,""); renderSchedule(); return; }
+  if(add){ if(!ensureMe())return; const inp=$("#cal-holadd"), v=inp&&inp.value; if(!v)return; const cal=normCal(curProj); if(!cal.holidays.includes(v)){ cal.holidays.push(v); logChange("holiday added","",v); } renderSchedule(); return; }
+});
+$("#sched-cal")&&$("#sched-cal").addEventListener("change",e=>{
+  const sel=e.target.closest("#cal-country"); if(!sel||!curProj)return; if(!ensureMe())return;
+  const cal=normCal(curProj); cal.country=sel.value; logChange("holiday preset","",sel.value||"none"); renderSchedule();
+});
 /* ================= Schedule tab ================= */
 const DISC_COLOR={STR:"#e0654f",STL:"#4f8fe0",MAS:"#e0a54f",FDN:"#8a6fe0",HID:"#2fb39a",FIR:"#e05f6f",ELE:"#d8c23f",MEC:"#4fbede",GEO:"#b0895a",ARC:"#7bbf5f",ELV:"#5fbf9f",CRD:"#cf6fd0",ZZZ:"#8a97a3",DRA:"#3fa8d8",GAS:"#e08a3f",CIV:"#9a7b5a",ROA:"#7a8a99",ACO:"#a06fd0",SUS:"#4fbf7f",TOP:"#c0a060"};
 const SCHED_RANGE={STR:["M2","M5"],STL:["M2","M5"],MAS:["M2","M5"],FDN:["M2","M5"],HID:["M3","M5"],ELE:["M3","M5"],FIR:["M3","M5"],MEC:["M3","M5"],GEO:["M1","M2"],ARC:["M1","M3"],CRD:["M2","M5"]};
@@ -877,7 +1052,31 @@ const schFmt=t=>new Date(t).toLocaleDateString("en-GB",{day:"2-digit",month:"sho
 const schIso=t=>{const d=new Date(t);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
 let SCHED=null;
 const schPct=t=>(t-SCHED.T0)/(SCHED.T1-SCHED.T0)*100;
-const schDur=r=>Math.max(0,Math.round((schT(r.end)-schT(r.start))/864e5));
+/* ---- working-day calendar (weekends off by project + national holidays) ---- */
+const MS=864e5;
+const isoD=dt=>schIso(dt.getTime());
+const addDays=(dt,n)=>{const d=new Date(dt);d.setDate(d.getDate()+n);return d;};
+const dayFloor=t=>{const d=new Date(t);d.setHours(0,0,0,0);return d.getTime();};
+// Gauss/Meeus — Easter Sunday (local midnight) for a given year, anchors the movable feasts
+function easterDate(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da);}
+const fixedHols=(y,list)=>list.map(([mo,da])=>isoD(new Date(y,mo-1,da)));   // [month(1-12),day]
+// national holiday presets — starting points, editable per project via manual add. Movable feasts computed from Easter.
+const HOL_COUNTRIES={
+  BR:{name:"Brasil",fn:y=>{const E=easterDate(y);return fixedHols(y,[[1,1],[4,21],[5,1],[9,7],[10,12],[11,2],[11,15],[12,25]]).concat([isoD(addDays(E,-48)),isoD(addDays(E,-47)),isoD(addDays(E,-2)),isoD(addDays(E,60))]);}},        // Carnaval seg/ter, Sexta-feira Santa, Corpus Christi
+  PE:{name:"Perú",fn:y=>{const E=easterDate(y);return fixedHols(y,[[1,1],[5,1],[6,29],[7,28],[7,29],[8,6],[8,30],[10,8],[11,1],[12,8],[12,9],[12,25]]).concat([isoD(addDays(E,-3)),isoD(addDays(E,-2))]);}},      // Jueves y Viernes Santo
+  CL:{name:"Chile",fn:y=>{const E=easterDate(y);return fixedHols(y,[[1,1],[5,1],[5,21],[6,29],[7,16],[8,15],[9,18],[9,19],[10,12],[10,31],[11,1],[12,8],[12,25]]).concat([isoD(addDays(E,-2)),isoD(addDays(E,-1))]);}},   // Viernes y Sábado Santo
+  AR:{name:"Argentina",fn:y=>{const E=easterDate(y);return fixedHols(y,[[1,1],[3,24],[4,2],[5,1],[5,25],[6,20],[7,9],[12,8],[12,25]]).concat([isoD(addDays(E,-48)),isoD(addDays(E,-47)),isoD(addDays(E,-2))]);}}          // Carnaval + Viernes Santo
+};
+function normCal(p){p.cal=p.cal||{};if(!Array.isArray(p.cal.workdays)||!p.cal.workdays.length)p.cal.workdays=[1,2,3,4,5];if(typeof p.cal.country!=="string")p.cal.country="";if(!Array.isArray(p.cal.holidays))p.cal.holidays=[];return p.cal;}
+function holidaySet(cal,y0,y1){const s=new Set(cal.holidays||[]);const pre=HOL_COUNTRIES[cal.country];if(pre){for(let y=y0-1;y<=y1+1;y++)pre.fn(y).forEach(d=>s.add(d));}return s;}
+function isWorkday(t,cal,hol){const wd=new Date(t).getDay();if(!cal.workdays.includes(wd))return false;if(hol.has(schIso(t)))return false;return true;}
+// working days in the half-open span [start,end) — matches the old calendar "duration" semantics
+function workdaysBetween(start,end,cal,hol){let a=dayFloor(schT(start)),b=dayFloor(schT(end));if(b<=a)return 0;let n=0;for(let t=a;t<b;t+=MS)if(isWorkday(t,cal,hol))n++;return n;}
+// date that is n working days AFTER start (keeps start fixed) — inverse of workdaysBetween
+function addWorkdays(start,n,cal,hol){n=Math.max(1,Math.round(n));let t=dayFloor(schT(start)),c=0;while(c<n){if(isWorkday(t,cal,hol))c++;t+=MS;}return schIso(t);}
+// date that is n working days BEFORE end (keeps end fixed)
+function subWorkdays(end,n,cal,hol){n=Math.max(1,Math.round(n));let t=dayFloor(schT(end)),c=0;while(c<n){t-=MS;if(isWorkday(t,cal,hol))c++;}return schIso(t);}
+const schDur=r=>SCHED?workdaysBetween(r.start,r.end,SCHED.cal,SCHED.holset):Math.max(0,Math.round((schT(r.end)-schT(r.start))/MS));
 
 function schedModel(p){
   const ms={}; (p.milestones||[]).forEach(m=>{ if(m.planned) ms[m.code]=m.planned; });
@@ -909,13 +1108,16 @@ function schedModel(p){
   const acts=rows.map(r=>schT(r.actual)).filter(Boolean);
   const T0=Math.min(...[docD||msT0, msT0, ...rows.map(r=>schT(r.start))]);
   const T1=Math.max(...[msT1, ...rows.map(r=>schT(r.end)), ...acts]);
-  return {rows,codes,ms,T0,T1,msT0,msT1,docD,valid,missing,msList:(p.milestones||[]).filter(m=>m.planned)};
+  const cal=normCal(p);
+  const holset=holidaySet(cal,new Date(T0).getFullYear(),new Date(T1).getFullYear());
+  return {rows,codes,ms,T0,T1,msT0,msT1,docD,valid,missing,cal,holset,msList:(p.milestones||[]).filter(m=>m.planned)};
 }
 function schSeg(cx,cy,R,r,a1,a2,c){const P=(a,rad)=>{const x=(a-90)*Math.PI/180;return[cx+rad*Math.cos(x),cy+rad*Math.sin(x)];};const A=P(a1,R),B=P(a2,R),C=P(a2,r),D=P(a1,r),lg=(a2-a1)>180?1:0;return `<path d="M${A[0]} ${A[1]} A${R} ${R} 0 ${lg} 1 ${B[0]} ${B[1]} L${C[0]} ${C[1]} A${r} ${r} 0 ${lg} 0 ${D[0]} ${D[1]} Z" fill="${c}"/>`;}
 function schPie(){
   const rows=SCHED.rows, total=rows.reduce((s,r)=>s+schDur(r),0)||1; let a=0,paths="";
+  const projDays=workdaysBetween(schIso(SCHED.T0),schIso(SCHED.T1),SCHED.cal,SCHED.holset);   // real project duration (T0→T1), not the sum of parallel disciplines
   rows.forEach(r=>{const f=schDur(r)/total,a2=a+f*360;if(f>0)paths+=schSeg(82,82,74,47,a+.6,a2-.6,dcolor(r.code));a=a2;});
-  $("#sched-donut").innerHTML=`<svg width="164" height="164" viewBox="0 0 164 164">${paths}</svg><div class="ctr"><b>${total}</b><span>days</span></div>`;
+  $("#sched-donut").innerHTML=`<svg width="164" height="164" viewBox="0 0 164 164">${paths}</svg><div class="ctr"><b>${total}</b><span>days · sum</span><b class="p2">${projDays}</b><span>project days</span></div>`;
   $("#sched-legend").innerHTML=rows.map(r=>{const pc=Math.round(schDur(r)/total*100);return `<div class="li"><span class="sw" style="background:${dcolor(r.code)}"></span><span class="nm">${r.code} · ${esc(DISC_NAME[r.code]||r.code)}</span><span class="pc"><input class="sched-inp" type="number" min="0" max="99" data-sd-pct="${r.code}" value="${pc}" title="edit % share">% · <input class="sched-inp" type="number" min="1" data-sd-day="${r.code}" value="${schDur(r)}" title="edit days">d</span></div>`;}).join("");
 }
 function schCols(){
@@ -957,8 +1159,16 @@ function schGantt(){
     ymarks+=`<div class="ymk" style="left:${mid}%">${y}</div>`;                                    // year centred under its span
     if(y>yStart){ const t=new Date(y,0,1).getTime(); if(t>SCHED.T0&&t<SCHED.T1) ylines+=`<div class="sched-yline" style="left:${schPct(t)}%"></div>`; }   // 1-Jan boundary line
   }
+  // non-working days (weekends by project + holidays) shaded grey behind every track
+  let nwb="";
+  for(let t=dayFloor(SCHED.T0);t<SCHED.T1;t+=MS){
+    if(!isWorkday(t,SCHED.cal,SCHED.holset)){
+      const l=schPct(Math.max(SCHED.T0,t)), w=schPct(Math.min(SCHED.T1,t+MS))-l;
+      if(w>0) nwb+=`<div class="sched-nwb${SCHED.holset.has(schIso(t))?" hol":""}" style="left:${l}%;width:${w}%"></div>`;
+    }
+  }
   const docLine=SCHED.docD?`<div class="sched-msl doc" style="left:${schPct(SCHED.docD)}%"></div>`:"";
-  const lines=bands+docLine+SCHED.msList.map(m=>`<div class="sched-msl" style="left:${schPct(schT(m.planned))}%"></div>`).join("")+ylines;
+  const lines=nwb+bands+docLine+SCHED.msList.map(m=>`<div class="sched-msl" style="left:${schPct(schT(m.planned))}%"></div>`).join("")+ylines;
   SCHED.rows.forEach((r,i)=>{
     const row=document.createElement("div"); row.className="sched-grow";
     // actual delivery vs planned: red tail if late, green tail if early
@@ -976,7 +1186,7 @@ function schGantt(){
     return `<div class="mk" style="left:${schPct(t)}%"><div class="c">${m.code}</div><div class="d">${schFmt(t)}${showY?" "+yr:""}</div></div>`; }).join("");
   // days per section (between consecutive milestones)
   let dc="";
-  for(let k=0;k<SCHED.msList.length-1;k++){ const a=schT(SCHED.msList[k].planned), b=schT(SCHED.msList[k+1].planned); const days=Math.round((b-a)/864e5), mid=(schPct(a)+schPct(b))/2; dc+=`<div class="dc" style="left:${mid}%">${days} d</div>`; }
+  for(let k=0;k<SCHED.msList.length-1;k++){ const a=schT(SCHED.msList[k].planned), b=schT(SCHED.msList[k+1].planned); const days=workdaysBetween(SCHED.msList[k].planned,SCHED.msList[k+1].planned,SCHED.cal,SCHED.holset), mid=(schPct(a)+schPct(b))/2; dc+=`<div class="dc" style="left:${mid}%" title="working days">${days} d</div>`; }
   $("#sched-daycount").innerHTML=dc;
   $("#sched-start").innerHTML=SCHED.docD?`<div class="stag" style="left:${schPct(SCHED.docD)}%">▸ Start · ${schFmt(SCHED.docD)}</div>`:"";
   $("#sched-year").innerHTML=ymarks;
@@ -1010,15 +1220,15 @@ function schBindDrag(){
 function schSetDays(code,n){
   if(!SCHED)return; const r=SCHED.rows.find(x=>x.code===code); if(!r)return;
   n=Math.max(1,Math.round(+n||1));
-  // delivery (end) stays on its milestone; the duration sets how far back the start goes
-  r.start=schIso(schT(r.end)-n*864e5);
+  // delivery (end) stays fixed; duration = n WORKING days back from it
+  r.start=subWorkdays(r.end,n,SCHED.cal,SCHED.holset);
   curProj.schedule[code]={start:r.start,end:r.end};
 }
-// set duration keeping the START fixed and moving the delivery (end) FORWARD
+// set duration keeping the START fixed and moving the delivery (end) FORWARD, in WORKING days
 function schSetDaysFwd(code,n){
   if(!SCHED)return; const r=SCHED.rows.find(x=>x.code===code); if(!r)return;
   n=Math.max(1,Math.round(+n||1));
-  r.end=schIso(schT(r.start)+n*864e5);
+  r.end=addWorkdays(r.start,n,SCHED.cal,SCHED.holset);
   curProj.schedule[code]={start:r.start,end:r.end};
 }
 function schSetPct(code,p){
@@ -1042,9 +1252,107 @@ function renderSchedule(){
   if(M.missing.length){ warn.className="sched-notice soft"; warn.style.display="block"; warn.innerHTML="Some milestones have no date yet (<b>"+M.missing.join(", ")+"</b>) — those bars fall back to the nearest milestone. Fill them in section 05 and this clears."; }
   else warn.style.display="none";
   charts.style.display="block";
-  SCHED=M; schPie(); schCols(); schGantt();
+  SCHED=M; schPie(); schCols(); schGantt(); renderCal();
 }
-function switchView(v){ $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===v)); $$(".view").forEach(x=>x.classList.remove("on")); $("#v-"+v).classList.add("on"); if(v==="project")renderProject(); if(v==="log")renderLog(); if(v==="access")renderAccess(); if(v==="legal")renderLegal(); if(v==="schedule")renderSchedule(); }
+const WK_DAYS=[["Mon",1],["Tue",2],["Wed",3],["Thu",4],["Fri",5],["Sat",6],["Sun",0]];
+function renderCal(){
+  const host=$("#sched-cal"); if(!host||!curProj)return;
+  const cal=normCal(curProj);
+  const wk=WK_DAYS.map(([n,d])=>`<span class="wk${cal.workdays.includes(d)?" on":""}" data-wk="${d}" title="toggle working day">${n}</span>`).join("");
+  const opts=[["","No preset"]].concat(Object.entries(HOL_COUNTRIES).map(([k,v])=>[k,v.name]))
+    .map(([k,n])=>`<option value="${k}"${cal.country===k?" selected":""}>${n}</option>`).join("");
+  const manual=cal.holidays.slice().sort().map(d=>`<span class="holchip" title="manual holiday">${schFmt(schT(d))} ${new Date(d+"T00:00:00").getFullYear()}<button data-holdel="${d}" title="Remove">×</button></span>`).join("");
+  const preN=(cal.country&&SCHED&&SCHED.holset)?[...SCHED.holset].filter(d=>!cal.holidays.includes(d)).length:0;
+  host.innerHTML=
+    `<div class="cal-row"><span class="cal-lbl">Work week</span><div class="cal-wk">${wk}</div><span class="cal-note">click to toggle · grey bands in the Gantt = non-working days · all durations are in <b>working days</b></span></div>`+
+    `<div class="cal-row"><span class="cal-lbl">Holidays</span>`+
+      `<select id="cal-country" title="National holiday preset (editable — add extras below)">${opts}</select>`+
+      `<input type="date" id="cal-holadd"><button class="btn sm" id="cal-holaddbtn">+ Add</button>`+
+      (cal.country&&HOL_COUNTRIES[cal.country]?`<span class="holchip pre" title="from the ${HOL_COUNTRIES[cal.country].name} preset">${HOL_COUNTRIES[cal.country].name}: ${preN} national</span>`:``)+
+      `<div class="cal-hols">${manual}</div>`+
+    `</div>`;
+}
+/* ================= BIM tab (info management + governance) ================= */
+const LOD_OPTS=["","LOD 100","LOD 200","LOD 300","LOD 350","LOD 400"];
+// common software uses/functions (mirror the Information Standard A.3 "BIM system" table)
+const SW_USES=["Modelling / authoring","Analysis / calculation","Drafting (2D)","IFC visualisation","Renders","Reports / specifications","Quantities / budget","Process maps","Clash detection / coordination"];
+function renderBIM(){
+  if(!$("#v-bim"))return;
+  if(!curProj){ $("#bim-none").style.display="block"; $("#bim-body").style.display="none"; return; }
+  $("#bim-none").style.display="none"; $("#bim-body").style.display="block";
+  const p=curProj, b=p.bim||(p.bim={software:[],comm:{},coords:{},infoManager:"",lod:{},responsibilities:[],risks:[]});
+  if(!Array.isArray(b.phases))b.phases=["Preliminary design","Schematic design","Detailed design","Construction supervision"].map(n=>({id:uid(),name:n}));
+  if(b.contractType===undefined)b.contractType="";
+  // DRY appointments: one per discipline (service + party sourced from Team · section 02), plus manual non-modeling services
+  b.appointments=b.appointments||[];
+  const _discList=(p.team||[]).filter(t=>t.kind==="Discipline"&&(t.label||"").trim());
+  _discList.forEach(d=>{ let a=b.appointments.find(x=>x.disc===d.id); if(!a){ b.appointments.push({id:uid(),disc:d.id,service:d.label,party:d.person||"",contract:"",phases:""}); } else { a.service=d.label; if(!a.party)a.party=d.person||""; } });
+  b.appointments=b.appointments.filter(a=>!a.disc||_discList.some(d=>d.id===a.disc));
+  const bf=(l,path,val,ph)=>`<div class="f"><label>${l}</label><input data-bf="${path}" value="${esc(val||"")}" placeholder="${esc(ph||"")}"></div>`;
+  const CONTRACT_TYPES=["Traditional (Design-Bid-Build)","Design & Build","Integrated Project Delivery (IPD)","Construction Management","Public-Private Partnership (PPP)","Professional-services contract","Collaboration contract","Framework agreement"];
+  $("#bim-contract").innerHTML=`<div class="f"><label>Contract / procurement type</label><input data-bf="contractType" list="dl-contract" value="${esc(b.contractType||"")}" placeholder="e.g. Traditional (Design-Bid-Build)"></div><datalist id="dl-contract">${CONTRACT_TYPES.map(o=>`<option value="${esc(o)}">`).join("")}</datalist>`;
+  const partySel=cur=>{ const opts=(p.team||[]).filter(t=>t.person).map(t=>`<option value="${esc(t.person)}"${t.person===cur?" selected":""}>${esc(t.person)} — ${esc((t.label||t.kind||"").replace(/\s*\([A-Z]{1,4}\)\s*$/,"").trim())}</option>`).join(""); const extra=cur&&!(p.team||[]).some(t=>t.person===cur)?`<option value="${esc(cur)}" selected>${esc(cur)}</option>`:""; return `<select data-appf="party"><option value="">—</option>${opts}${extra}</select>`; };
+  $("#bim-app-tbl").innerHTML=`<thead><tr><th style="width:30px">Nº</th><th>Professional service</th><th style="width:200px">Appointed party <span class="hint">(from Team)</span></th><th style="width:190px">Appointment / contract type</th><th style="width:180px">Contracted phases</th><th style="width:30px"></th></tr></thead><tbody>`+
+    (b.appointments.length?b.appointments.map((a,i)=>`<tr data-approw="${a.id}"><td>${i+1}</td><td>${a.disc?`<input value="${esc(a.service||"")}" readonly class="ro" title="From Team · section 02">`:`<input data-appf="service" value="${esc(a.service||"")}" placeholder="e.g. Health & safety coordinator">`}</td><td>${partySel(a.party)}</td><td><input data-appf="contract" list="dl-contract" value="${esc(a.contract||"")}" placeholder="e.g. Collaboration contract"></td><td><input data-appf="phases" value="${esc(a.phases||"")}" placeholder="e.g. Detailed → Construction"></td><td><button class="del" data-delapp="${a.id}">×</button></td></tr>`).join(""):`<tr><td colspan="6"><div class="empty" style="padding:8px">No appointments yet — add disciplines in Team (section 02), or add a non-modeling service below.</div></td></tr>`)+`</tbody>`;
+  // discipline options for the software table come from the project's disciplines (section 02)
+  const discs=[...new Set((p.team||[]).filter(t=>t.kind==="Discipline"&&t.label).map(t=>t.label))];
+  let dld=document.getElementById("dl-projdisc"); if(!dld){ dld=document.createElement("datalist"); dld.id="dl-projdisc"; document.body.appendChild(dld); }
+  dld.innerHTML=[...discs,"Office-wide"].map(o=>`<option value="${esc(o)}"></option>`).join("");
+  let uld=document.getElementById("dl-swuse"); if(!uld){ uld=document.createElement("datalist"); uld.id="dl-swuse"; document.body.appendChild(uld); }
+  uld.innerHTML=SW_USES.map(o=>`<option value="${esc(o)}"></option>`).join("");
+  $("#bim-sw-tbl").innerHTML=`<thead><tr><th>Discipline</th><th>Use / function</th><th>Software / tool</th><th style="width:120px">Version</th><th style="width:34px"></th></tr></thead><tbody>`+
+    (b.software.length?b.software.map(s=>`<tr data-swrow="${s.id}"><td><input data-swf="disc" list="dl-projdisc" value="${esc(s.disc||"")}" placeholder="discipline / Office-wide"></td><td><input data-swf="use" list="dl-swuse" value="${esc(s.use||"")}" placeholder="e.g. Modelling"></td><td><input data-swf="tool" value="${esc(s.tool||"")}" placeholder="e.g. Revit"></td><td><input data-swf="version" value="${esc(s.version||"")}" placeholder="2024"></td><td><button class="del" data-delsw="${s.id}">×</button></td></tr>`).join(""):`<tr><td colspan="5"><div class="empty" style="padding:8px">No software yet — add your toolchain. One row per tool: a discipline can use several (e.g. STR: Revit=modelling, Cypecad/Robot=analysis, AutoCAD=drafting).</div></td></tr>`)+`</tbody>`;
+  $("#bim-comm").innerHTML=bf("Messaging workspace (Slack/Discord)","comm.chat",b.comm.chat,"workspace name / URL")+bf("Task board (Trello/ClickUp)","comm.board",b.comm.board,"board URL")+bf("Shared calendar","comm.calendar",b.comm.calendar,"calendar URL");
+  $("#bim-coords").innerHTML=bf("N/S","coords.ns",b.coords.ns,"0.00000")+bf("E/W","coords.ew",b.coords.ew,"0.00000")+bf("Elevation","coords.elev",b.coords.elev,"0.0000")+bf("Angle to true north","coords.north",b.coords.north,"0.00º")+bf("Cadastral reference","coords.cadastral",b.coords.cadastral,"");
+  const imRow=(p.team||[]).find(t=>/information manager/i.test(t.label||"")); const imName=(imRow&&imRow.person)||"";
+  $("#bim-im").innerHTML=`<div class="f"><label>Information Manager (from the team · section 02)</label><input value="${esc(imName)}" readonly class="ro" title="Set the Information Manager's person in the Team table (section 02)"></div>`;
+  $("#bim-rsp-tbl").innerHTML=`<thead><tr><th>Task / area</th><th style="width:210px">Responsible</th><th>Deliverable</th><th style="width:34px"></th></tr></thead><tbody>`+
+    (b.responsibilities.length?b.responsibilities.map(r=>`<tr data-rsprow="${r.id}"><td><input data-rspf="task" value="${esc(r.task||"")}" placeholder="e.g. Structural model"></td><td><input data-rspf="who" list="dl-people" value="${esc(r.who||"")}" placeholder="name / role"></td><td><input data-rspf="deliverable" value="${esc(r.deliverable||"")}" placeholder="e.g. M3 + calc report"></td><td><button class="del" data-delrsp="${r.id}">×</button></td></tr>`).join(""):`<tr><td colspan="4"><div class="empty" style="padding:8px">No responsibilities yet.</div></td></tr>`)+`</tbody>`;
+  $("#bim-rsk-tbl").innerHTML=`<thead><tr><th>Risk</th><th style="width:120px">Impact</th><th>Mitigation</th><th style="width:170px">Owner</th><th style="width:34px"></th></tr></thead><tbody>`+
+    (b.risks.length?b.risks.map(r=>`<tr data-rskrow="${r.id}"><td><input data-rskf="risk" value="${esc(r.risk||"")}"></td><td><select data-rskf="impact">${["Low","Medium","High"].map(o=>`<option${(r.impact||"Medium")===o?" selected":""}>${o}</option>`).join("")}</select></td><td><input data-rskf="mitigation" value="${esc(r.mitigation||"")}"></td><td><input data-rskf="owner" list="dl-people" value="${esc(r.owner||"")}"></td><td><button class="del" data-delrsk="${r.id}">×</button></td></tr>`).join(""):`<tr><td colspan="5"><div class="empty" style="padding:8px">No risks logged.</div></td></tr>`)+`</tbody>`;
+  // ---- CDE / Federation / QA / Delivery formats ----
+  b.cde=b.cde||{}; b.federation=b.federation||{};
+  if(!Array.isArray(b.qa)) b.qa=[{id:uid(),check:"Clash detection",tool:"",frequency:"Per milestone"},{id:uid(),check:"Model health / warnings",tool:"",frequency:"Weekly"},{id:uid(),check:"Naming & standards compliance",tool:"",frequency:"Before Shared → Published"}];
+  if(!Array.isArray(b.formats)) b.formats=[{id:uid(),format:"IFC",version:"IFC4",use:"Coordination / exchange"},{id:uid(),format:"Native (authoring)",version:"",use:"Working files"},{id:uid(),format:"PDF",version:"",use:"Deliverable drawings & reports"},{id:uid(),format:"NWD / NWC / BCF",version:"",use:"Federation & clash"}];
+  const CDE_PLAT=["","Network / server folder","SharePoint","Autodesk Construction Cloud (BIM 360/ACC)","Trimble Connect","Bentley ProjectWise","Aconex","Other"];
+  const imCde=((p.team||[]).find(t=>/information manager/i.test(t.label||""))||{}).person||"";
+  $("#bim-cde").innerHTML=`<div class="f"><label>CDE platform / host</label><select data-bf="cde.platform">${CDE_PLAT.map(o=>`<option${(b.cde.platform||"")===o?" selected":""}>${esc(o)}</option>`).join("")}</select></div>`+bf("Access URL","cde.url",b.cde.url,"https://…")+`<div class="f"><label>CDE manager <span class="hint">(from the team)</span></label><input value="${esc(imCde)}" readonly class="ro" title="Set the Information Manager in Team (section 02)"></div>`+bf("Notes / access policy","cde.notes",b.cde.notes,"who has access, approval to Published…");
+  const FED_BRK=["","By discipline","By zone / building","By level / storey","By discipline + zone","Single federated model"];
+  $("#bim-fed").innerHTML=`<div class="f"><label>Model breakdown</label><select data-bf="federation.breakdown">${FED_BRK.map(o=>`<option${(b.federation.breakdown||"")===o?" selected":""}>${esc(o)}</option>`).join("")}</select></div>`+bf("Federation tool","federation.tool",b.federation.tool,"Navisworks / Solibri / BIMcollab…")+bf("Federation frequency","federation.frequency",b.federation.frequency,"e.g. weekly / per milestone")+bf("Notes","federation.notes",b.federation.notes,"shared coordinates / origin, split rules…");
+  $("#bim-qa-tbl").innerHTML=`<thead><tr><th>Check</th><th style="width:190px">Tool</th><th style="width:210px">Frequency</th><th style="width:34px"></th></tr></thead><tbody>`+(b.qa.length?b.qa.map(r=>`<tr data-qarow="${r.id}"><td><input data-qaf="check" value="${esc(r.check||"")}" placeholder="e.g. Clash detection"></td><td><input data-qaf="tool" value="${esc(r.tool||"")}" placeholder="tool"></td><td><input data-qaf="frequency" value="${esc(r.frequency||"")}" placeholder="e.g. per milestone"></td><td><button class="del" data-delqa="${r.id}">×</button></td></tr>`).join(""):`<tr><td colspan="4"><div class="empty" style="padding:8px">No checks yet.</div></td></tr>`)+`</tbody>`;
+  $("#bim-fmt-tbl").innerHTML=`<thead><tr><th style="width:190px">Format</th><th style="width:130px">Version</th><th>Purpose / use</th><th style="width:34px"></th></tr></thead><tbody>`+(b.formats.length?b.formats.map(r=>`<tr data-fmtrow="${r.id}"><td><input data-fmtf="format" value="${esc(r.format||"")}" placeholder="IFC / DWG / PDF…"></td><td><input data-fmtf="version" value="${esc(r.version||"")}" placeholder="IFC4…"></td><td><input data-fmtf="use" value="${esc(r.use||"")}" placeholder="coordination / delivery…"></td><td><button class="del" data-delfmt="${r.id}">×</button></td></tr>`).join(""):`<tr><td colspan="4"><div class="empty" style="padding:8px">No formats yet.</div></td></tr>`)+`</tbody>`;
+}
+function _setPath(o,path,val){ const ks=path.split("."); let x=o; for(let i=0;i<ks.length-1;i++){ x[ks[i]]=x[ks[i]]||{}; x=x[ks[i]]; } x[ks[ks.length-1]]=val; }
+document.addEventListener("change",e=>{
+  const t=e.target; if(!curProj||!curProj.bim)return; const b=curProj.bim;
+  if(t.matches("[data-bf]")){ if(!ensureMe())return; _setPath(b,t.dataset.bf,t.value); logChange("bim · "+t.dataset.bf,"",t.value); }
+  else if(t.matches("[data-lod]")){ if(!ensureMe())return; b.lod[t.dataset.lod]=t.value; logChange("bim · LOD "+t.dataset.lod,"",t.value); }
+  else if(t.matches("[data-swf]")){ if(!ensureMe())return; const r=b.software.find(x=>x.id===t.closest("[data-swrow]").dataset.swrow); if(r){ r[t.dataset.swf]=t.value; logChange("bim · software · "+(r.tool||"?"),"",t.value); } }
+  else if(t.matches("[data-phf]")){ if(!ensureMe())return; const r=(b.phases||[]).find(x=>x.id===t.closest("[data-phrow]").dataset.phrow); if(r){ r[t.dataset.phf]=t.value; logChange("bim · phase","",t.value); } }
+  else if(t.matches("[data-appf]")){ if(!ensureMe())return; const r=(b.appointments||[]).find(x=>x.id===t.closest("[data-approw]").dataset.approw); if(r){ r[t.dataset.appf]=t.value; logChange("bim · appointment","",t.value); } }
+  else if(t.matches("[data-rspf]")){ if(!ensureMe())return; const r=b.responsibilities.find(x=>x.id===t.closest("[data-rsprow]").dataset.rsprow); if(r){ r[t.dataset.rspf]=t.value; logChange("bim · responsibility","",t.value); } }
+  else if(t.matches("[data-rskf]")){ if(!ensureMe())return; const r=b.risks.find(x=>x.id===t.closest("[data-rskrow]").dataset.rskrow); if(r){ r[t.dataset.rskf]=t.value; logChange("bim · risk","",t.value); } }
+  else if(t.matches("[data-qaf]")){ if(!ensureMe())return; const r=(b.qa||[]).find(x=>x.id===t.closest("[data-qarow]").dataset.qarow); if(r){ r[t.dataset.qaf]=t.value; logChange("bim · QA check","",t.value); } }
+  else if(t.matches("[data-fmtf]")){ if(!ensureMe())return; const r=(b.formats||[]).find(x=>x.id===t.closest("[data-fmtrow]").dataset.fmtrow); if(r){ r[t.dataset.fmtf]=t.value; logChange("bim · format","",t.value); } }
+});
+document.addEventListener("click",e=>{
+  if(!curProj||!curProj.bim)return; const b=curProj.bim;
+  if(e.target.id==="add-sw"){ if(!ensureMe())return; b.software.push({id:uid(),disc:"",use:"",tool:"",version:""}); logChange("bim · added software","",""); renderBIM(); return; }
+  if(e.target.id==="add-ph"){ if(!ensureMe())return; (b.phases=b.phases||[]).push({id:uid(),name:""}); logChange("bim · added phase","",""); renderBIM(); return; }
+  if(e.target.id==="add-app"){ if(!ensureMe())return; (b.appointments=b.appointments||[]).push({id:uid(),disc:null,service:"",party:"",contract:"",phases:""}); logChange("bim · added appointment","",""); renderBIM(); return; }
+  if(e.target.id==="add-rsp"){ if(!ensureMe())return; b.responsibilities.push({id:uid(),task:"",who:"",deliverable:""}); logChange("bim · added responsibility","",""); renderBIM(); return; }
+  if(e.target.id==="add-rsk"){ if(!ensureMe())return; b.risks.push({id:uid(),risk:"",impact:"Medium",mitigation:"",owner:""}); logChange("bim · added risk","",""); renderBIM(); return; }
+  if(e.target.id==="add-qa"){ if(!ensureMe())return; (b.qa=b.qa||[]).push({id:uid(),check:"",tool:"",frequency:""}); logChange("bim · added QA check","",""); renderBIM(); return; }
+  if(e.target.id==="add-fmt"){ if(!ensureMe())return; (b.formats=b.formats||[]).push({id:uid(),format:"",version:"",use:""}); logChange("bim · added format","",""); renderBIM(); return; }
+  const ds=e.target.closest("[data-delsw]"); if(ds){ if(!ensureMe())return; b.software=b.software.filter(x=>x.id!==ds.dataset.delsw); logChange("bim · removed software","",""); renderBIM(); return; }
+  const dp=e.target.closest("[data-delph]"); if(dp){ if(!ensureMe())return; b.phases=(b.phases||[]).filter(x=>x.id!==dp.dataset.delph); logChange("bim · removed phase","",""); renderBIM(); return; }
+  const dap=e.target.closest("[data-delapp]"); if(dap){ if(!ensureMe())return; b.appointments=(b.appointments||[]).filter(x=>x.id!==dap.dataset.delapp); logChange("bim · removed appointment","",""); renderBIM(); return; }
+  const dr=e.target.closest("[data-delrsp]"); if(dr){ if(!ensureMe())return; b.responsibilities=b.responsibilities.filter(x=>x.id!==dr.dataset.delrsp); logChange("bim · removed responsibility","",""); renderBIM(); return; }
+  const dk=e.target.closest("[data-delrsk]"); if(dk){ if(!ensureMe())return; b.risks=b.risks.filter(x=>x.id!==dk.dataset.delrsk); logChange("bim · removed risk","",""); renderBIM(); return; }
+  const dqa=e.target.closest("[data-delqa]"); if(dqa){ if(!ensureMe())return; b.qa=(b.qa||[]).filter(x=>x.id!==dqa.dataset.delqa); logChange("bim · removed QA check","",""); renderBIM(); return; }
+  const dfmt=e.target.closest("[data-delfmt]"); if(dfmt){ if(!ensureMe())return; b.formats=(b.formats||[]).filter(x=>x.id!==dfmt.dataset.delfmt); logChange("bim · removed format","",""); renderBIM(); return; }
+});
+function switchView(v){ $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===v)); $$(".view").forEach(x=>x.classList.remove("on")); $("#v-"+v).classList.add("on"); if(v==="project")renderProject(); if(v==="log")renderLog(); if(v==="access")renderAccess(); if(v==="legal")renderLegal(); if(v==="bim")renderBIM(); if(v==="schedule")renderSchedule(); }
 
 $("#log-proj").onchange=renderLog; $("#log-search").oninput=renderLog;
 
@@ -1132,9 +1440,9 @@ function incomingFolders(project){
   // 1) one inbox per entry in the Client file register (file name + source)
   (project.files||[]).forEach(f=>{ o[incomingFolderFor((f.file||"")+" "+(f.from||""))]={}; });
   // 2) fallback / union with discipline scope
-  if(hasDisc(project,/architect/i)) o["Architecture"]={};
-  if(hasDisc(project,/geotech|foundation|earthwork/i)) o["Geotechnical-Borehole-Data"]={};
-  if(hasDisc(project,/geotech|civil|earthwork|road|topograph/i)) o["Topography-Survey"]={};
+  if(hasDisc(project,/architect|\bARC\b/i)) o["Architecture"]={};
+  if(hasDisc(project,/geotech|foundation|earthwork|\b(GEO|FDN|CIV)\b/i)) o["Geotechnical-Borehole-Data"]={};
+  if(hasDisc(project,/geotech|civil|earthwork|road|topograph|\b(GEO|CIV|ROA|TOP)\b/i)) o["Topography-Survey"]={};
   if(!Object.keys(o).length) o["Client-Provided"]={};   // always at least one inbox
   return o;
 }
@@ -1150,16 +1458,27 @@ function wipFolders(folder){
   return ["Models","Exports","Reference"];                       // architecture, MEP, hydraulic, electrical, fire, HVAC
 }
 function stateNode(soft,discs){ const o={}; for(const d of discs) o[d]=soft?Object.fromEntries(wipFolders(d).map(s=>[s,{}])):{}; return o; }
-// 03_Resources — project templates, families and standards. Template subfolders
-// ARE by software here (a .rte only exists for Revit), and follow the scope.
+// 03_Resources — project templates, libraries and standards. SOFTWARE-AGNOSTIC:
+// categories are by CONCEPT, not by one vendor's terms (no Revit-only folders like
+// RFA/Annotations/Title-blocks). Template subfolders ARE by software (a .rte only
+// exists for Revit) and follow the scope.
 function resourcesNode(project){
   const T={"Revit":{},"Excel":{}};                                  // always used
-  if(hasDisc(project,/concrete|steel|masonry|structur/i)) T["Robot"]={};
-  if(hasDisc(project,/geotech|foundation|earthwork/i)){ T["Midas-GTS-NX"]={}; T["Civil-3D"]={}; }
-  if(hasDisc(project,/civil|road|pavement|earthwork/i)) T["Civil-3D"]={};
+  // detection matches BOTH the descriptive label AND the 3-letter code (\b so "STR" != "structural")
+  if(hasDisc(project,/concrete|steel|masonry|structur|\b(STR|STL|MAS)\b/i)) T["Robot"]={};
+  if(hasDisc(project,/geotech|foundation|earthwork|\b(GEO|FDN|CIV)\b/i)){ T["Midas-GTS-NX"]={}; T["Civil-3D"]={}; }
+  if(hasDisc(project,/civil|road|pavement|earthwork|\b(CIV|ROA)\b/i)) T["Civil-3D"]={};
   if(disciplineFolders(project).length>1) T["Navisworks"]={};       // coordination needs 2+ disciplines
   T["AutoCAD"]={};
-  return {"Templates":T,"Families":{},"Shared-Parameters":{},"Export-Settings":{}};
+  const R={
+    "Templates":T,
+    "Library & Families":{},                                         // reusable content of ANY tool: families, blocks, objects, components
+    "Shared-Parameters":{},                                          // shared params / property sets / IFC psets
+    "Export-Settings":{"Coordination-Search-Sets":{}},               // + coordination search/selection sets (any clash tool)
+    "Materials":{}                                                   // material libraries / appearances (all tools)
+  };
+  if(hasDisc(project,/architect|arq|\bARC\b/i)) R["Reference-Assets"]={};    // images, textures, context — mostly architecture/renders, scope-driven
+  return R;
 }
 function isoTree(project){ const D=disciplineFolders(project); return {
   "00_Admin_Contracts":{},
@@ -1207,9 +1526,12 @@ const README_MAP={
  "Client-Provided":"Anything the client delivers directly: existing projects, brand standards, site information.",
  // ---- Resources ----
  "Templates":"Project templates by software. A template only exists for one application, so they are organised by tool.",
- "Families":"Revit families (.rfa) created or adapted for this project. Company-wide families stay in the central library.",
- "Shared-Parameters":"Shared parameter file (.txt) used by every discipline model. One single file — never duplicate it.",
- "Export-Settings":"Export configurations: IFC mapping tables, DWG layer export setup, PDF/print settings.",
+ "Library & Families":"Reusable content of ANY authoring tool — families (.rfa), blocks (.dwg), objects, cells, components — created or adapted for this project. Company-wide libraries stay in the central office library.",
+ "Shared-Parameters":"Shared parameters / property sets / IFC psets used by the discipline models. Keep one authoritative set — never duplicate it.",
+ "Export-Settings":"Export configurations (any tool): IFC mapping tables, DWG layer export setup, PDF/print settings.",
+ "Coordination-Search-Sets":"Saved search / selection sets for clash detection and coordination (Navisworks, Solibri, BIMcollab, etc.).",
+ "Materials":"Material libraries and appearances used by the models (any tool).",
+ "Reference-Assets":"Images, textures and context assets for visualisation / renders (environment, people, texture, vegetation).",
  "Revit":"Revit templates: .rte project templates, starter .rvt files, view templates.",
  "Robot":"Robot Structural Analysis templates: load combinations, design codes, result table layouts.",
  "Civil-3D":"Civil 3D templates: .dwt, surface / alignment / corridor styles, label styles.",
@@ -1396,8 +1718,9 @@ function tokenMap(p){
   const who=lbl=>{ const r=t.find(x=>new RegExp(lbl,"i").test(x.label||"")); return r&&r.person?r.person:""; };
   const m={
     PROJECT_NAME:p.name||"", CODE:p.code||"", OR:or, CLIENT:p.client||"", ADDRESS:p.address||"",
+    CITY:p.city||"", POSTAL:p.postal||"", COUNTRY:p.country||"", PROJECT_DESC:p.desc||"",
     AUTHOR:who("BIM Manager")||who("Lead")||"", DOC_VERSION:dm.version||"1.0", DOC_DATE:dm.date||"",
-    CLIENT_LEGAL:ct.client_legal||"", CLIENT_REG:ct.client_reg||"", OUR_LEGAL:ct.our_legal||"", OUR_REG:ct.our_reg||"",
+    CLIENT_LEGAL:c.ap_name||ct.client_legal||p.client||"", CLIENT_REG:ct.client_reg||"", CLIENT_ADDRESS:ct.client_address||"", CLIENT_PHONE:ct.client_phone||"", OUR_LEGAL:ct.our_legal||"", OUR_REG:ct.our_reg||"", OUR_ADDRESS:ct.our_address||"", OUR_PHONE:ct.our_phone||"", OUR_EMAIL:ct.our_email||"", OUR_WEB:ct.our_web||"",
     FEE:ct.fee||"", CURRENCY:ct.currency||"", PAYMENT:ct.payment||"", LAW:ct.law||"", DISPUTE:ct.dispute||"",
     CONTRACT_NO:p.contractNo||"", QUOTE:p.quote||"",
     CLIENT_REP:c.ap_rep||who("Client representative")||"", CLIENT_CONTACT:c.ap_contact||"",
@@ -1409,12 +1732,19 @@ function tokenMap(p){
     CALC_STRUCTURAL:who("Structural calculist")||who("Structural Concrete"),
     CALC_FOUNDATIONS:who("Foundations calculist")||who("Foundation")||who("Geotech"),
     GEOTECH_ENGINEER:who("Geotech")||who("Foundation"),
-    DISCIPLINES:(t.filter(x=>x.kind==="Discipline").map(x=>x.label).join(", "))
+    DISCIPLINES:(t.filter(x=>x.kind==="Discipline").map(x=>x.label).join(", ")),
+    TEAM_ATTENDEES:(t.filter(x=>x.person).map(x=>x.person+(x.label?" ("+x.label.replace(/\s*\([A-Z]{1,4}\)\s*$/,"").trim()+")":"")).join("; ")||"[attendees]"),
+    CONTRACT_TYPE:(p.bim&&p.bim.contractType)||"",
+    CDE_PLATFORM:(p.bim&&p.bim.cde&&p.bim.cde.platform)||"", CDE_URL:(p.bim&&p.bim.cde&&p.bim.cde.url)||"", CDE_NOTES:(p.bim&&p.bim.cde&&p.bim.cde.notes)||"",
+    FED_BREAKDOWN:(p.bim&&p.bim.federation&&p.bim.federation.breakdown)||"", FED_TOOL:(p.bim&&p.bim.federation&&p.bim.federation.tool)||"", FED_FREQUENCY:(p.bim&&p.bim.federation&&p.bim.federation.frequency)||"", FED_NOTES:(p.bim&&p.bim.federation&&p.bim.federation.notes)||""
   };
   (p.milestones||[]).forEach(ms=>{ const k=(ms.code||"").toUpperCase(); if(!k)return;
     m[k+"_DATE"]=ms.planned||""; m[k+"_ACTUAL"]=ms.actual||""; m[k+"_NAME"]=ms.name||""; m[k+"_CODE"]=ms.code||""; });
   // M1..M9 always resolve, even if that milestone was removed, so no token is left raw
   for(let i=1;i<=9;i++){ ["_DATE","_ACTUAL","_NAME","_CODE"].forEach(sfx=>{ const k="M"+i+sfx; if(!(k in m)) m[k]=""; }); }
+  // Meeting-Availability grid: P1..P15 person slots / TZ1..TZ15 offsets, from UNIQUE responsibles (deduped, one slot per person)
+  const av=availRows(teamRows(p));
+  for(let i=1;i<=15;i++){ const r=av[i-1]; m["P"+i]=(r&&r.AV_PERSON)||""; m["TZ"+i]=(r&&r.AV_TZ)||""; }
   return m;
 }
 /* --- Repeating rows: one template row in the file becomes N rows, one per team member --- */
@@ -1461,6 +1791,9 @@ function teamRows(p){
       ROW_ROLE:t.label, ROW_PERSON:t.person||"[TO BE DEFINED]", ROW_AUTHORITY:authorityFor(t),
       ROW_EMAIL:t.email||"", ROW_TYPE:t.kind||"", ROW_DISC:code, ROW_N:String(i+1),
       ROW_OR:initialsOf(t.person)||projOR,
+      ROW_PHONE:t.phone||"", ROW_ORG:t.org||"", ROW_TITLE:t.title||"", ROW_AVAIL:t.avail||"", ROW_TZ:t.tz||"",
+      ROW_CHATAPP:t.chatApp||"", ROW_CHAT:t.chat||"", ROW_CHATFULL:t.chat?((t.chatApp||"")+" "+t.chat).trim():"",
+      ROW_INITIALS:t.initials||initialsOf(t.person)||"",
       ROW_M1:lod.M1, ROW_M2:lod.M2, ROW_M3:lod.M3, ROW_M4:lod.M4, ROW_M5:lod.M5,
       ROW_NOTE:isExt?"External (TO BE DEFINED)":""
     };
@@ -1500,6 +1833,53 @@ function scopeRowsFrom(discRows,allRows){
 // discipline display names for deliverable titles
 const DISC_NAME={STR:"Structural concrete",STL:"Structural steel",MAS:"Structural masonry",FDN:"Foundation",HID:"Hydraulic",ELE:"Electrical",FIR:"Fire-fighting",MEC:"HVAC",GEO:"Geotechnical",ARC:"Architecture",CRD:"Coordination",DRA:"Storm drainage",GAS:"Gas",CIV:"Civil / earthworks",ROA:"Roads / pavement",ACO:"Acoustics",SUS:"Sustainability",TOP:"Topography / survey",ELV:"Telecom / data"};
 const TYPE_TITLE={M3:"model",RP:"calculation report",DR:"drawings"};
+// One row per UNIQUE responsible (Meeting-Availability). A person with two functions
+// appears once, with their functions merged; auto-expands to any number of people.
+function availRows(rows){
+  const seen={}, out=[];
+  (rows||[]).forEach(r=>{
+    const person=(r.ROW_PERSON||"").trim();
+    const key=(person && person!=="[TO BE DEFINED]") ? "p:"+person.toLowerCase() : "f:"+(r.ROW_ROLE||"");
+    if(!seen[key]){ seen[key]={person:person||"[TO BE DEFINED]", funcs:[], tz:r.ROW_TZ||""}; out.push(seen[key]); }
+    const fn=(r.ROW_ROLE||"").trim(); if(fn && seen[key].funcs.indexOf(fn)<0) seen[key].funcs.push(fn);
+    if(!seen[key].tz && r.ROW_TZ) seen[key].tz=r.ROW_TZ;
+  });
+  return out.map((r,i)=>({AV_N:String(i+1), AV_PERSON:r.person, AV_FUNCTION:r.funcs.join(" / "), AV_TZ:r.tz}));
+}
+// One row per software/tool for the Information Standard A.3 "BIM system" table (Discipline · Use · Tool · Version)
+let _swRows=[];
+function softwareRows(p){ return (((p&&p.bim&&p.bim.software)||[]).filter(s=>(s.tool||"").trim())).map((s,i)=>({SW_N:String(i+1), SW_DISC:s.disc||"Office-wide", SW_USE:s.use||"", SW_TOOL:s.tool||"", SW_VERSION:s.version||""})); }
+// One row per contracted phase for the Information Standard A.5 table (Nº · Phase)
+let _phRows=[], _qaRows=[], _fmtRows=[], _folderTree=[], _appRows=[];
+// Scan the REAL project directory (depth-limited) so the doc's folder tree reflects
+// what actually exists — the app-created folders AND any the user added by hand.
+async function scanFolderTree(dir,level,maxLevel,out){
+  if(level>maxLevel) return;
+  const subs=[];
+  try{ for await(const [name,h] of dir.entries()){ if(h.kind==="directory") subs.push([name,h]); } }catch(e){ return; }
+  subs.sort((a,b)=>a[0].localeCompare(b[0]));
+  for(const [name,h] of subs){ out.push({name,level}); await scanFolderTree(h,level+1,maxLevel,out); }
+}
+// Replace a {{FOLDER_TREE}} paragraph with one indented 📁 paragraph per scanned folder
+function expandFolderTree(xml,tree){
+  return xml.replace(/<w:p[ >][\s\S]*?<\/w:p>/g,para=>{
+    if(para.indexOf("{{FOLDER_TREE}}")<0) return para;
+    if(!tree.length) return `<w:p><w:pPr><w:ind w:left="360"/></w:pPr><w:r><w:rPr><w:i/></w:rPr><w:t xml:space="preserve">(generated on 'Create folders + documents')</w:t></w:r></w:p>`;
+    return tree.map(f=>`<w:p><w:pPr><w:ind w:left="${360+f.level*360}"/></w:pPr><w:r><w:t xml:space="preserve">📁 ${xmlEscVal(f.name)}</w:t></w:r></w:p>`).join("");
+  });
+}
+// Paragraphs marked with {{GUIDE}} are template-only guidance/examples: they stay in
+// the _BASELINE doc as a "how it should look" guide, but the whole paragraph is deleted
+// when generating a real project (so the sample text never carries over).
+function stripGuideParas(xml){
+  return xml.replace(/<w:p[ >][\s\S]*?<\/w:p>/g,para=> para.indexOf("{{GUIDE}}")>=0 ? "" : para);
+}
+function phasesRows(p){ return (((p&&p.bim&&p.bim.phases)||[]).filter(ph=>(ph.name||"").trim())).map((ph,i)=>({PH_N:String(i+1), PH_NAME:ph.name})); }
+// One row per appointment (professional service) for Information Standard A.1.5: Nº · service · appointed party · contract · phases
+function appointmentRows(p){ return (((p&&p.bim&&p.bim.appointments)||[]).filter(a=>(a.service||"").trim()||(a.party||"").trim())).map((a,i)=>({APP_N:String(i+1), APP_SERVICE:a.service||"", APP_PARTY:a.party||"", APP_CONTRACT:a.contract||"", APP_PHASES:a.phases||""})); }
+// QA / model-validation checks (BIM Manager) and delivery/exchange formats — one row each
+function qaRows(p){ return (((p&&p.bim&&p.bim.qa)||[]).filter(r=>(r.check||"").trim())).map((r,i)=>({QA_N:String(i+1), QA_CHECK:r.check||"", QA_TOOL:r.tool||"", QA_FREQ:r.frequency||""})); }
+function formatRows(p){ return (((p&&p.bim&&p.bim.formats)||[]).filter(r=>(r.format||"").trim())).map((r,i)=>({FMT_N:String(i+1), FMT_FORMAT:r.format||"", FMT_VERSION:r.version||"", FMT_USE:r.use||""})); }
 // One row per DELIVERABLE (MIDP / Container Register). Internal design disciplines = model + calc report + drawings.
 function deliverableRowsFrom(rows){
   const discs=rows.filter(r=>r.ROW_TYPE==="Discipline");
@@ -1525,11 +1905,20 @@ function deliverableRowsFrom(rows){
 }
 
 // docx: clone the <w:tr> that carries {{ROW_ROLE}} once per team member
+/* When a template row is cloned, any Word comment inside it would be copied with
+   the SAME comment id into every clone -> duplicate ids + orphan refs. Keep the
+   comment on the first clone only; strip the comment markers from the rest, so the
+   document stays valid no matter where the user leaves comments. */
+function stripDocxComments(x){ return x
+  .replace(/<w:commentRangeStart\b[^>]*\/>/g,"")
+  .replace(/<w:commentRangeEnd\b[^>]*\/>/g,"")
+  .replace(/<w:r\b[^>]*>\s*<w:commentReference\b[^>]*\/>\s*<\/w:r>/g,"")
+  .replace(/<w:commentReference\b[^>]*\/>/g,""); }
 function expandDocxRows(xml,rows){
   return xml.replace(/<w:tr[ >][\s\S]*?<\/w:tr>/g,tr=>{
     if(tr.indexOf("{{ROW_ROLE}}")<0) return tr;
     if(!rows.length) return "";
-    return rows.map(r=>tr.replace(/\{\{(ROW_[A-Z0-9]+)\}\}/g,(m,k)=>xmlEscVal(r[k]!==undefined?r[k]:""))).join("");
+    return rows.map((r,i)=>{ const out=tr.replace(/\{\{(ROW_[A-Z0-9]+)\}\}/g,(m,k)=>xmlEscVal(r[k]!==undefined?r[k]:"")); return i>0?stripDocxComments(out):out; }).join("");
   });
 }
 // docx: clone the <w:tr> carrying a prefixed token (e.g. {{DISC_CODE}}) once per row in the set
@@ -1538,7 +1927,7 @@ function expandDocxRowsPfx(xml,rows,marker,pfx){
   return xml.replace(/<w:tr[ >][\s\S]*?<\/w:tr>/g,tr=>{
     if(tr.indexOf(marker)<0) return tr;
     if(!rows.length) return "";
-    return rows.map(r=>tr.replace(re,(m,k)=>xmlEscVal(r[k]!==undefined?r[k]:""))).join("");
+    return rows.map((r,i)=>{ const out=tr.replace(re,(m,k)=>xmlEscVal(r[k]!==undefined?r[k]:"")); return i>0?stripDocxComments(out):out; }).join("");
   });
 }
 // xlsx: clone the <row> that carries a {{ROW_*}} token once per data row.
@@ -1663,12 +2052,15 @@ async function fillDocument(name,buf,map,rows){
   const dRows=/\.xlsx$/i.test(name)
     ? rows.filter(r=>r.ROW_TYPE==="Discipline").map((r,i)=>Object.assign({},r,{ROW_N:String(i+1)}))
     : rows;
+  let logoEntry=null;
+  if(_genLogo && LOGO_DOCS.some(re=>re.test(name))) logoEntry=await findLogoTarget(entries);   // resolve the cover-logo media dynamically
   const files=[];
   for(const e of entries){
     let data = e.method===8 ? await inflateRaw(e.raw) : e.raw.slice();
     if(/\.(xml|rels)$/i.test(e.name)){
       let xml=new TextDecoder().decode(data);
       if(/^word\//i.test(e.name)) xml=healSplitTokens(xml);      // repair hand-edited templates
+      if(xml.indexOf("{{GUIDE}}")>=0) xml=stripGuideParas(xml);   // drop template-only guidance/example paragraphs
       if(/worksheets\//i.test(e.name)){
         xml=expandXlsxRows(xml,shared,dRows.length?dRows:rows,map,"ROW_");       // per-discipline rows (TIDP, MOD, Container Register summary)
         const delRows=deliverableRowsFrom(rows);
@@ -1676,11 +2068,18 @@ async function fillDocument(name,buf,map,rows){
       }
       if(xml.indexOf("{{ROW_ROLE}}")>=0) xml=expandDocxRows(xml,rows);   // repeat team rows first
       if(xml.indexOf("{{DISC_CODE}}")>=0) xml=expandDocxRowsPfx(xml,scopeRowsFrom(rows.filter(r=>r.ROW_TYPE==="Discipline"),rows),"{{DISC_CODE}}","DISC_");  // disciplines-in-scope table
+      if(xml.indexOf("{{SW_TOOL}}")>=0) xml=expandDocxRowsPfx(xml,_swRows,"{{SW_TOOL}}","SW_");   // A.3 BIM-system software table, one row per tool
+      if(xml.indexOf("{{PH_NAME}}")>=0) xml=expandDocxRowsPfx(xml,_phRows,"{{PH_NAME}}","PH_");   // A.5 contracted-phases table, one row per phase
+      if(xml.indexOf("{{APP_SERVICE}}")>=0) xml=expandDocxRowsPfx(xml,_appRows,"{{APP_SERVICE}}","APP_");   // A.1.5 appointments table, one row per professional service
+      if(xml.indexOf("{{QA_CHECK}}")>=0) xml=expandDocxRowsPfx(xml,_qaRows,"{{QA_CHECK}}","QA_");   // model-validation (QA) table
+      if(xml.indexOf("{{FMT_FORMAT}}")>=0) xml=expandDocxRowsPfx(xml,_fmtRows,"{{FMT_FORMAT}}","FMT_");   // delivery/exchange formats table
+      if(xml.indexOf("{{FOLDER_TREE}}")>=0) xml=expandFolderTree(xml,_folderTree);   // project folder tree (scanned from disk)
       TOKEN_RE.lastIndex=0;
       if(TOKEN_RE.test(xml)){ TOKEN_RE.lastIndex=0; xml=fillText(xml,map,true); }
       TOKEN_RE.lastIndex=0;
       data=_sb(xml);
     }
+    else if(logoEntry && e.name===logoEntry.path && _genLogo[logoEntry.fmt]){ data=_genLogo[logoEntry.fmt]; }   // swap the placeholder cover logo for the company logo
     files.push({name:e.name,data});
   }
   return _zip(files);   // rewritten as a STORE zip — Word/Excel accept it
@@ -1706,6 +2105,12 @@ async function genDocs(root,project,parentDir){
   const std=await getStdHandle(parentDir);
   if(!std) throw new Error("_BASELINE DOCUMENTS folder not available");
   const report=[];
+  await prepGenLogo();                                   // pre-render the company logo (png+jpg) for the doc swap
+  _swRows=softwareRows(project);                          // A.3 BIM-system table rows (one per tool)
+  _phRows=phasesRows(project);                            // A.5 contracted-phase rows
+  _appRows=appointmentRows(project);                      // A.1.5 appointments (professional services) rows
+  _qaRows=qaRows(project); _fmtRows=formatRows(project);  // QA + delivery-format rows
+  _folderTree=[]; try{ await scanFolderTree(root,0,2,_folderTree); }catch(e){ _folderTree=[]; }   // real project folders, depth 0-2, for {{FOLDER_TREE}}
   await copyTree(std,root,project,report,0,tokenMap(project),teamRows(project));
   if(!report.length) throw new Error("_BASELINE DOCUMENTS has no documents to copy");
   return report;

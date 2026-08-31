@@ -83,8 +83,11 @@ Example: `BK-EC-ZZ-M3-STR-0001_S0_P01`
 
 The **Schedule** tab visualises, per project, how much time each discipline needs:
 
-- **Pie** — time weight by discipline. **Columns** — days compared. Edit the numbers directly in the legend.
-- **Gantt** — the timeline starts at the **Document date**; each discipline bar runs to its milestone. Drag a bar to move it, drag the right edge to set the **estimated delivery** (before or after its milestone). When a milestone has an **Actual** date, the bar shows the variance: **red** = delivered late, **green** = delivered early. Years are shaded and labelled.
+- **Pie** — time weight by discipline. **Columns** — days compared (drag a column's top handle to change its days). Edit the numbers directly in the legend.
+- **Gantt** — the timeline starts at the **Document date**; each discipline bar runs to its milestone. Drag a bar to move it, drag the left/right edge to set the **start / estimated delivery** (before or after its milestone). The delivery date is **green** if it lands within the last milestone, **red** if it overruns. Years are shaded and labelled.
+- **Work calendar** — above the charts. All durations count **working days only**:
+  - **Work week** — Mon–Fri by default; click a day to add/remove it (e.g. enable Saturdays for a project that works them).
+  - **Holidays** — pick a **national preset** (Brasil, Perú, Chile, Argentina — movable feasts like Good Friday/Carnaval are computed per year) and/or **+ Add** individual dates. Weekends and holidays are shaded grey in the Gantt and skipped in every day count. Presets are a starting point; add project-specific dates manually.
 - **↻ Reset to milestones** re-seeds every discipline from the current milestone dates.
 
 ## 10. Where your data lives

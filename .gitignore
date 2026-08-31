@@ -10,6 +10,14 @@
 # Office lock/temp files
 ~$*
 
+# Personalized company Style Book / Information Standard (LDE, the _A_C01 doc) — internal use,
+# third-party derived, NEVER publish. Glob covers any document number (survives renumbering).
+/_BASELINE DOCUMENTS/04_Project-Documentation/ISO19650-Standards-Templates/*_A_C01.docx
+
+# Third-party reference material (copyright: Penn State, buildingSMART, transcripts…) + internal working notes — not part of the tool
+/Documentos para revisar/
+/Posibles situaciones a tomar encuenta.md
+
 # OS cruft
 .DS_Store
 Thumbs.db

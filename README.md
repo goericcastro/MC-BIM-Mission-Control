@@ -7,7 +7,7 @@ A single-file, offline HTML app to **generate and manage ISO 19650 BIM projects*
 - **ISO 19650 folder tree** — creates `00_Admin_Contracts`, `01_Incoming`, `02_CDE` (WIP / Shared / Published / Archived), `03_Resources`, `04_Project-Documentation`, driven by the disciplines you list (nothing is forced).
 - **Document generation** — fills 12 baseline templates (Agreement, BIM Protocol, EIR, BEP, MIDP/TIDP, Container Register, LDE, Meeting Minutes, User Manual, Process Maps, Exchange Flow Matrix, IE-Worksheet) with your project data via a pure-JS OOXML token engine — no libraries.
 - **Naming convention** — `{Project}-{Originator}-{Level}-{Type}-{Discipline}-{Number}_{Status}_{Revision}`, applied consistently across every generated file and folder README.
-- **Schedule tab** — per-discipline time weight (pie), comparison (columns), and a milestone-anchored **Gantt** with editable start/duration/delivery, planned-vs-actual variance (late = red, early = green), and per-year shading.
+- **Schedule tab** — per-discipline time weight (pie), comparison (columns), and a milestone-anchored **Gantt** with editable start/duration/delivery, planned-vs-actual variance (late = red, early = green), and per-year shading. Durations count **working days only** — set the work week per project (Mon–Fri by default, add Saturdays/Sundays) and a **national holiday** preset (Brasil, Perú, Chile, Argentina) plus manual dates; weekends and holidays are shaded and skipped everywhere.
 
 ## Use
 
