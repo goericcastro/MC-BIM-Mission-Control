@@ -63,6 +63,34 @@
   nav.tabs button{font:inherit;font-size:13.5px;font-weight:550;background:none;border:none;color:var(--mute);
     padding:9px 14px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
   nav.tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+  .subtabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+  .subtabs button{font:inherit;font-size:12.5px;font-weight:550;padding:5px 13px;border-radius:999px;border:1px solid var(--hair);background:var(--surface);color:var(--mute);cursor:pointer}
+  .subtabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .n1row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+  .n1col{flex:1 0 130px;min-width:130px;border:1px solid var(--hair);border-radius:10px;padding:8px;background:var(--surface-2)}
+  .n1head{font-size:11px;font-weight:600;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  .n1chip{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--accent);border-radius:6px;padding:5px 7px;margin-bottom:5px;font-size:12px;cursor:pointer}
+  .n1chip.sel{background:var(--surface-2);box-shadow:0 0 0 1px var(--accent) inset}
+  .n1who{display:block;font-size:10px;color:var(--faint)}
+  .n1empty{color:var(--faint);font-size:12px}
+  .n1un{margin-top:8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .n1unlbl{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
+  .diag-grid{display:grid;grid-template-columns:210px 1fr;gap:14px}
+  .diag-list{border:1px solid var(--hair);border-radius:10px;overflow:hidden;align-self:start}
+  .diag-li{padding:8px 10px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--hair-2)}
+  .diag-li:last-child{border-bottom:none}
+  .diag-li.sel{background:var(--accent);color:var(--accent-ink)}
+  .diag-detail{min-width:0}
+  .diag-tpl{margin:9px 0}
+  .diag-prev{margin-top:12px;overflow-x:auto}
+  .flow{display:flex;align-items:stretch;gap:6px;flex-wrap:wrap}
+  .flownode{border:1px solid var(--hair);border-left:3px solid var(--accent);border-radius:6px;padding:5px 8px;font-size:11.5px;background:var(--surface-2)}
+  .flownode.f-reference{border-left-color:#888780}
+  .flownode.f-decision{border-left-color:#EF9F27;border-radius:14px}
+  .flownode.f-exchange{border-left-color:#1D9E75}
+  .flowwho{display:block;font-size:10px;color:var(--faint)}
+  .flowarr{color:var(--faint);align-self:center}
+  @media(max-width:720px){.diag-grid{grid-template-columns:1fr}}
   nav.tabs .badge{font-family:var(--mono);font-size:10px;background:var(--surface-2);border:1px solid var(--hair);
     border-radius:999px;padding:0 6px;margin-left:5px;color:var(--faint)}
 
@@ -277,6 +305,7 @@
     <button data-v="project" aria-selected="false">Project</button>
     <button data-v="legal" aria-selected="false">Legal</button>
     <button data-v="bim" aria-selected="false">BIM Manager</button>
+    <button data-v="diagrams" aria-selected="false">Diagrams</button>
     <button data-v="schedule" aria-selected="false">Schedule</button>
     <button data-v="log" aria-selected="false">Change Log <span class="badge" id="b-log">0</span></button>
     <button data-v="access" aria-selected="false">Access <span class="badge" id="b-users">0</span></button>
@@ -402,6 +431,12 @@
   <div class="view" id="v-bim">
     <section class="card" id="bim-none" style="display:none"><div class="empty">Pick a project in the Dashboard first.</div></section>
     <div id="bim-body" style="display:none">
+      <nav class="subtabs" id="bim-subnav">
+        <button data-bimtab="g1" aria-selected="true">Contract &amp; scope</button>
+        <button data-bimtab="g2">Technical setup</button>
+        <button data-bimtab="g3">Collaboration</button>
+        <button data-bimtab="g4">Quality &amp; delivery</button>
+      </nav>
       <section class="card">
         <h2><span class="idx">09</span>Contract type &amp; appointments</h2>
         <div class="sub">Overall contract/procurement type, and one appointment per professional service (ISO 19650 appointed parties). Services &amp; parties come from Team (section 02) — no re-typing. Feeds section A.1.5 of the Information Standard.</div>
@@ -464,9 +499,31 @@
         <div class="scroll"><table class="tbl" id="bim-fmt-tbl"></table></div>
         <button class="btn sm rowadd" id="add-fmt">+ Add format</button>
       </section>
+      <section class="card">
+        <h2><span class="idx">20</span>BIM uses &amp; goals</h2>
+        <div class="sub">What the model will be used for (BIM uses / goals) — feeds section A.1.8 of the Information Standard. Suggestions follow the Penn State BIM Use list; edit freely.</div>
+        <div class="scroll"><table class="tbl" id="bim-use-tbl"></table></div>
+        <datalist id="dl-bimuses"></datalist>
+        <button class="btn sm rowadd" id="add-use">+ Add BIM use</button>
+      </section>
     </div>
   </div>
 
+  <div class="view" id="v-diagrams">
+    <section class="card" id="diag-none" style="display:none"><div class="empty">Pick a project in the Dashboard first.</div></section>
+    <div id="diag-body" style="display:none">
+      <section class="card">
+        <h2><span class="idx">21</span>Level 1 — general map</h2>
+        <div class="sub">Auto-generated from milestones (05), BIM uses (BIM Manager · 20) and team (02). Assign a phase to each process in the detail below; click a chip to open it.</div>
+        <div id="diag-n1"></div>
+      </section>
+      <section class="card">
+        <h2><span class="idx">22</span>Level 2 — process detail</h2>
+        <div class="sub">Pick a process, then edit its steps (Penn State 04c style). "Who" comes from the Team. This feeds the 0012 Process-Maps document.</div>
+        <div class="diag-grid"><div class="diag-list" id="diag-list"></div><div class="diag-detail" id="diag-detail"></div></div>
+      </section>
+    </div>
+  </div>
   <div class="view" id="v-schedule">
     <section class="card" id="sched-none" style="display:none"><div class="empty">Pick a project in the Dashboard first.</div></section>
     <div id="sched-body" style="display:none">
@@ -802,7 +859,7 @@ function paintWho(){ const el=$("#who"); if(me&&me.name){ el.classList.remove("u
 function paintData(){ const el=$("#data-status"),l=$("#data-label"); if(fileHandle){ el.classList.remove("off"); l.textContent="Auto-save"+(STATE&&STATE.lastSavedBy?" · "+STATE.lastSavedBy:""); } else { el.classList.add("off"); l.textContent=hasFSA?"No file":"Manual mode"; } }
 
 function renderPeopleDatalist(){ let dl=$("#dl-people"); if(!dl){ dl=document.createElement("datalist"); dl.id="dl-people"; document.body.appendChild(dl); } const names=[...new Set((STATE.users||[]).map(u=>u.name).filter(Boolean))]; dl.innerHTML=names.map(n=>`<option value="${esc(n)}"></option>`).join(""); }
-function renderAll(){ renderPeopleDatalist(); renderPortfolio(); renderProject(); renderLog(); renderAccess(); renderLegal(); renderBIM(); renderSchedule(); $("#b-proj").textContent=STATE.projects.length; $("#b-log").textContent=STATE.log.length; paintData(); }
+function renderAll(){ renderPeopleDatalist(); renderPortfolio(); renderProject(); renderLog(); renderAccess(); renderLegal(); renderBIM(); renderDiagrams(); renderSchedule(); $("#b-proj").textContent=STATE.projects.length; $("#b-log").textContent=STATE.log.length; paintData(); }
 
 function renderPortfolio(){
   const g=$("#proj-grid");
@@ -863,7 +920,7 @@ function renderContract(p){
     f("Dispute resolution","dispute","mediation / arbitration / courts");
 }
 /* ---------- company logo (global, used across projects) ---------- */
-const LOGO_DOCS=[/RP-ZZZ-0001/,/RP-ZZZ-0003/];   // docs carrying a cover/header logo placeholder
+const LOGO_DOCS=[/RP-0001/,/RP-0003/];   // docs carrying a cover/header logo placeholder
 let _genLogo=null;
 // The company logo = the FIRST image embedded in document.xml, resolved via its
 // relationship rather than a fixed media filename — so it survives Word re-saving and
@@ -1276,6 +1333,18 @@ function renderCal(){
 const LOD_OPTS=["","LOD 100","LOD 200","LOD 300","LOD 350","LOD 400"];
 // common software uses/functions (mirror the Information Standard A.3 "BIM system" table)
 const SW_USES=["Modelling / authoring","Analysis / calculation","Drafting (2D)","IFC visualisation","Renders","Reports / specifications","Quantities / budget","Process maps","Clash detection / coordination"];
+// BIM Manager internal sub-tabs — group the 12 sections so only one group shows at a time
+const BIM_GROUPS={g1:["09","14","20"],g2:["10","12","13"],g3:["11","16","17"],g4:["15","18","19"]};
+function bimSubtab(g){
+  if(!BIM_GROUPS[g]) g="g1";
+  try{localStorage.setItem("mc_bimtab",g)}catch(e){}
+  document.querySelectorAll("#bim-subnav button").forEach(b=>b.setAttribute("aria-selected",b.dataset.bimtab===g));
+  const ids=BIM_GROUPS[g];
+  document.querySelectorAll("#bim-body > section.card").forEach(sec=>{
+    const sp=sec.querySelector(".idx"); const idx=sp?sp.textContent.trim():"";
+    sec.style.display = ids.includes(idx) ? "" : "none";
+  });
+}
 function renderBIM(){
   if(!$("#v-bim"))return;
   if(!curProj){ $("#bim-none").style.display="block"; $("#bim-body").style.display="none"; return; }
@@ -1314,6 +1383,7 @@ function renderBIM(){
   b.cde=b.cde||{}; b.federation=b.federation||{};
   if(!Array.isArray(b.qa)) b.qa=[{id:uid(),check:"Clash detection",tool:"",frequency:"Per milestone"},{id:uid(),check:"Model health / warnings",tool:"",frequency:"Weekly"},{id:uid(),check:"Naming & standards compliance",tool:"",frequency:"Before Shared → Published"}];
   if(!Array.isArray(b.formats)) b.formats=[{id:uid(),format:"IFC",version:"IFC4",use:"Coordination / exchange"},{id:uid(),format:"Native (authoring)",version:"",use:"Working files"},{id:uid(),format:"PDF",version:"",use:"Deliverable drawings & reports"},{id:uid(),format:"NWD / NWC / BCF",version:"",use:"Federation & clash"}];
+  if(!Array.isArray(b.bimUses)) b.bimUses=[{id:uid(),use:"Visualization / marketing",purpose:"Video and images for sales and stakeholder communication"},{id:uid(),use:"Cost estimation",purpose:"Quantity take-off and budgeting"},{id:uid(),use:"Permit application",purpose:"Documentation for authority approval"},{id:uid(),use:"3D coordination",purpose:"Clash detection across disciplines"},{id:uid(),use:"Construction",purpose:"Basis for tender and site execution"}];
   const CDE_PLAT=["","Network / server folder","SharePoint","Autodesk Construction Cloud (BIM 360/ACC)","Trimble Connect","Bentley ProjectWise","Aconex","Other"];
   const imCde=((p.team||[]).find(t=>/information manager/i.test(t.label||""))||{}).person||"";
   $("#bim-cde").innerHTML=`<div class="f"><label>CDE platform / host</label><select data-bf="cde.platform">${CDE_PLAT.map(o=>`<option${(b.cde.platform||"")===o?" selected":""}>${esc(o)}</option>`).join("")}</select></div>`+bf("Access URL","cde.url",b.cde.url,"https://…")+`<div class="f"><label>CDE manager <span class="hint">(from the team)</span></label><input value="${esc(imCde)}" readonly class="ro" title="Set the Information Manager in Team (section 02)"></div>`+bf("Notes / access policy","cde.notes",b.cde.notes,"who has access, approval to Published…");
@@ -1321,6 +1391,10 @@ function renderBIM(){
   $("#bim-fed").innerHTML=`<div class="f"><label>Model breakdown</label><select data-bf="federation.breakdown">${FED_BRK.map(o=>`<option${(b.federation.breakdown||"")===o?" selected":""}>${esc(o)}</option>`).join("")}</select></div>`+bf("Federation tool","federation.tool",b.federation.tool,"Navisworks / Solibri / BIMcollab…")+bf("Federation frequency","federation.frequency",b.federation.frequency,"e.g. weekly / per milestone")+bf("Notes","federation.notes",b.federation.notes,"shared coordinates / origin, split rules…");
   $("#bim-qa-tbl").innerHTML=`<thead><tr><th>Check</th><th style="width:190px">Tool</th><th style="width:210px">Frequency</th><th style="width:34px"></th></tr></thead><tbody>`+(b.qa.length?b.qa.map(r=>`<tr data-qarow="${r.id}"><td><input data-qaf="check" value="${esc(r.check||"")}" placeholder="e.g. Clash detection"></td><td><input data-qaf="tool" value="${esc(r.tool||"")}" placeholder="tool"></td><td><input data-qaf="frequency" value="${esc(r.frequency||"")}" placeholder="e.g. per milestone"></td><td><button class="del" data-delqa="${r.id}">×</button></td></tr>`).join(""):`<tr><td colspan="4"><div class="empty" style="padding:8px">No checks yet.</div></td></tr>`)+`</tbody>`;
   $("#bim-fmt-tbl").innerHTML=`<thead><tr><th style="width:190px">Format</th><th style="width:130px">Version</th><th>Purpose / use</th><th style="width:34px"></th></tr></thead><tbody>`+(b.formats.length?b.formats.map(r=>`<tr data-fmtrow="${r.id}"><td><input data-fmtf="format" value="${esc(r.format||"")}" placeholder="IFC / DWG / PDF…"></td><td><input data-fmtf="version" value="${esc(r.version||"")}" placeholder="IFC4…"></td><td><input data-fmtf="use" value="${esc(r.use||"")}" placeholder="coordination / delivery…"></td><td><button class="del" data-delfmt="${r.id}">×</button></td></tr>`).join(""):`<tr><td colspan="4"><div class="empty" style="padding:8px">No formats yet.</div></td></tr>`)+`</tbody>`;
+  const BIM_USES=["Existing conditions modeling","Site analysis","Programming","Design authoring","Design reviews","3D coordination","Structural analysis","Lighting analysis","Energy analysis","Mechanical analysis","Other engineering analysis","Sustainability (LEED) evaluation","Code validation","Phase planning (4D)","Cost estimation (5D)","Site utilization planning","Construction system design","Digital fabrication","3D control and planning","Record modeling","Visualization / marketing","Permit application","Works tendering","Asset management","Space management / tracking","Building maintenance scheduling","Disaster planning","Building system analysis"];
+  const useDl=$("#dl-bimuses"); if(useDl) useDl.innerHTML=BIM_USES.map(u=>`<option value="${esc(u)}">`).join("");
+  $("#bim-use-tbl").innerHTML=`<thead><tr><th style="width:280px">BIM use</th><th>Purpose / definition</th><th style="width:34px"></th></tr></thead><tbody>`+(b.bimUses.length?b.bimUses.map(r=>`<tr data-userow="${r.id}"><td><input data-usef="use" list="dl-bimuses" value="${esc(r.use||"")}" placeholder="e.g. 3D coordination"></td><td><input data-usef="purpose" value="${esc(r.purpose||"")}" placeholder="what it is used for / at which stage"></td><td><button class="del" data-deluse="${r.id}">×</button></td></tr>`).join(""):`<tr><td colspan="3"><div class="empty" style="padding:8px">No BIM uses yet.</div></td></tr>`)+`</tbody>`;
+  bimSubtab((()=>{try{return localStorage.getItem("mc_bimtab")}catch(e){return null}})()||"g1");   // apply the saved sub-tab
 }
 function _setPath(o,path,val){ const ks=path.split("."); let x=o; for(let i=0;i<ks.length-1;i++){ x[ks[i]]=x[ks[i]]||{}; x=x[ks[i]]; } x[ks[ks.length-1]]=val; }
 document.addEventListener("change",e=>{
@@ -1334,8 +1408,10 @@ document.addEventListener("change",e=>{
   else if(t.matches("[data-rskf]")){ if(!ensureMe())return; const r=b.risks.find(x=>x.id===t.closest("[data-rskrow]").dataset.rskrow); if(r){ r[t.dataset.rskf]=t.value; logChange("bim · risk","",t.value); } }
   else if(t.matches("[data-qaf]")){ if(!ensureMe())return; const r=(b.qa||[]).find(x=>x.id===t.closest("[data-qarow]").dataset.qarow); if(r){ r[t.dataset.qaf]=t.value; logChange("bim · QA check","",t.value); } }
   else if(t.matches("[data-fmtf]")){ if(!ensureMe())return; const r=(b.formats||[]).find(x=>x.id===t.closest("[data-fmtrow]").dataset.fmtrow); if(r){ r[t.dataset.fmtf]=t.value; logChange("bim · format","",t.value); } }
+  else if(t.matches("[data-usef]")){ if(!ensureMe())return; const r=(b.bimUses||[]).find(x=>x.id===t.closest("[data-userow]").dataset.userow); if(r){ r[t.dataset.usef]=t.value; logChange("bim · BIM use","",t.value); } }
 });
 document.addEventListener("click",e=>{
+  const bt=e.target.closest("#bim-subnav button"); if(bt){ bimSubtab(bt.dataset.bimtab); return; }
   if(!curProj||!curProj.bim)return; const b=curProj.bim;
   if(e.target.id==="add-sw"){ if(!ensureMe())return; b.software.push({id:uid(),disc:"",use:"",tool:"",version:""}); logChange("bim · added software","",""); renderBIM(); return; }
   if(e.target.id==="add-ph"){ if(!ensureMe())return; (b.phases=b.phases||[]).push({id:uid(),name:""}); logChange("bim · added phase","",""); renderBIM(); return; }
@@ -1344,6 +1420,7 @@ document.addEventListener("click",e=>{
   if(e.target.id==="add-rsk"){ if(!ensureMe())return; b.risks.push({id:uid(),risk:"",impact:"Medium",mitigation:"",owner:""}); logChange("bim · added risk","",""); renderBIM(); return; }
   if(e.target.id==="add-qa"){ if(!ensureMe())return; (b.qa=b.qa||[]).push({id:uid(),check:"",tool:"",frequency:""}); logChange("bim · added QA check","",""); renderBIM(); return; }
   if(e.target.id==="add-fmt"){ if(!ensureMe())return; (b.formats=b.formats||[]).push({id:uid(),format:"",version:"",use:""}); logChange("bim · added format","",""); renderBIM(); return; }
+  if(e.target.id==="add-use"){ if(!ensureMe())return; (b.bimUses=b.bimUses||[]).push({id:uid(),use:"",purpose:""}); logChange("bim · added BIM use","",""); renderBIM(); return; }
   const ds=e.target.closest("[data-delsw]"); if(ds){ if(!ensureMe())return; b.software=b.software.filter(x=>x.id!==ds.dataset.delsw); logChange("bim · removed software","",""); renderBIM(); return; }
   const dp=e.target.closest("[data-delph]"); if(dp){ if(!ensureMe())return; b.phases=(b.phases||[]).filter(x=>x.id!==dp.dataset.delph); logChange("bim · removed phase","",""); renderBIM(); return; }
   const dap=e.target.closest("[data-delapp]"); if(dap){ if(!ensureMe())return; b.appointments=(b.appointments||[]).filter(x=>x.id!==dap.dataset.delapp); logChange("bim · removed appointment","",""); renderBIM(); return; }
@@ -1351,8 +1428,59 @@ document.addEventListener("click",e=>{
   const dk=e.target.closest("[data-delrsk]"); if(dk){ if(!ensureMe())return; b.risks=b.risks.filter(x=>x.id!==dk.dataset.delrsk); logChange("bim · removed risk","",""); renderBIM(); return; }
   const dqa=e.target.closest("[data-delqa]"); if(dqa){ if(!ensureMe())return; b.qa=(b.qa||[]).filter(x=>x.id!==dqa.dataset.delqa); logChange("bim · removed QA check","",""); renderBIM(); return; }
   const dfmt=e.target.closest("[data-delfmt]"); if(dfmt){ if(!ensureMe())return; b.formats=(b.formats||[]).filter(x=>x.id!==dfmt.dataset.delfmt); logChange("bim · removed format","",""); renderBIM(); return; }
+  const du=e.target.closest("[data-deluse]"); if(du){ if(!ensureMe())return; b.bimUses=(b.bimUses||[]).filter(x=>x.id!==du.dataset.deluse); logChange("bim · removed BIM use","",""); renderBIM(); return; }
 });
-function switchView(v){ $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===v)); $$(".view").forEach(x=>x.classList.remove("on")); $("#v-"+v).classList.add("on"); if(v==="project")renderProject(); if(v==="log")renderLog(); if(v==="access")renderAccess(); if(v==="legal")renderLegal(); if(v==="bim")renderBIM(); if(v==="schedule")renderSchedule(); }
+/* ---------- Diagrams tab (process maps: master-detail, data-driven) ---------- */
+let _selProc=null;
+function renderDiagrams(){
+  if(!$("#v-diagrams"))return;
+  if(!curProj){ $("#diag-none").style.display="block"; $("#diag-body").style.display="none"; return; }
+  $("#diag-none").style.display="none"; $("#diag-body").style.display="block";
+  const p=curProj; ensureProcesses(p);
+  const procs=p.processes||[];
+  if(!procs.some(pr=>pr.id===_selProc)) _selProc=procs.length?procs[0].id:null;
+  const ms=(p.milestones||[]).filter(m=>m.code);
+  const byPhase={}; procs.forEach(pr=>{ const k=pr.phase||"_"; (byPhase[k]=byPhase[k]||[]).push(pr); });
+  const chip=pr=>`<div class="n1chip${pr.id===_selProc?" sel":""}" data-selproc="${pr.id}">${esc(procName(p,pr))}${pr.who?`<span class="n1who">${esc(pr.who)}</span>`:""}</div>`;
+  let n1=`<div class="n1row">`+ms.map(m=>`<div class="n1col"><div class="n1head">${esc(m.code)} · ${esc(m.name||"")}</div>${(byPhase[m.code]||[]).map(chip).join("")||`<div class="n1empty">—</div>`}</div>`).join("")+`</div>`;
+  if((byPhase["_"]||[]).length) n1+=`<div class="n1un"><span class="n1unlbl">Unphased</span>${byPhase["_"].map(chip).join("")}</div>`;
+  $("#diag-n1").innerHTML=n1;
+  $("#diag-list").innerHTML=procs.length?procs.map(pr=>`<div class="diag-li${pr.id===_selProc?" sel":""}" data-selproc="${pr.id}">${esc(procName(p,pr))}</div>`).join(""):`<div class="empty" style="padding:8px">No BIM uses yet — add them in BIM Manager · section 20.</div>`;
+  renderProcDetail(p);
+}
+function procFlowHtml(pr){
+  const steps=pr.steps||[]; if(!steps.length) return "";
+  return `<div class="flow">`+steps.map((st,i)=>`<div class="flownode f-${st.kind}">${esc(st.text||"(step)")}${st.who?`<span class="flowwho">${esc(st.who)}</span>`:""}</div>${i<steps.length-1?`<span class="flowarr">→</span>`:""}`).join("")+`</div>`;
+}
+function renderProcDetail(p){
+  const host=$("#diag-detail"); if(!host)return;
+  const pr=(p.processes||[]).find(x=>x.id===_selProc);
+  if(!pr){ host.innerHTML=`<div class="empty" style="padding:8px">Pick a process from the list.</div>`; return; }
+  const ms=(p.milestones||[]).filter(m=>m.code);
+  const phaseOpts=`<option value="">— phase —</option>`+ms.map(m=>`<option value="${esc(m.code)}"${pr.phase===m.code?" selected":""}>${esc(m.code+" · "+(m.name||""))}</option>`).join("");
+  const KIND=["reference","task","decision","exchange"];
+  const rows=(pr.steps||[]).map(st=>`<tr data-strow="${st.id}"><td><select data-stf="kind">${KIND.map(k=>`<option${st.kind===k?" selected":""}>${k}</option>`).join("")}</select></td><td><input data-stf="text" value="${esc(st.text||"")}" placeholder="step description"></td><td><input data-stf="who" list="dl-people" value="${esc(st.who||"")}" placeholder="who"></td><td><button class="del" data-delstep="${st.id}">×</button></td></tr>`).join("");
+  host.innerHTML=`<div class="fields"><div class="f"><label>Process (BIM use)</label><input value="${esc(procName(p,pr))}" readonly class="ro" title="Rename in BIM Manager · section 20"></div>`
+    +`<div class="f"><label>Phase</label><select data-prf="phase">${phaseOpts}</select></div>`
+    +`<div class="f"><label>Lead / responsible <span class="hint">(from Team)</span></label><input data-prf="who" list="dl-people" value="${esc(pr.who||"")}" placeholder="name"></div></div>`
+    +`<div class="diag-tpl"><button class="btn sm" id="diag-tpl-btn">↺ Load Penn State 04c template</button> <span class="hint">replaces the steps below with the standard sketch for this use</span></div>`
+    +`<div class="scroll"><table class="tbl"><thead><tr><th style="width:120px">Kind</th><th>Step</th><th style="width:150px">Who</th><th style="width:34px"></th></tr></thead><tbody>${rows||`<tr><td colspan="4"><div class="empty" style="padding:8px">No steps — load a template or add one.</div></td></tr>`}</tbody></table></div>`
+    +`<button class="btn sm rowadd" id="diag-add-step">+ Add step</button>`
+    +`<div class="diag-prev">${procFlowHtml(pr)}</div>`;
+}
+document.addEventListener("change",e=>{
+  const t=e.target; if(!curProj)return; const p=curProj;
+  if(t.matches("[data-prf]")){ if(!ensureMe())return; const pr=(p.processes||[]).find(x=>x.id===_selProc); if(pr){ pr[t.dataset.prf]=t.value; logChange("process · "+t.dataset.prf,"",t.value); } }
+  else if(t.matches("[data-stf]")){ if(!ensureMe())return; const pr=(p.processes||[]).find(x=>x.id===_selProc); if(!pr)return; const tr=t.closest("[data-strow]"); const st=tr&&(pr.steps||[]).find(s=>s.id===tr.dataset.strow); if(st){ st[t.dataset.stf]=t.value; logChange("process · step","",t.value); } }
+});
+document.addEventListener("click",e=>{
+  if(!curProj)return; const p=curProj;
+  const sel=e.target.closest("[data-selproc]"); if(sel){ _selProc=sel.dataset.selproc; renderDiagrams(); return; }
+  const ds=e.target.closest("[data-delstep]"); if(ds){ if(!ensureMe())return; const pr=(p.processes||[]).find(x=>x.id===_selProc); if(pr){ pr.steps=(pr.steps||[]).filter(s=>s.id!==ds.dataset.delstep); logChange("process · removed step","",""); renderDiagrams(); } return; }
+  if(e.target.id==="diag-add-step"){ if(!ensureMe())return; const pr=(p.processes||[]).find(x=>x.id===_selProc); if(pr){ (pr.steps=pr.steps||[]).push({id:uid(),kind:"task",text:"",who:""}); logChange("process · added step","",""); renderDiagrams(); } return; }
+  if(e.target.id==="diag-tpl-btn"){ if(!ensureMe())return; const pr=(p.processes||[]).find(x=>x.id===_selProc); if(pr){ pr.steps=processStepsFor(procName(p,pr)); logChange("process · loaded 04c template","",""); renderDiagrams(); } return; }
+});
+function switchView(v){ $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===v)); $$(".view").forEach(x=>x.classList.remove("on")); $("#v-"+v).classList.add("on"); if(v==="project")renderProject(); if(v==="log")renderLog(); if(v==="access")renderAccess(); if(v==="legal")renderLegal(); if(v==="bim")renderBIM(); if(v==="diagrams")renderDiagrams(); if(v==="schedule")renderSchedule(); }
 
 $("#log-proj").onchange=renderLog; $("#log-search").oninput=renderLog;
 
@@ -1745,6 +1873,7 @@ function tokenMap(p){
   // Meeting-Availability grid: P1..P15 person slots / TZ1..TZ15 offsets, from UNIQUE responsibles (deduped, one slot per person)
   const av=availRows(teamRows(p));
   for(let i=1;i<=15;i++){ const r=av[i-1]; m["P"+i]=(r&&r.AV_PERSON)||""; m["TZ"+i]=(r&&r.AV_TZ)||""; }
+  m.PROCESS_DIAGRAMS=buildProcessMermaid(p);   // 0012 process maps (N1 + N2), generated from the app
   return m;
 }
 /* --- Repeating rows: one template row in the file becomes N rows, one per team member --- */
@@ -1850,7 +1979,7 @@ function availRows(rows){
 let _swRows=[];
 function softwareRows(p){ return (((p&&p.bim&&p.bim.software)||[]).filter(s=>(s.tool||"").trim())).map((s,i)=>({SW_N:String(i+1), SW_DISC:s.disc||"Office-wide", SW_USE:s.use||"", SW_TOOL:s.tool||"", SW_VERSION:s.version||""})); }
 // One row per contracted phase for the Information Standard A.5 table (Nº · Phase)
-let _phRows=[], _qaRows=[], _fmtRows=[], _folderTree=[], _appRows=[];
+let _phRows=[], _qaRows=[], _fmtRows=[], _folderTree=[], _appRows=[], _msRows=[], _inRows=[], _useRows=[];
 // Scan the REAL project directory (depth-limited) so the doc's folder tree reflects
 // what actually exists — the app-created folders AND any the user added by hand.
 async function scanFolderTree(dir,level,maxLevel,out){
@@ -1877,6 +2006,66 @@ function stripGuideParas(xml){
 function phasesRows(p){ return (((p&&p.bim&&p.bim.phases)||[]).filter(ph=>(ph.name||"").trim())).map((ph,i)=>({PH_N:String(i+1), PH_NAME:ph.name})); }
 // One row per appointment (professional service) for Information Standard A.1.5: Nº · service · appointed party · contract · phases
 function appointmentRows(p){ return (((p&&p.bim&&p.bim.appointments)||[]).filter(a=>(a.service||"").trim()||(a.party||"").trim())).map((a,i)=>({APP_N:String(i+1), APP_SERVICE:a.service||"", APP_PARTY:a.party||"", APP_CONTRACT:a.contract||"", APP_PHASES:a.phases||""})); }
+// One row per milestone (section 05) for Information Standard A.1.6: code · name · planned date · LOD
+function milestoneRows(p){ return (((p&&p.milestones)||[]).filter(m=>(m.code||"").trim()||(m.name||"").trim())).map((m,i)=>({MS_N:String(i+1), MS_CODE:m.code||"", MS_NAME:m.name||"", MS_DATE:m.planned||"", MS_ACTUAL:m.actual||"", MS_LOD:m.lod||""})); }
+// One row per incoming file (section 03 Client file register) for Information Standard A.1.7 (prior information required)
+function incomingRows(p){ return (((p&&p.files)||[]).filter(f=>(f.file||"").trim())).map((f,i)=>({IN_N:String(i+1), IN_ITEM:f.file||"", IN_FROM:f.from||"", IN_PROMISED:f.promised||"", IN_STATUS:f.status||""})); }
+// One row per BIM use (BIM Manager 20) for Information Standard A.1.8 (model uses and definition)
+function bimUsesRows(p){ return (((p&&p.bim&&p.bim.bimUses)||[]).filter(u=>(u.use||"").trim())).map((u,i)=>({USE_N:String(i+1), USE_NAME:u.use||"", USE_PURPOSE:u.purpose||""})); }
+
+/* ===== Process maps (Diagrams tab + 0012 doc) — data-driven, Penn State 04c style ===== */
+// step kinds: 'reference' (input) · 'task' · 'decision' · 'exchange' (data drop). Templates seeded from the Penn State 04c maps.
+const PROCESS_TEMPLATES={
+  "3D coordination":[["reference","Incoming discipline models (via 01_Incoming)"],["task","Federate discipline models"],["decision","Clashes found?"],["task","Resolve clashes with specialists"],["exchange","Publish coordinated set (data drop to CDE)"]],
+  "Existing conditions modeling":[["reference","Site survey / point cloud"],["task","Model existing conditions"],["decision","Accurate to survey?"],["exchange","Publish existing-conditions model"]],
+  "Cost estimation":[["reference","Latest coordinated model"],["task","Extract quantities"],["task","Apply unit costs"],["decision","Within budget?"],["exchange","Issue cost report"]],
+  "Structural analysis":[["reference","Architecture + geotechnical reference"],["task","Build analytical model"],["task","Run analysis (Robot / Midas)"],["decision","Passes code checks?"],["task","Update design model"],["exchange","Issue calculation report"]],
+  "Design review":[["reference","Assemble discipline models"],["task","Run design review"],["decision","Issues raised?"],["task","Log and assign issues (BCF)"],["exchange","Publish reviewed set"]],
+  "Energy analysis":[["reference","Design model + site data"],["task","Set up energy model"],["task","Run simulation"],["decision","Meets targets?"],["exchange","Issue energy report"]],
+  "Design authoring":[["reference","Project template + standards"],["task","Author discipline model"],["decision","Complete for this stage?"],["exchange","Publish WIP to Shared"]]
+};
+function processStepsFor(use){
+  const k=Object.keys(PROCESS_TEMPLATES).find(x=>x.toLowerCase()===String(use||"").toLowerCase());
+  const t=PROCESS_TEMPLATES[k]||[["reference","Required inputs"],["task","Produce the model / deliverable"],["decision","Meets requirements?"],["exchange","Publish to CDE (data drop)"]];
+  return t.map(s=>({id:uid(),kind:s[0],text:s[1],who:""}));
+}
+// ensure one process per BIM use, keyed by the BIM-use id (two-way: add/rename/delete a use in section 20 flows here)
+function bimUsesList(p){ return ((p&&p.bim&&p.bim.bimUses)||[]).filter(u=>(u.use||"").trim()); }
+function procName(p,pr){ const u=((p&&p.bim&&p.bim.bimUses)||[]).find(x=>x.id===pr.useId); return u?u.use:(pr.use||"Process"); }
+function ensureProcesses(p){
+  p.processes=p.processes||[];
+  const uses=bimUsesList(p), ids=uses.map(u=>u.id);
+  uses.forEach(u=>{ if(!p.processes.some(pr=>pr.useId===u.id)) p.processes.push({id:uid(),useId:u.id,phase:"",who:"",steps:processStepsFor(u.use)}); });
+  p.processes=p.processes.filter(pr=>ids.includes(pr.useId));   // drop processes whose BIM use was removed
+  return p.processes;
+}
+function mmEsc(s){ return String(s||"").replace(/["`]/g,"'").replace(/[\r\n]+/g," ").trim(); }
+function n2Mermaid(pr){
+  const steps=(pr.steps||[]); let s="flowchart LR\n";
+  if(!steps.length) return s+'  n0["(no steps yet)"]\n';
+  steps.forEach((st,i)=>{ const pre=st.kind==="exchange"?"⇄ ":st.kind==="reference"?"⇦ ":""; const t=mmEsc(pre+st.text+(st.who?(" — "+st.who):"")); s+= "  n"+i+(st.kind==="decision"?('{"'+t+'"}'):('["'+t+'"]'))+"\n"; });
+  for(let i=0;i<steps.length-1;i++) s+="  n"+i+" --> n"+(i+1)+"\n";
+  return s;
+}
+function n1Mermaid(p){
+  const procs=(p.processes||[]), ms=(p.milestones||[]).filter(m=>m.code);
+  const byPhase={}; procs.forEach(pr=>{ const k=pr.phase||"_"; (byPhase[k]=byPhase[k]||[]).push(pr); });
+  let s="flowchart LR\n";
+  ms.forEach(m=>{ s+='  subgraph '+m.code+'["'+mmEsc(m.code+" · "+(m.name||""))+'"]\n';
+    (byPhase[m.code]||[]).forEach((pr,j)=>{ s+='    '+m.code.toLowerCase()+"_"+j+'["'+mmEsc(procName(p,pr)+(pr.who?(" ("+pr.who+")"):""))+'"]\n'; });
+    if(!(byPhase[m.code]||[]).length) s+='    '+m.code.toLowerCase()+'_e[" "]\n';
+    s+="  end\n"; });
+  if((byPhase["_"]||[]).length){ s+='  subgraph UN["Unphased"]\n'; byPhase["_"].forEach((pr,j)=>{ s+='    un_'+j+'["'+mmEsc(procName(p,pr))+'"]\n'; }); s+="  end\n"; }
+  for(let i=0;i<ms.length-1;i++) s+="  "+ms[i].code+" --> "+ms[i+1].code+"\n";
+  return s;
+}
+// full markdown (both annexes) injected into 0012 via {{PROCESS_DIAGRAMS}}
+function buildProcessMermaid(p){
+  ensureProcesses(p);
+  let out="## Annex 1 — N1 general map (BIM uses across phases)\n\n```mermaid\n"+n1Mermaid(p)+"```\n\n## Annex 2 — N2 detailed maps (per BIM use)\n";
+  (p.processes||[]).forEach((pr,i)=>{ out+="\n### N2."+(i+1)+" — "+procName(p,pr)+"\n\n```mermaid\n"+n2Mermaid(pr)+"```\n"; });
+  return out;
+}
 // QA / model-validation checks (BIM Manager) and delivery/exchange formats — one row each
 function qaRows(p){ return (((p&&p.bim&&p.bim.qa)||[]).filter(r=>(r.check||"").trim())).map((r,i)=>({QA_N:String(i+1), QA_CHECK:r.check||"", QA_TOOL:r.tool||"", QA_FREQ:r.frequency||""})); }
 function formatRows(p){ return (((p&&p.bim&&p.bim.formats)||[]).filter(r=>(r.format||"").trim())).map((r,i)=>({FMT_N:String(i+1), FMT_FORMAT:r.format||"", FMT_VERSION:r.version||"", FMT_USE:r.use||""})); }
@@ -2071,6 +2260,9 @@ async function fillDocument(name,buf,map,rows){
       if(xml.indexOf("{{SW_TOOL}}")>=0) xml=expandDocxRowsPfx(xml,_swRows,"{{SW_TOOL}}","SW_");   // A.3 BIM-system software table, one row per tool
       if(xml.indexOf("{{PH_NAME}}")>=0) xml=expandDocxRowsPfx(xml,_phRows,"{{PH_NAME}}","PH_");   // A.5 contracted-phases table, one row per phase
       if(xml.indexOf("{{APP_SERVICE}}")>=0) xml=expandDocxRowsPfx(xml,_appRows,"{{APP_SERVICE}}","APP_");   // A.1.5 appointments table, one row per professional service
+      if(xml.indexOf("{{MS_NAME}}")>=0) xml=expandDocxRowsPfx(xml,_msRows,"{{MS_NAME}}","MS_");   // A.1.6 milestones table, one row per milestone
+      if(xml.indexOf("{{IN_ITEM}}")>=0) xml=expandDocxRowsPfx(xml,_inRows,"{{IN_ITEM}}","IN_");   // A.1.7 prior information required, one row per incoming file
+      if(xml.indexOf("{{USE_NAME}}")>=0) xml=expandDocxRowsPfx(xml,_useRows,"{{USE_NAME}}","USE_");   // A.1.8 model uses, one row per BIM use
       if(xml.indexOf("{{QA_CHECK}}")>=0) xml=expandDocxRowsPfx(xml,_qaRows,"{{QA_CHECK}}","QA_");   // model-validation (QA) table
       if(xml.indexOf("{{FMT_FORMAT}}")>=0) xml=expandDocxRowsPfx(xml,_fmtRows,"{{FMT_FORMAT}}","FMT_");   // delivery/exchange formats table
       if(xml.indexOf("{{FOLDER_TREE}}")>=0) xml=expandFolderTree(xml,_folderTree);   // project folder tree (scanned from disk)
@@ -2108,7 +2300,10 @@ async function genDocs(root,project,parentDir){
   await prepGenLogo();                                   // pre-render the company logo (png+jpg) for the doc swap
   _swRows=softwareRows(project);                          // A.3 BIM-system table rows (one per tool)
   _phRows=phasesRows(project);                            // A.5 contracted-phase rows
-  _appRows=appointmentRows(project);                      // A.1.5 appointments (professional services) rows
+  _appRows=appointmentRows(project);
+  _msRows=milestoneRows(project);                        // A.1.6 milestones table, one row per milestone
+  _inRows=incomingRows(project);                         // A.1.7 prior-information-required table, one row per incoming file
+  _useRows=bimUsesRows(project);                          // A.1.8 model-uses table, one row per BIM use                      // A.1.5 appointments (professional services) rows
   _qaRows=qaRows(project); _fmtRows=formatRows(project);  // QA + delivery-format rows
   _folderTree=[]; try{ await scanFolderTree(root,0,2,_folderTree); }catch(e){ _folderTree=[]; }   // real project folders, depth 0-2, for {{FOLDER_TREE}}
   await copyTree(std,root,project,report,0,tokenMap(project),teamRows(project));
