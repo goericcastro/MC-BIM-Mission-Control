@@ -16,13 +16,17 @@ You describe the project once (client, team, disciplines, milestones, contract, 
 
 | Tab | What you manage |
 |---|---|
-| **Dashboard** | All your projects at a glance. |
-| **Project** | Identity, **team & disciplines**, incoming-file register, **client / appointing party** (OIR · PIR · AIR), **milestones** (planned/actual dates + LOD), and the **“Create folders + documents”** action. |
-| **Legal** | Contract & legal entities, fees, applicable law (feeds the Agreement & BIM Protocol). |
-| **BIM Manager** | The BEP content, grouped in sub-tabs: **Contract & scope** (appointments / BIM uses / responsibilities), **Technical setup** (software · coordinates · information management), **Collaboration** (coordination · CDE · federation), **Quality & delivery** (QA · exchange formats · risk register). |
-| **Diagrams** | **BIM process maps** (Penn State PxP style): a **Level 1** overview (BIM uses across milestones) and editable **Level 2** detail per process (steps · decisions · exchanges) — auto-seeded from your BIM uses and generated into the Process-Maps document as Mermaid. |
-| **Schedule** | Per-discipline time weight (donut, with *sum* vs real *project days*), comparison columns, and a milestone-anchored **Gantt** with editable start/duration/delivery, planned-vs-actual variance (late = red, early = green), and per-year shading. Durations count **working days only** — set the work week and a **national-holiday** preset (Brasil · Perú · Chile · Argentina) plus manual dates; weekends and holidays are shaded and skipped everywhere. |
-| **Change Log · Access** | Who changed what, and who is registered on the shared project file. |
+| **00 Dashboard** | All your projects at a glance. |
+| **01 Project** | Identity → client requirements → incoming files → team & disciplines → milestones. |
+| **02 Legal** | Confirm legal identity, contract & entities, client legal-document register and office logo. |
+| **03 Access** | Connect the optional shared workspace, then manage users and access. |
+| **04 BIM Manager** | Five ordered sub-tabs: **Scope & roles** (appointments, uses, responsibilities, risks), **Standards & tools** (coding, software, naming, resources, models, parameters, coordinates), **Information flow** (information manager, CDE, communication, federation), **Quality & exchange**, and **Element types**. |
+| **05 Diagrams** | **BIM process maps** (Penn State PxP style): a **Level 1** overview (BIM uses across milestones) and editable **Level 2** detail per process (steps · decisions · exchanges) — auto-seeded from your BIM uses and generated into the Process-Maps document as Mermaid. |
+| **06 Schedule** | Per-discipline time weight, comparison columns, and milestone-anchored discipline/process timelines with editable dates. Durations count **working days only**; set the work week and holiday calendar. |
+| **07 Generate** | Review core inputs, create the folder structure, and generate project documents. Missing core data triggers a warning; treat incomplete outputs as drafts. Regenerating overwrites same-named files. |
+| **08 Change Log** | Append-only record of changes and sign-ins. |
+
+The leading numbers are **app workflow steps**. Where a card feeds the 0004 Information Standard, its smaller `0004 · A.x` badge preserves the document paragraph reference; the two numbering systems have different purposes.
 
 ## Naming convention
 
@@ -32,7 +36,7 @@ Every generated file and folder README follows a consistent, ISO 19650-aligned c
 {Project}-{Originator}-{Level}-{Type}-{Number}_{Title}
 ```
 
-e.g. `BK-EC-XX-RP-0001_Minutes-Template.docx`. Discipline-specific **deliverables** (models, drawings, reports) additionally carry their discipline code (STR, STL, HID, MEC…); general/admin documents omit it.
+e.g. `BK-EC-XX-RP-0012_Minutes-Template.docx`. Discipline-specific **deliverables** (models, drawings, reports) additionally carry their discipline code (STR, STL, HID, MEC…); general/admin documents omit it.
 
 ## Use
 

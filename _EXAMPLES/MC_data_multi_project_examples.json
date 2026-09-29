@@ -1,0 +1,2044 @@
+{
+  "meta": {
+    "title": "MC multi-project DEMO",
+    "schema": 1,
+    "created": "2026-09-23T13:36:24.204554+00:00"
+  },
+  "rev": 1,
+  "lastSavedBy": "",
+  "lastSavedAt": "",
+  "projects": [
+    {
+      "id": "bk055",
+      "name": "BK – São José dos Campos",
+      "code": "BK",
+      "client": "Burger King",
+      "address": "Av. dos Astronautas, 1750 — Jardim Satélite",
+      "status": "active",
+      "contractNo": "BK-EC-2026-001",
+      "quote": "",
+      "team": [
+        {
+          "id": "bk001",
+          "kind": "Role",
+          "label": "Information Manager",
+          "person": "Eric Castro",
+          "email": "eric.castro.ingenieria@gmail.com"
+        },
+        {
+          "id": "bk002",
+          "kind": "Role",
+          "label": "BIM Manager",
+          "person": "Eric Castro",
+          "email": "eric.castro.ingenieria@gmail.com"
+        },
+        {
+          "id": "bk003",
+          "kind": "Role",
+          "label": "BIM Coordinator",
+          "person": "Rafael Nunes",
+          "email": "rafael.nunes@ecengenharia.com.br"
+        },
+        {
+          "id": "bk004",
+          "kind": "Role",
+          "label": "Client representative",
+          "person": "Marcos Almeida",
+          "email": "marcos.almeida@zamp.com.br"
+        },
+        {
+          "id": "bk005",
+          "kind": "Discipline",
+          "label": "Structural Concrete (STR)",
+          "person": "Eric Castro",
+          "email": "eric.castro.ingenieria@gmail.com"
+        },
+        {
+          "id": "bk006",
+          "kind": "Discipline",
+          "label": "Structural Steel (STL)",
+          "person": "Bruno Tavares",
+          "email": "bruno.tavares@ecengenharia.com.br"
+        },
+        {
+          "id": "bk007",
+          "kind": "Discipline",
+          "label": "Structural Masonry (MAS)",
+          "person": "Bruno Tavares",
+          "email": "bruno.tavares@ecengenharia.com.br"
+        },
+        {
+          "id": "bk008",
+          "kind": "Discipline",
+          "label": "Foundation (FDN)",
+          "person": "Camila Rocha",
+          "email": "camila.rocha@ecengenharia.com.br"
+        },
+        {
+          "id": "bk009",
+          "kind": "Discipline",
+          "label": "Hydraulic (HID)",
+          "person": "Diego Martins",
+          "email": "diego.martins@ecengenharia.com.br"
+        },
+        {
+          "id": "bk010",
+          "kind": "Discipline",
+          "label": "HVAC / Mechanical (MEC)",
+          "person": "Helena Prado",
+          "email": "helena.prado@ecengenharia.com.br"
+        }
+      ],
+      "files": [
+        {
+          "id": "bk051",
+          "file": "Architecture model (ARC)",
+          "from": "External architecture firm",
+          "promised": "2026-09-22",
+          "delivered": "",
+          "rev": "P01",
+          "ourUpdate": "",
+          "status": "awaited"
+        },
+        {
+          "id": "bk052",
+          "file": "Geotechnical / borehole report (GEO)",
+          "from": "External geotechnical lab",
+          "promised": "2026-09-12",
+          "delivered": "2026-09-15",
+          "rev": "P01",
+          "ourUpdate": "2026-09-15",
+          "status": "received"
+        },
+        {
+          "id": "bk053",
+          "file": "Topographic survey (TOP)",
+          "from": "Survey office",
+          "promised": "2026-09-08",
+          "delivered": "2026-09-10",
+          "rev": "P01",
+          "ourUpdate": "2026-09-10",
+          "status": "received"
+        },
+        {
+          "id": "bk054",
+          "file": "Existing electrical (ELE)",
+          "from": "Client / utility",
+          "promised": "2026-09-25",
+          "delivered": "",
+          "rev": "P01",
+          "ourUpdate": "",
+          "status": "awaited"
+        }
+      ],
+      "clientData": {
+        "ap_name": "Zamp S.A. (Burger King Brasil)",
+        "ap_rep": "Marcos Almeida — Expansion / Facilities Manager",
+        "ap_contact": "expansao@example.com · +55 11 3000-0000",
+        "oir": "Standardized restaurant-portfolio data for facility management and brand compliance across all units.",
+        "pir": "Coordinated, clash-free design enabling permit, tender and construction of the standard BK prototype on schedule and budget.",
+        "air": "As-built structural / hydraulic / MEP data + equipment register (COBie-style) for operation & maintenance at handover.",
+        "brand": "Burger King Global Design & Image Standards (brand book) + local prototype kit.",
+        "permits": [
+          {
+            "id": "bk044",
+            "item": "Property deed / land registry",
+            "ref": "MAT-12345",
+            "status": "Received",
+            "date": "2026-08-20",
+            "notes": "From client (legal source of truth)"
+          },
+          {
+            "id": "bk045",
+            "item": "Building permit (Alvará)",
+            "ref": "—",
+            "status": "Pending",
+            "date": "2026-12-15",
+            "notes": "Municipal — São José dos Campos (target with M4)"
+          }
+        ]
+      },
+      "milestones": [
+        {
+          "id": "bk046",
+          "code": "M1",
+          "name": "Concept",
+          "planned": "2026-09-15",
+          "actual": "",
+          "lod": "LOD 100"
+        },
+        {
+          "id": "bk047",
+          "code": "M2",
+          "name": "Preliminary design",
+          "planned": "2026-10-13",
+          "actual": "",
+          "lod": "LOD 200"
+        },
+        {
+          "id": "bk048",
+          "code": "M3",
+          "name": "Developed design",
+          "planned": "2026-11-10",
+          "actual": "",
+          "lod": "LOD 300"
+        },
+        {
+          "id": "bk049",
+          "code": "M4",
+          "name": "Coordinated / for construction",
+          "planned": "2026-12-15",
+          "actual": "",
+          "lod": "LOD 350"
+        },
+        {
+          "id": "bk050",
+          "code": "M5",
+          "name": "Handover / as-designed",
+          "planned": "2027-02-16",
+          "actual": "",
+          "lod": "LOD 350"
+        }
+      ],
+      "city": "São José dos Campos",
+      "postal": "12230-000",
+      "country": "Brazil",
+      "desc": "New-build drive-thru Burger King restaurant (~380 m² GFA), single-story, steel frame + concrete slab-on-grade; kitchen, dining area, drive-thru lane and parking. BIM scope: structural, foundations, hydraulic and HVAC modeling and coordination on the BK prototype.",
+      "contract": {
+        "client_legal": "",
+        "client_reg": "00.000.000/0001-00",
+        "client_address": "Alameda Tocantins, 350 — Alphaville, Barueri/SP",
+        "client_phone": "+55 11 3000-0000",
+        "our_legal": "Eric Castro Engenharia Estrutural Ltda.",
+        "our_reg": "00.000.000/0001-00",
+        "our_address": "São José dos Campos/SP",
+        "our_phone": "+55 12 90000-0000",
+        "our_email": "eric.castro.ingenieria@gmail.com",
+        "our_web": "",
+        "fee": "R$ 85.000,00",
+        "currency": "BRL",
+        "payment": "20% on appointment; balance tied to milestones M2–M5",
+        "law": "Brazil — São Paulo jurisdiction",
+        "dispute": "Arbitration / São Paulo courts"
+      },
+      "cal": {
+        "workdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "country": "BR",
+        "holidays": []
+      },
+      "docMeta": {
+        "version": "1.0",
+        "date": "2026-08-31"
+      },
+      "externals": {
+        "ar_office": "External architecture firm",
+        "ge_office": "External geotechnical lab"
+      },
+      "bim": {
+        "software": [
+          {
+            "id": "bk020",
+            "disc": "Structural (STR/STL/MAS/FDN)",
+            "use": "Structural analysis & design",
+            "tool": "Autodesk Robot Structural Analysis",
+            "version": "2024"
+          },
+          {
+            "id": "bk021",
+            "disc": "Structural Concrete (STR)",
+            "use": "Concrete design (NBR 6118)",
+            "tool": "TQS",
+            "version": "2024"
+          },
+          {
+            "id": "bk022",
+            "disc": "All disciplines",
+            "use": "Authoring / modeling",
+            "tool": "Autodesk Revit",
+            "version": "2024"
+          },
+          {
+            "id": "bk023",
+            "disc": "All disciplines",
+            "use": "Federation & clash detection",
+            "tool": "Autodesk Navisworks Manage",
+            "version": "2024"
+          },
+          {
+            "id": "bk024",
+            "disc": "All disciplines",
+            "use": "2D drafting",
+            "tool": "AutoCAD",
+            "version": "2024"
+          }
+        ],
+        "comm": {
+          "chat": "WhatsApp — project group",
+          "board": "Trello",
+          "calendar": "Google Calendar"
+        },
+        "coords": {
+          "ns": "7.435.000 N (approx.)",
+          "ew": "408.000 E (approx.)",
+          "elev": "~600 m (IBGE datum)",
+          "north": "Grid north — UTM zone 23S",
+          "cadastral": "SIRGAS 2000 / UTM 23S (EPSG:31983); base point from topographic survey"
+        },
+        "infoManager": "Eric Castro",
+        "lod": {},
+        "responsibilities": [
+          {
+            "id": "bk025",
+            "task": "Structural modeling & design",
+            "who": "Eric Castro",
+            "deliverable": "STR model + calculation report + drawings"
+          },
+          {
+            "id": "bk026",
+            "task": "Foundations",
+            "who": "Camila Rocha",
+            "deliverable": "FDN model + geotechnical-based report"
+          },
+          {
+            "id": "bk027",
+            "task": "Hydraulic / sanitary",
+            "who": "Diego Martins",
+            "deliverable": "HID model + drawings"
+          },
+          {
+            "id": "bk028",
+            "task": "HVAC / mechanical",
+            "who": "Helena Prado",
+            "deliverable": "MEC model"
+          },
+          {
+            "id": "bk029",
+            "task": "Federation & clash detection",
+            "who": "Rafael Nunes",
+            "deliverable": "Federated model + clash report (per milestone)"
+          },
+          {
+            "id": "bk030",
+            "task": "Information management / CDE",
+            "who": "Eric Castro",
+            "deliverable": "Naming, CDE control, MIDP/TIDP"
+          }
+        ],
+        "risks": [
+          {
+            "id": "bk031",
+            "risk": "Late changes in incoming architecture",
+            "impact": "High",
+            "mitigation": "Freeze dates + change log; version control",
+            "owner": "BIM Manager"
+          },
+          {
+            "id": "bk032",
+            "risk": "Geotechnical report delay",
+            "impact": "Medium",
+            "mitigation": "Request early; work with preliminary assumptions",
+            "owner": "Foundations"
+          },
+          {
+            "id": "bk033",
+            "risk": "HVAC ↔ structure clashes",
+            "impact": "Medium",
+            "mitigation": "Weekly coordination; clash review per milestone",
+            "owner": "BIM Coordinator"
+          },
+          {
+            "id": "bk034",
+            "risk": "Brand-standard updates mid-project",
+            "impact": "Low",
+            "mitigation": "Track brand-book version; controlled updates",
+            "owner": "BIM Manager"
+          }
+        ],
+        "contractType": "Traditional (Design-Bid-Build)",
+        "appointments": [
+          {
+            "id": "bk011",
+            "disc": "bk005",
+            "service": "Structural Concrete (STR)",
+            "party": "Eric Castro",
+            "contract": "Professional-services contract",
+            "phases": "Schematic → Construction"
+          },
+          {
+            "id": "bk012",
+            "disc": "bk006",
+            "service": "Structural Steel (STL)",
+            "party": "Bruno Tavares",
+            "contract": "Collaboration contract",
+            "phases": "Detailed → Construction"
+          },
+          {
+            "id": "bk013",
+            "disc": "bk007",
+            "service": "Structural Masonry (MAS)",
+            "party": "Bruno Tavares",
+            "contract": "Collaboration contract",
+            "phases": "Detailed → Construction"
+          },
+          {
+            "id": "bk014",
+            "disc": "bk008",
+            "service": "Foundation (FDN)",
+            "party": "Camila Rocha",
+            "contract": "Collaboration contract",
+            "phases": "Preliminary → Detailed"
+          },
+          {
+            "id": "bk015",
+            "disc": "bk009",
+            "service": "Hydraulic (HID)",
+            "party": "Diego Martins",
+            "contract": "Collaboration contract",
+            "phases": "Detailed → Construction"
+          },
+          {
+            "id": "bk016",
+            "disc": "bk010",
+            "service": "HVAC / Mechanical (MEC)",
+            "party": "Helena Prado",
+            "contract": "Collaboration contract",
+            "phases": "Detailed → Construction"
+          },
+          {
+            "id": "bk017",
+            "disc": null,
+            "service": "Architecture (incoming)",
+            "party": "External architecture firm",
+            "contract": "External appointment",
+            "phases": "Preliminary → Detailed"
+          },
+          {
+            "id": "bk018",
+            "disc": null,
+            "service": "Geotechnical (incoming)",
+            "party": "External geotechnical lab",
+            "contract": "External appointment",
+            "phases": "Preliminary"
+          },
+          {
+            "id": "bk019",
+            "disc": null,
+            "service": "Health & safety coordinator",
+            "party": "",
+            "contract": "Appointment",
+            "phases": "Construction"
+          }
+        ],
+        "phases": [],
+        "cde": {
+          "platform": "Network / server folder",
+          "url": "",
+          "notes": "WIP internal; Shared = for coordination; Published = approved for construction only. Manager = Information Manager."
+        },
+        "federation": {
+          "breakdown": "By discipline",
+          "tool": "Navisworks Manage",
+          "frequency": "Weekly",
+          "notes": "Shared coordinates / common origin agreed (SIRGAS 2000 / UTM 23S)."
+        },
+        "qa": [
+          {
+            "id": "bk035",
+            "check": "Clash detection",
+            "tool": "Navisworks Manage",
+            "frequency": "Per milestone"
+          },
+          {
+            "id": "bk036",
+            "check": "Model health / warnings",
+            "tool": "Revit / model checker",
+            "frequency": "Weekly"
+          },
+          {
+            "id": "bk037",
+            "check": "Naming & standards compliance (ISO 19650)",
+            "tool": "Manual / checker",
+            "frequency": "Before Shared → Published"
+          },
+          {
+            "id": "bk038",
+            "check": "Code compliance (ABNT NBR)",
+            "tool": "Discipline review",
+            "frequency": "Per deliverable"
+          }
+        ],
+        "formats": [
+          {
+            "id": "bk039",
+            "format": "IFC",
+            "version": "IFC4",
+            "use": "Open exchange / coordination"
+          },
+          {
+            "id": "bk040",
+            "format": "Native (RVT)",
+            "version": "Revit 2024",
+            "use": "Working / authoring files"
+          },
+          {
+            "id": "bk041",
+            "format": "PDF",
+            "version": "",
+            "use": "Deliverable drawings & reports"
+          },
+          {
+            "id": "bk042",
+            "format": "NWD / BCF",
+            "version": "",
+            "use": "Federation & clash / issues"
+          },
+          {
+            "id": "bk043",
+            "format": "DWG",
+            "version": "2018",
+            "use": "2D CAD exchange"
+          }
+        ],
+        "bimUses": [
+          {
+            "id": "bk_dg001",
+            "use": "Existing conditions modeling",
+            "purpose": "Site & existing-conditions model from survey"
+          },
+          {
+            "id": "bk_dg007",
+            "use": "Structural analysis",
+            "purpose": "Analysis & sizing (Robot / TQS), foundations"
+          },
+          {
+            "id": "bk_dg015",
+            "use": "3D coordination",
+            "purpose": "Federation + clash detection across disciplines"
+          },
+          {
+            "id": "bk_dg022",
+            "use": "Cost estimation",
+            "purpose": "Quantities take-off and budget"
+          },
+          {
+            "id": "bk_dg029",
+            "use": "Design review",
+            "purpose": "Multidiscipline review + BCF issues"
+          }
+        ]
+      },
+      "processes": [
+        {
+          "id": "bk_dg006",
+          "useId": "bk_dg001",
+          "phase": "M1",
+          "who": "Eric Castro",
+          "steps": [
+            {
+              "id": "bk_dg002",
+              "kind": "reference",
+              "text": "Site survey / point cloud",
+              "who": ""
+            },
+            {
+              "id": "bk_dg003",
+              "kind": "task",
+              "text": "Model existing conditions",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "bk_dg004",
+              "kind": "decision",
+              "text": "Accurate to survey?",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "bk_dg005",
+              "kind": "exchange",
+              "text": "Publish existing-conditions model",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "bk_dg014",
+          "useId": "bk_dg007",
+          "phase": "M3",
+          "who": "Eric Castro",
+          "steps": [
+            {
+              "id": "bk_dg008",
+              "kind": "reference",
+              "text": "Architecture + geotechnical reference",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "bk_dg009",
+              "kind": "task",
+              "text": "Build analytical model",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "bk_dg010",
+              "kind": "task",
+              "text": "Run analysis (Robot / TQS)",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "bk_dg011",
+              "kind": "decision",
+              "text": "Passes code checks?",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "bk_dg012",
+              "kind": "task",
+              "text": "Update design model",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "bk_dg013",
+              "kind": "exchange",
+              "text": "Issue calculation report",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "bk_dg021",
+          "useId": "bk_dg015",
+          "phase": "M3",
+          "who": "Rafael Nunes",
+          "steps": [
+            {
+              "id": "bk_dg016",
+              "kind": "reference",
+              "text": "Incoming discipline models (via 01_Incoming)",
+              "who": ""
+            },
+            {
+              "id": "bk_dg017",
+              "kind": "task",
+              "text": "Federate discipline models",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "bk_dg018",
+              "kind": "decision",
+              "text": "Clashes found?",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "bk_dg019",
+              "kind": "task",
+              "text": "Resolve clashes with specialists",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "bk_dg020",
+              "kind": "exchange",
+              "text": "Publish coordinated set (data drop to CDE)",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "bk_dg028",
+          "useId": "bk_dg022",
+          "phase": "M4",
+          "who": "Eric Castro",
+          "steps": [
+            {
+              "id": "bk_dg023",
+              "kind": "reference",
+              "text": "Latest coordinated model",
+              "who": ""
+            },
+            {
+              "id": "bk_dg024",
+              "kind": "task",
+              "text": "Extract quantities",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "bk_dg025",
+              "kind": "task",
+              "text": "Apply unit costs",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "bk_dg026",
+              "kind": "decision",
+              "text": "Within budget?",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "bk_dg027",
+              "kind": "exchange",
+              "text": "Issue cost report",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "bk_dg035",
+          "useId": "bk_dg029",
+          "phase": "M4",
+          "who": "Rafael Nunes",
+          "steps": [
+            {
+              "id": "bk_dg030",
+              "kind": "reference",
+              "text": "Assemble discipline models",
+              "who": ""
+            },
+            {
+              "id": "bk_dg031",
+              "kind": "task",
+              "text": "Run design review",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "bk_dg032",
+              "kind": "decision",
+              "text": "Issues raised?",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "bk_dg033",
+              "kind": "task",
+              "text": "Log and assign issues (BCF)",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "bk_dg034",
+              "kind": "exchange",
+              "text": "Publish reviewed set",
+              "who": ""
+            }
+          ]
+        }
+      ],
+      "schedule": {
+        "STR": {
+          "start": "2026-10-13",
+          "end": "2027-02-16"
+        },
+        "STL": {
+          "start": "2026-10-13",
+          "end": "2027-02-16"
+        },
+        "MAS": {
+          "start": "2026-10-13",
+          "end": "2027-02-16"
+        },
+        "FDN": {
+          "start": "2026-10-13",
+          "end": "2027-02-16"
+        },
+        "HID": {
+          "start": "2026-11-10",
+          "end": "2027-02-16"
+        },
+        "MEC": {
+          "start": "2026-11-10",
+          "end": "2027-02-16"
+        },
+        "CRD": {
+          "start": "2026-10-13",
+          "end": "2027-02-16"
+        }
+      }
+    },
+    {
+      "id": "demo_assai",
+      "name": "ASSAÍ - FOZ DE IGUAÇU — DEMO",
+      "code": "ASFI",
+      "client": "Assaí",
+      "address": "",
+      "status": "hold",
+      "contractNo": "",
+      "quote": "",
+      "team": [
+        {
+          "id": "demo_assai_team_1",
+          "kind": "Role",
+          "label": "Information Manager",
+          "person": "Eric Castro",
+          "email": "eric.castro.ingenieria@gmail.com"
+        },
+        {
+          "id": "demo_assai_team_2",
+          "kind": "Role",
+          "label": "BIM Manager",
+          "person": "Eric Castro",
+          "email": "eric.castro.ingenieria@gmail.com"
+        },
+        {
+          "id": "demo_assai_team_3",
+          "kind": "Role",
+          "label": "BIM Coordinator",
+          "person": "Rafael Nunes",
+          "email": "rafael.nunes@ecengenharia.com.br"
+        },
+        {
+          "id": "demo_assai_team_4",
+          "kind": "Role",
+          "label": "Client representative",
+          "person": "",
+          "email": ""
+        },
+        {
+          "id": "demo_assai_team_5",
+          "kind": "Discipline",
+          "label": "Structural Concrete (STR)",
+          "person": "Eric Castro",
+          "email": "eric.castro.ingenieria@gmail.com"
+        },
+        {
+          "id": "demo_assai_team_6",
+          "kind": "Discipline",
+          "label": "Foundation (FDN)",
+          "person": "Camila Rocha",
+          "email": "camila.rocha@ecengenharia.com.br"
+        },
+        {
+          "id": "demo_assai_team_7",
+          "kind": "Discipline",
+          "label": "Hydraulic (HID)",
+          "person": "Diego Martins",
+          "email": "diego.martins@ecengenharia.com.br"
+        },
+        {
+          "id": "demo_assai_team_8",
+          "kind": "Discipline",
+          "label": "HVAC / Mechanical (MEC)",
+          "person": "Helena Prado",
+          "email": "helena.prado@ecengenharia.com.br"
+        }
+      ],
+      "files": [],
+      "clientData": {
+        "ap_name": "Assaí",
+        "ap_rep": "",
+        "ap_contact": "",
+        "oir": "Example only - confirm the real OIR.",
+        "pir": "Example only - define actual information exchanges by milestone.",
+        "air": "Example only - confirm handover asset data requirements.",
+        "brand": "",
+        "permits": []
+      },
+      "milestones": [
+        {
+          "id": "demo_assai_milestone_1",
+          "code": "M1",
+          "name": "Concept",
+          "planned": "2027-02-15",
+          "actual": "",
+          "lod": "LOD 100"
+        },
+        {
+          "id": "demo_assai_milestone_2",
+          "code": "M2",
+          "name": "Preliminary design",
+          "planned": "2027-04-15",
+          "actual": "",
+          "lod": "LOD 200"
+        },
+        {
+          "id": "demo_assai_milestone_3",
+          "code": "M3",
+          "name": "Developed design",
+          "planned": "2027-06-15",
+          "actual": "",
+          "lod": "LOD 300"
+        },
+        {
+          "id": "demo_assai_milestone_4",
+          "code": "M4",
+          "name": "Coordinated / for construction",
+          "planned": "2027-08-15",
+          "actual": "",
+          "lod": "LOD 350"
+        },
+        {
+          "id": "demo_assai_milestone_5",
+          "code": "M5",
+          "name": "Handover / as-designed",
+          "planned": "2027-10-15",
+          "actual": "",
+          "lod": "LOD 350"
+        }
+      ],
+      "city": "Foz do Iguaçu",
+      "postal": "",
+      "country": "Brasil",
+      "desc": "DEMONSTRATION ONLY: scope, dates and workflow are illustrative, not verified project facts.",
+      "contract": {
+        "client_legal": "",
+        "client_reg": "",
+        "client_address": "",
+        "client_phone": "",
+        "our_legal": "",
+        "our_reg": "",
+        "our_address": "",
+        "our_phone": "",
+        "our_email": "",
+        "our_web": "",
+        "fee": "",
+        "currency": "",
+        "payment": "",
+        "law": "",
+        "dispute": ""
+      },
+      "cal": {
+        "workdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "country": "BR",
+        "holidays": []
+      },
+      "docMeta": {
+        "version": "DEMO",
+        "date": "2027-01-15"
+      },
+      "externals": {
+        "ar_office": "",
+        "ge_office": ""
+      },
+      "bim": {
+        "software": [],
+        "comm": {
+          "chat": "",
+          "board": "",
+          "calendar": ""
+        },
+        "coords": {
+          "ns": "",
+          "ew": "",
+          "elev": "",
+          "north": "",
+          "cadastral": ""
+        },
+        "infoManager": "Eric Castro",
+        "lod": {},
+        "responsibilities": [],
+        "risks": [],
+        "contractType": "Traditional (Design-Bid-Build)",
+        "appointments": [],
+        "phases": [],
+        "cde": {
+          "platform": "",
+          "url": "",
+          "notes": ""
+        },
+        "federation": {},
+        "qa": [],
+        "formats": [],
+        "bimUses": [
+          {
+            "id": "demo_assai_use_1",
+            "use": "Existing conditions modeling",
+            "purpose": "Illustrative existing conditions modeling workflow; confirm for this project."
+          },
+          {
+            "id": "demo_assai_use_2",
+            "use": "Site analysis",
+            "purpose": "Illustrative site analysis workflow; confirm for this project."
+          },
+          {
+            "id": "demo_assai_use_3",
+            "use": "3D coordination",
+            "purpose": "Illustrative 3d coordination workflow; confirm for this project."
+          },
+          {
+            "id": "demo_assai_use_4",
+            "use": "Cost estimation",
+            "purpose": "Illustrative cost estimation workflow; confirm for this project."
+          },
+          {
+            "id": "demo_assai_use_5",
+            "use": "Design review",
+            "purpose": "Illustrative design review workflow; confirm for this project."
+          }
+        ],
+        "standard": {}
+      },
+      "processes": [
+        {
+          "id": "demo_assai_process_1",
+          "useId": "demo_assai_use_1",
+          "phase": "M1",
+          "who": "Eric Castro",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_assai_step_1_1",
+              "kind": "reference",
+              "text": "Required project inputs",
+              "who": ""
+            },
+            {
+              "id": "demo_assai_step_1_2",
+              "kind": "task",
+              "text": "Perform existing conditions modeling",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "demo_assai_step_1_3",
+              "kind": "decision",
+              "text": "Does the result meet the agreed criteria?",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "demo_assai_step_1_4",
+              "kind": "exchange",
+              "text": "Share the reviewed output",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "demo_assai_process_2",
+          "useId": "demo_assai_use_2",
+          "phase": "M1",
+          "who": "Camila Rocha",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_assai_step_2_1",
+              "kind": "reference",
+              "text": "Survey, cadastral data and site constraints",
+              "who": ""
+            },
+            {
+              "id": "demo_assai_step_2_2",
+              "kind": "task",
+              "text": "Assess access, terrain and planning constraints",
+              "who": "Camila Rocha"
+            },
+            {
+              "id": "demo_assai_step_2_3",
+              "kind": "decision",
+              "text": "Is the site strategy feasible?",
+              "who": "Camila Rocha"
+            },
+            {
+              "id": "demo_assai_step_2_4",
+              "kind": "exchange",
+              "text": "Issue site-analysis findings",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "demo_assai_process_3",
+          "useId": "demo_assai_use_3",
+          "phase": "M3",
+          "who": "Rafael Nunes",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_assai_step_3_1",
+              "kind": "reference",
+              "text": "Required project inputs",
+              "who": ""
+            },
+            {
+              "id": "demo_assai_step_3_2",
+              "kind": "task",
+              "text": "Perform 3d coordination",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "demo_assai_step_3_3",
+              "kind": "decision",
+              "text": "Does the result meet the agreed criteria?",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "demo_assai_step_3_4",
+              "kind": "exchange",
+              "text": "Share the reviewed output",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "demo_assai_process_4",
+          "useId": "demo_assai_use_4",
+          "phase": "M4",
+          "who": "Eric Castro",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_assai_step_4_1",
+              "kind": "reference",
+              "text": "Required project inputs",
+              "who": ""
+            },
+            {
+              "id": "demo_assai_step_4_2",
+              "kind": "task",
+              "text": "Perform cost estimation",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "demo_assai_step_4_3",
+              "kind": "decision",
+              "text": "Does the result meet the agreed criteria?",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "demo_assai_step_4_4",
+              "kind": "exchange",
+              "text": "Share the reviewed output",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "demo_assai_process_5",
+          "useId": "demo_assai_use_5",
+          "phase": "M4",
+          "who": "Rafael Nunes",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_assai_step_5_1",
+              "kind": "reference",
+              "text": "Required project inputs",
+              "who": ""
+            },
+            {
+              "id": "demo_assai_step_5_2",
+              "kind": "task",
+              "text": "Perform design review",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "demo_assai_step_5_3",
+              "kind": "decision",
+              "text": "Does the result meet the agreed criteria?",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "demo_assai_step_5_4",
+              "kind": "exchange",
+              "text": "Share the reviewed output",
+              "who": ""
+            }
+          ]
+        }
+      ],
+      "schedule": {}
+    },
+    {
+      "id": "demo_autozone",
+      "name": "AUTOZONE - ARAUCÁRIA — DEMO",
+      "code": "AZAR",
+      "client": "AutoZone",
+      "address": "",
+      "status": "hold",
+      "contractNo": "",
+      "quote": "",
+      "team": [
+        {
+          "id": "demo_autozone_team_1",
+          "kind": "Role",
+          "label": "Information Manager",
+          "person": "Eric Castro",
+          "email": "eric.castro.ingenieria@gmail.com"
+        },
+        {
+          "id": "demo_autozone_team_2",
+          "kind": "Role",
+          "label": "BIM Manager",
+          "person": "Eric Castro",
+          "email": "eric.castro.ingenieria@gmail.com"
+        },
+        {
+          "id": "demo_autozone_team_3",
+          "kind": "Role",
+          "label": "BIM Coordinator",
+          "person": "Rafael Nunes",
+          "email": "rafael.nunes@ecengenharia.com.br"
+        },
+        {
+          "id": "demo_autozone_team_4",
+          "kind": "Role",
+          "label": "Client representative",
+          "person": "",
+          "email": ""
+        },
+        {
+          "id": "demo_autozone_team_5",
+          "kind": "Discipline",
+          "label": "Structural Concrete (STR)",
+          "person": "Eric Castro",
+          "email": "eric.castro.ingenieria@gmail.com"
+        },
+        {
+          "id": "demo_autozone_team_6",
+          "kind": "Discipline",
+          "label": "Structural Steel (STL)",
+          "person": "Bruno Tavares",
+          "email": "bruno.tavares@ecengenharia.com.br"
+        },
+        {
+          "id": "demo_autozone_team_7",
+          "kind": "Discipline",
+          "label": "Foundation (FDN)",
+          "person": "Camila Rocha",
+          "email": "camila.rocha@ecengenharia.com.br"
+        },
+        {
+          "id": "demo_autozone_team_8",
+          "kind": "Discipline",
+          "label": "Hydraulic (HID)",
+          "person": "Diego Martins",
+          "email": "diego.martins@ecengenharia.com.br"
+        }
+      ],
+      "files": [],
+      "clientData": {
+        "ap_name": "AutoZone",
+        "ap_rep": "",
+        "ap_contact": "",
+        "oir": "Example only - confirm the real OIR.",
+        "pir": "Example only - define actual information exchanges by milestone.",
+        "air": "Example only - confirm handover asset data requirements.",
+        "brand": "",
+        "permits": []
+      },
+      "milestones": [
+        {
+          "id": "demo_autozone_milestone_1",
+          "code": "M1",
+          "name": "Concept",
+          "planned": "2027-02-15",
+          "actual": "",
+          "lod": "LOD 100"
+        },
+        {
+          "id": "demo_autozone_milestone_2",
+          "code": "M2",
+          "name": "Preliminary design",
+          "planned": "2027-04-15",
+          "actual": "",
+          "lod": "LOD 200"
+        },
+        {
+          "id": "demo_autozone_milestone_3",
+          "code": "M3",
+          "name": "Developed design",
+          "planned": "2027-06-15",
+          "actual": "",
+          "lod": "LOD 300"
+        },
+        {
+          "id": "demo_autozone_milestone_4",
+          "code": "M4",
+          "name": "Coordinated / for construction",
+          "planned": "2027-08-15",
+          "actual": "",
+          "lod": "LOD 350"
+        },
+        {
+          "id": "demo_autozone_milestone_5",
+          "code": "M5",
+          "name": "Handover / as-designed",
+          "planned": "2027-10-15",
+          "actual": "",
+          "lod": "LOD 350"
+        }
+      ],
+      "city": "Araucária",
+      "postal": "",
+      "country": "Brasil",
+      "desc": "DEMONSTRATION ONLY: scope, dates and workflow are illustrative, not verified project facts.",
+      "contract": {
+        "client_legal": "",
+        "client_reg": "",
+        "client_address": "",
+        "client_phone": "",
+        "our_legal": "",
+        "our_reg": "",
+        "our_address": "",
+        "our_phone": "",
+        "our_email": "",
+        "our_web": "",
+        "fee": "",
+        "currency": "",
+        "payment": "",
+        "law": "",
+        "dispute": ""
+      },
+      "cal": {
+        "workdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "country": "BR",
+        "holidays": []
+      },
+      "docMeta": {
+        "version": "DEMO",
+        "date": "2027-01-15"
+      },
+      "externals": {
+        "ar_office": "",
+        "ge_office": ""
+      },
+      "bim": {
+        "software": [],
+        "comm": {
+          "chat": "",
+          "board": "",
+          "calendar": ""
+        },
+        "coords": {
+          "ns": "",
+          "ew": "",
+          "elev": "",
+          "north": "",
+          "cadastral": ""
+        },
+        "infoManager": "Eric Castro",
+        "lod": {},
+        "responsibilities": [],
+        "risks": [],
+        "contractType": "Traditional (Design-Bid-Build)",
+        "appointments": [],
+        "phases": [],
+        "cde": {
+          "platform": "",
+          "url": "",
+          "notes": ""
+        },
+        "federation": {},
+        "qa": [],
+        "formats": [],
+        "bimUses": [
+          {
+            "id": "demo_autozone_use_1",
+            "use": "Existing conditions modeling",
+            "purpose": "Illustrative existing conditions modeling workflow; confirm for this project."
+          },
+          {
+            "id": "demo_autozone_use_2",
+            "use": "Design authoring",
+            "purpose": "Illustrative design authoring workflow; confirm for this project."
+          },
+          {
+            "id": "demo_autozone_use_3",
+            "use": "Structural analysis",
+            "purpose": "Illustrative structural analysis workflow; confirm for this project."
+          },
+          {
+            "id": "demo_autozone_use_4",
+            "use": "3D coordination",
+            "purpose": "Illustrative 3d coordination workflow; confirm for this project."
+          },
+          {
+            "id": "demo_autozone_use_5",
+            "use": "4D modeling",
+            "purpose": "Illustrative 4d modeling workflow; confirm for this project."
+          }
+        ],
+        "standard": {}
+      },
+      "processes": [
+        {
+          "id": "demo_autozone_process_1",
+          "useId": "demo_autozone_use_1",
+          "phase": "M1",
+          "who": "Eric Castro",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_autozone_step_1_1",
+              "kind": "reference",
+              "text": "Required project inputs",
+              "who": ""
+            },
+            {
+              "id": "demo_autozone_step_1_2",
+              "kind": "task",
+              "text": "Perform existing conditions modeling",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "demo_autozone_step_1_3",
+              "kind": "decision",
+              "text": "Does the result meet the agreed criteria?",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "demo_autozone_step_1_4",
+              "kind": "exchange",
+              "text": "Share the reviewed output",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "demo_autozone_process_2",
+          "useId": "demo_autozone_use_2",
+          "phase": "M2",
+          "who": "Eric Castro",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_autozone_step_2_1",
+              "kind": "reference",
+              "text": "Required project inputs",
+              "who": ""
+            },
+            {
+              "id": "demo_autozone_step_2_2",
+              "kind": "task",
+              "text": "Perform design authoring",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "demo_autozone_step_2_3",
+              "kind": "decision",
+              "text": "Does the result meet the agreed criteria?",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "demo_autozone_step_2_4",
+              "kind": "exchange",
+              "text": "Share the reviewed output",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "demo_autozone_process_3",
+          "useId": "demo_autozone_use_3",
+          "phase": "M3",
+          "who": "Eric Castro",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_autozone_step_3_1",
+              "kind": "reference",
+              "text": "Required project inputs",
+              "who": ""
+            },
+            {
+              "id": "demo_autozone_step_3_2",
+              "kind": "task",
+              "text": "Perform structural analysis",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "demo_autozone_step_3_3",
+              "kind": "decision",
+              "text": "Does the result meet the agreed criteria?",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "demo_autozone_step_3_4",
+              "kind": "exchange",
+              "text": "Share the reviewed output",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "demo_autozone_process_4",
+          "useId": "demo_autozone_use_4",
+          "phase": "M4",
+          "who": "Rafael Nunes",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_autozone_step_4_1",
+              "kind": "reference",
+              "text": "Required project inputs",
+              "who": ""
+            },
+            {
+              "id": "demo_autozone_step_4_2",
+              "kind": "task",
+              "text": "Perform 3d coordination",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "demo_autozone_step_4_3",
+              "kind": "decision",
+              "text": "Does the result meet the agreed criteria?",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "demo_autozone_step_4_4",
+              "kind": "exchange",
+              "text": "Share the reviewed output",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "demo_autozone_process_5",
+          "useId": "demo_autozone_use_5",
+          "phase": "M4",
+          "who": "Rafael Nunes",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_autozone_step_5_1",
+              "kind": "reference",
+              "text": "Coordinated model and construction sequence",
+              "who": ""
+            },
+            {
+              "id": "demo_autozone_step_5_2",
+              "kind": "task",
+              "text": "Link model elements to activities",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "demo_autozone_step_5_3",
+              "kind": "decision",
+              "text": "Is the sequence feasible?",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "demo_autozone_step_5_4",
+              "kind": "exchange",
+              "text": "Share 4D review and proposed changes",
+              "who": ""
+            }
+          ]
+        }
+      ],
+      "schedule": {}
+    },
+    {
+      "id": "demo_carrefour",
+      "name": "CPV - CARREFOUR CAMPINAS VALINHOS — DEMO",
+      "code": "CPV",
+      "client": "Carrefour",
+      "address": "",
+      "status": "hold",
+      "contractNo": "",
+      "quote": "",
+      "team": [
+        {
+          "id": "demo_carrefour_team_1",
+          "kind": "Role",
+          "label": "Information Manager",
+          "person": "Eric Castro",
+          "email": "eric.castro.ingenieria@gmail.com"
+        },
+        {
+          "id": "demo_carrefour_team_2",
+          "kind": "Role",
+          "label": "BIM Manager",
+          "person": "Eric Castro",
+          "email": "eric.castro.ingenieria@gmail.com"
+        },
+        {
+          "id": "demo_carrefour_team_3",
+          "kind": "Role",
+          "label": "BIM Coordinator",
+          "person": "Rafael Nunes",
+          "email": "rafael.nunes@ecengenharia.com.br"
+        },
+        {
+          "id": "demo_carrefour_team_4",
+          "kind": "Role",
+          "label": "Client representative",
+          "person": "",
+          "email": ""
+        },
+        {
+          "id": "demo_carrefour_team_5",
+          "kind": "Discipline",
+          "label": "Structural Concrete (STR)",
+          "person": "Eric Castro",
+          "email": "eric.castro.ingenieria@gmail.com"
+        },
+        {
+          "id": "demo_carrefour_team_6",
+          "kind": "Discipline",
+          "label": "Structural Masonry (MAS)",
+          "person": "Bruno Tavares",
+          "email": "bruno.tavares@ecengenharia.com.br"
+        },
+        {
+          "id": "demo_carrefour_team_7",
+          "kind": "Discipline",
+          "label": "Foundation (FDN)",
+          "person": "Camila Rocha",
+          "email": "camila.rocha@ecengenharia.com.br"
+        },
+        {
+          "id": "demo_carrefour_team_8",
+          "kind": "Discipline",
+          "label": "Hydraulic (HID)",
+          "person": "Diego Martins",
+          "email": "diego.martins@ecengenharia.com.br"
+        },
+        {
+          "id": "demo_carrefour_team_9",
+          "kind": "Discipline",
+          "label": "HVAC / Mechanical (MEC)",
+          "person": "Helena Prado",
+          "email": "helena.prado@ecengenharia.com.br"
+        }
+      ],
+      "files": [],
+      "clientData": {
+        "ap_name": "Carrefour",
+        "ap_rep": "",
+        "ap_contact": "",
+        "oir": "Example only - confirm the real OIR.",
+        "pir": "Example only - define actual information exchanges by milestone.",
+        "air": "Example only - confirm handover asset data requirements.",
+        "brand": "",
+        "permits": []
+      },
+      "milestones": [
+        {
+          "id": "demo_carrefour_milestone_1",
+          "code": "M1",
+          "name": "Concept",
+          "planned": "2027-02-15",
+          "actual": "",
+          "lod": "LOD 100"
+        },
+        {
+          "id": "demo_carrefour_milestone_2",
+          "code": "M2",
+          "name": "Preliminary design",
+          "planned": "2027-04-15",
+          "actual": "",
+          "lod": "LOD 200"
+        },
+        {
+          "id": "demo_carrefour_milestone_3",
+          "code": "M3",
+          "name": "Developed design",
+          "planned": "2027-06-15",
+          "actual": "",
+          "lod": "LOD 300"
+        },
+        {
+          "id": "demo_carrefour_milestone_4",
+          "code": "M4",
+          "name": "Coordinated / for construction",
+          "planned": "2027-08-15",
+          "actual": "",
+          "lod": "LOD 350"
+        },
+        {
+          "id": "demo_carrefour_milestone_5",
+          "code": "M5",
+          "name": "Handover / as-designed",
+          "planned": "2027-10-15",
+          "actual": "",
+          "lod": "LOD 350"
+        }
+      ],
+      "city": "Campinas / Valinhos",
+      "postal": "",
+      "country": "Brasil",
+      "desc": "DEMONSTRATION ONLY: scope, dates and workflow are illustrative, not verified project facts.",
+      "contract": {
+        "client_legal": "",
+        "client_reg": "",
+        "client_address": "",
+        "client_phone": "",
+        "our_legal": "",
+        "our_reg": "",
+        "our_address": "",
+        "our_phone": "",
+        "our_email": "",
+        "our_web": "",
+        "fee": "",
+        "currency": "",
+        "payment": "",
+        "law": "",
+        "dispute": ""
+      },
+      "cal": {
+        "workdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "country": "BR",
+        "holidays": []
+      },
+      "docMeta": {
+        "version": "DEMO",
+        "date": "2027-01-15"
+      },
+      "externals": {
+        "ar_office": "",
+        "ge_office": ""
+      },
+      "bim": {
+        "software": [],
+        "comm": {
+          "chat": "",
+          "board": "",
+          "calendar": ""
+        },
+        "coords": {
+          "ns": "",
+          "ew": "",
+          "elev": "",
+          "north": "",
+          "cadastral": ""
+        },
+        "infoManager": "Eric Castro",
+        "lod": {},
+        "responsibilities": [],
+        "risks": [],
+        "contractType": "Traditional (Design-Bid-Build)",
+        "appointments": [],
+        "phases": [],
+        "cde": {
+          "platform": "",
+          "url": "",
+          "notes": ""
+        },
+        "federation": {},
+        "qa": [],
+        "formats": [],
+        "bimUses": [
+          {
+            "id": "demo_carrefour_use_1",
+            "use": "Programming",
+            "purpose": "Illustrative programming workflow; confirm for this project."
+          },
+          {
+            "id": "demo_carrefour_use_2",
+            "use": "Site analysis",
+            "purpose": "Illustrative site analysis workflow; confirm for this project."
+          },
+          {
+            "id": "demo_carrefour_use_3",
+            "use": "Design authoring",
+            "purpose": "Illustrative design authoring workflow; confirm for this project."
+          },
+          {
+            "id": "demo_carrefour_use_4",
+            "use": "Energy analysis",
+            "purpose": "Illustrative energy analysis workflow; confirm for this project."
+          },
+          {
+            "id": "demo_carrefour_use_5",
+            "use": "Record modeling",
+            "purpose": "Illustrative record modeling workflow; confirm for this project."
+          }
+        ],
+        "standard": {}
+      },
+      "processes": [
+        {
+          "id": "demo_carrefour_process_1",
+          "useId": "demo_carrefour_use_1",
+          "phase": "M1",
+          "who": "Rafael Nunes",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_carrefour_step_1_1",
+              "kind": "reference",
+              "text": "Client brief and space requirements",
+              "who": ""
+            },
+            {
+              "id": "demo_carrefour_step_1_2",
+              "kind": "task",
+              "text": "Validate spaces and relationships",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "demo_carrefour_step_1_3",
+              "kind": "decision",
+              "text": "Does the programme meet the brief?",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "demo_carrefour_step_1_4",
+              "kind": "exchange",
+              "text": "Issue agreed programme",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "demo_carrefour_process_2",
+          "useId": "demo_carrefour_use_2",
+          "phase": "M1",
+          "who": "Camila Rocha",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_carrefour_step_2_1",
+              "kind": "reference",
+              "text": "Survey, cadastral data and site constraints",
+              "who": ""
+            },
+            {
+              "id": "demo_carrefour_step_2_2",
+              "kind": "task",
+              "text": "Assess access, terrain and planning constraints",
+              "who": "Camila Rocha"
+            },
+            {
+              "id": "demo_carrefour_step_2_3",
+              "kind": "decision",
+              "text": "Is the site strategy feasible?",
+              "who": "Camila Rocha"
+            },
+            {
+              "id": "demo_carrefour_step_2_4",
+              "kind": "exchange",
+              "text": "Issue site-analysis findings",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "demo_carrefour_process_3",
+          "useId": "demo_carrefour_use_3",
+          "phase": "M2",
+          "who": "Eric Castro",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_carrefour_step_3_1",
+              "kind": "reference",
+              "text": "Required project inputs",
+              "who": ""
+            },
+            {
+              "id": "demo_carrefour_step_3_2",
+              "kind": "task",
+              "text": "Perform design authoring",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "demo_carrefour_step_3_3",
+              "kind": "decision",
+              "text": "Does the result meet the agreed criteria?",
+              "who": "Eric Castro"
+            },
+            {
+              "id": "demo_carrefour_step_3_4",
+              "kind": "exchange",
+              "text": "Share the reviewed output",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "demo_carrefour_process_4",
+          "useId": "demo_carrefour_use_4",
+          "phase": "M3",
+          "who": "Helena Prado",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_carrefour_step_4_1",
+              "kind": "reference",
+              "text": "Required project inputs",
+              "who": ""
+            },
+            {
+              "id": "demo_carrefour_step_4_2",
+              "kind": "task",
+              "text": "Perform energy analysis",
+              "who": "Helena Prado"
+            },
+            {
+              "id": "demo_carrefour_step_4_3",
+              "kind": "decision",
+              "text": "Does the result meet the agreed criteria?",
+              "who": "Helena Prado"
+            },
+            {
+              "id": "demo_carrefour_step_4_4",
+              "kind": "exchange",
+              "text": "Share the reviewed output",
+              "who": ""
+            }
+          ]
+        },
+        {
+          "id": "demo_carrefour_process_5",
+          "useId": "demo_carrefour_use_5",
+          "phase": "M5",
+          "who": "Rafael Nunes",
+          "status": "Draft",
+          "steps": [
+            {
+              "id": "demo_carrefour_step_5_1",
+              "kind": "reference",
+              "text": "Accepted model and verified site changes",
+              "who": ""
+            },
+            {
+              "id": "demo_carrefour_step_5_2",
+              "kind": "task",
+              "text": "Update model with verified as-built information",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "demo_carrefour_step_5_3",
+              "kind": "decision",
+              "text": "Is the record model complete?",
+              "who": "Rafael Nunes"
+            },
+            {
+              "id": "demo_carrefour_step_5_4",
+              "kind": "exchange",
+              "text": "Deliver record model and handover data",
+              "who": ""
+            }
+          ]
+        }
+      ],
+      "schedule": {}
+    }
+  ],
+  "users": [
+    {
+      "id": "bk056",
+      "name": "Eric Castro",
+      "email": "eric.castro.ingenieria@gmail.com",
+      "note": "Information Manager / BIM Manager (STR)",
+      "firstSeen": "2026-08-29T15:01:00.000Z",
+      "lastAccess": "2026-08-31T09:30:00.000Z",
+      "accesses": 12
+    },
+    {
+      "id": "bk057",
+      "name": "Rafael Nunes",
+      "email": "rafael.nunes@ecengenharia.com.br",
+      "note": "BIM Coordinator",
+      "firstSeen": "2026-08-29T16:10:00.000Z",
+      "lastAccess": "2026-08-31T08:15:00.000Z",
+      "accesses": 7
+    },
+    {
+      "id": "bk058",
+      "name": "Marcos Almeida",
+      "email": "marcos.almeida@zamp.com.br",
+      "note": "Client representative (Zamp / Burger King)",
+      "firstSeen": "2026-08-30T10:00:00.000Z",
+      "lastAccess": "2026-08-30T10:45:00.000Z",
+      "accesses": 2
+    },
+    {
+      "id": "bk059",
+      "name": "Bruno Tavares",
+      "email": "bruno.tavares@ecengenharia.com.br",
+      "note": "Structural steel & masonry (STL/MAS)",
+      "firstSeen": "2026-08-29T17:20:00.000Z",
+      "lastAccess": "2026-08-31T07:50:00.000Z",
+      "accesses": 5
+    },
+    {
+      "id": "bk060",
+      "name": "Camila Rocha",
+      "email": "camila.rocha@ecengenharia.com.br",
+      "note": "Foundations (FDN)",
+      "firstSeen": "2026-08-30T09:05:00.000Z",
+      "lastAccess": "2026-08-31T09:00:00.000Z",
+      "accesses": 4
+    },
+    {
+      "id": "bk061",
+      "name": "Diego Martins",
+      "email": "diego.martins@ecengenharia.com.br",
+      "note": "Hydraulic (HID)",
+      "firstSeen": "2026-08-30T11:30:00.000Z",
+      "lastAccess": "2026-08-30T18:00:00.000Z",
+      "accesses": 3
+    },
+    {
+      "id": "bk062",
+      "name": "Helena Prado",
+      "email": "helena.prado@ecengenharia.com.br",
+      "note": "HVAC / mechanical (MEC)",
+      "firstSeen": "2026-08-30T14:00:00.000Z",
+      "lastAccess": "2026-08-31T08:40:00.000Z",
+      "accesses": 3
+    }
+  ],
+  "accessLog": [],
+  "log": [
+    {
+      "id": "demo_log_1",
+      "ts": "2026-09-23T13:36:24.204554+00:00",
+      "editor": "system",
+      "email": "",
+      "project": "bk055",
+      "projName": "BK – São José dos Campos",
+      "field": "project included in demo set",
+      "from": "",
+      "to": "BK – São José dos Campos"
+    },
+    {
+      "id": "demo_log_2",
+      "ts": "2026-09-23T13:36:24.204554+00:00",
+      "editor": "system",
+      "email": "",
+      "project": "demo_assai",
+      "projName": "ASSAÍ - FOZ DE IGUAÇU — DEMO",
+      "field": "project included in demo set",
+      "from": "",
+      "to": "ASSAÍ - FOZ DE IGUAÇU — DEMO"
+    },
+    {
+      "id": "demo_log_3",
+      "ts": "2026-09-23T13:36:24.204554+00:00",
+      "editor": "system",
+      "email": "",
+      "project": "demo_autozone",
+      "projName": "AUTOZONE - ARAUCÁRIA — DEMO",
+      "field": "project included in demo set",
+      "from": "",
+      "to": "AUTOZONE - ARAUCÁRIA — DEMO"
+    },
+    {
+      "id": "demo_log_4",
+      "ts": "2026-09-23T13:36:24.204554+00:00",
+      "editor": "system",
+      "email": "",
+      "project": "demo_carrefour",
+      "projName": "CPV - CARREFOUR CAMPINAS VALINHOS — DEMO",
+      "field": "project included in demo set",
+      "from": "",
+      "to": "CPV - CARREFOUR CAMPINAS VALINHOS — DEMO"
+    }
+  ]
+}

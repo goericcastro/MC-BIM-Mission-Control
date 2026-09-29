@@ -1,6 +1,6 @@
 # ISO19650-Standards-Templates
 
-ISO 19650 project folder.
+Controlled project information production standard, onboarding instructions and ISO/DIS transition record. MC uses the 2026 drafts as its internal working protocol while the appointment and published editions remain the contractual reference.
 
 Path: /04_Project-Documentation/ISO19650-Standards-Templates
 Project: Sample Project (XX)

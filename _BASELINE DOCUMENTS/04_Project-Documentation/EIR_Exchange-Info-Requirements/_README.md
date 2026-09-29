@@ -1,6 +1,6 @@
-# EIR_Exchange-Info-Requirements
+# Information production requirements (legacy folder EIR)
 
-ISO 19650 project folder.
+Project requirements for information production. The folder name and document identifier remain as legacy references for compatibility with existing appointments and links; new instructions use the ISO/DIS 19650 working term **information production requirements**.
 
 Path: /04_Project-Documentation/EIR_Exchange-Info-Requirements
 Project: Sample Project (XX)

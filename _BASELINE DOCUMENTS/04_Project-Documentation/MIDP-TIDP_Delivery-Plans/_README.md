@@ -1,6 +1,6 @@
-# MIDP-TIDP_Delivery-Plans
+# Information production schedule (legacy MIDP and TIDP)
 
-ISO 19650 project folder.
+Master and task-team planning records for information production. The folder and sheet names retain MIDP/TIDP for traceability; new instructions use the ISO/DIS 19650 working term **information production schedule**.
 
 Path: /04_Project-Documentation/MIDP-TIDP_Delivery-Plans
 Project: Sample Project (XX)

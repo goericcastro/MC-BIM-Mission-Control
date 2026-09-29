@@ -1,0 +1,28 @@
+{
+  "schema_version": "2.0",
+  "contract": "MC_Property_Requirements",
+  "generated_utc": "2026-09-25T17:33:29.6964232Z",
+  "fields": [
+    "schema_version",
+    "requirement_id",
+    "status",
+    "type_code",
+    "parameter_name",
+    "parameter_scope",
+    "parameter_source",
+    "shared_parameter_guid",
+    "revit_builtin_parameter",
+    "data_type",
+    "unit",
+    "required",
+    "value",
+    "allowed_values",
+    "information_purpose",
+    "delivery_milestone",
+    "responsible_party",
+    "validation_rule",
+    "classification_reference",
+    "notes"
+  ],
+  "records": []
+}

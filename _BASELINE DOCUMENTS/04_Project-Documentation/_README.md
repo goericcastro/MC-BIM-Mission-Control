@@ -1,6 +1,6 @@
 # 04_Project-Documentation
 
-EIR, BEP, MIDP/TIDP, Container Register, standards, reports, drawings, minutes.
+Information production requirements (0001 EIR), BEP, information production schedule (0010 MIDP/TIDP), Container Register, information production standard (0004), reports, drawings and minutes. The draft-based working terminology does not change existing file identifiers or the contractual edition. See the transition register in `ISO19650-Standards-Templates`.
 
 Path: /04_Project-Documentation
 Project: Sample Project (XX)

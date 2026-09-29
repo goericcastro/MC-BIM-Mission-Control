@@ -1,6 +1,6 @@
 # BEP_BIM-Execution-Plan
 
-ISO 19650 project folder.
+BIM execution planning, assignment matrix, information production workflows, exchange matrix and information-need worksheet. Review against the information production requirements and appointment before mobilization.
 
 Path: /04_Project-Documentation/BEP_BIM-Execution-Plan
 Project: Sample Project (XX)

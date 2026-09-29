@@ -1,0 +1,26 @@
+{
+  "schema_version": "2.0",
+  "contract": "MC_Coordination_Rules",
+  "generated_utc": "2026-09-25T17:33:29.6967998Z",
+  "fields": [
+    "schema_version",
+    "rule_id",
+    "status",
+    "rule_type",
+    "discipline_a",
+    "category_code_a",
+    "discipline_b",
+    "category_code_b",
+    "condition",
+    "tolerance_mm",
+    "priority",
+    "project_stage",
+    "delivery_milestone",
+    "responsible_party",
+    "reviewer",
+    "action_on_failure",
+    "report_code",
+    "notes"
+  ],
+  "records": []
+}

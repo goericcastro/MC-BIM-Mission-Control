@@ -1,0 +1,24 @@
+{
+  "schema_version": "2.0",
+  "export_kind": "PARTIAL",
+  "source_document_guid": "916715be-c77e-5698-942d-0736fe0c0a61",
+  "source_file_type": "RVT",
+  "source_file_name": "ANTARES-STATE-NEIGHBORHOOD-START-ARC-R00.rvt",
+  "revit_version": "2026",
+  "exported_utc": "2026-09-27T12:00:00Z",
+  "selected_groups": [
+    "Architecture",
+    "Structural",
+    "Precast",
+    "Systems"
+  ],
+  "included_discipline_codes": [
+    "ARC",
+    "STR",
+    "PRE",
+    "SYS"
+  ],
+  "record_count": 43,
+  "contract_file": "MC_Element_Types.json",
+  "omission_means_delete": false
+}

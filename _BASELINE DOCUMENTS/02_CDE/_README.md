@@ -1,6 +1,6 @@
 # 02_CDE
 
-Common Data Environment (ISO 19650-1). States: WIP -> Shared -> Published -> Archived.
+Common Data Environment. MC retains the familiar WIP -> Shared -> Published -> Archived folder structure and records every transition in the container register/CDE journal. State changes require the named review or authorization; moving or generating a file does not approve it.
 
 Path: /02_CDE
 Project: Sample Project (XX)
